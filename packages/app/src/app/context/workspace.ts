@@ -448,15 +448,15 @@ export function createWorkspaceStore(options: {
     } catch (error) {
       if (error instanceof OpenworkServerError && (error.status === 401 || error.status === 403)) {
         if (!trimmedToken) {
-          throw new Error("Access token required for OpenWork server.");
+          throw new Error("Access token required for Antonic Agent server.");
         }
-        throw new Error("OpenWork server rejected the access token.");
+        throw new Error("Antonic Agent server rejected the access token.");
       }
       return { kind: "fallback" as const };
     }
 
     if (!trimmedToken) {
-      throw new Error("Access token required for OpenWork server.");
+      throw new Error("Access token required for Antonic Agent server.");
     }
 
     const response = await client.listWorkspaces();
@@ -475,7 +475,7 @@ export function createWorkspaceStore(options: {
       ? (items.find((item) => item?.id && selectById(item as any)) as OpenworkWorkspaceInfo | undefined)
       : undefined;
     if (requestedWorkspaceId && !workspaceById) {
-      throw new Error("OpenWork worker not found on that host.");
+      throw new Error("Antonic Agent worker not found on that host.");
     }
 
     const workspaceByHint = hint
@@ -484,11 +484,11 @@ export function createWorkspaceStore(options: {
 
     const workspace = (workspaceById ?? workspaceByHint ?? items[0]) as OpenworkWorkspaceInfo | undefined;
     if (!workspace?.id) {
-      throw new Error("OpenWork server did not return a worker.");
+      throw new Error("Antonic Agent server did not return a worker.");
     }
     const opencodeUpstreamBaseUrl = workspace.opencode?.baseUrl?.trim() ?? workspace.baseUrl?.trim() ?? "";
     if (!opencodeUpstreamBaseUrl) {
-      throw new Error("OpenWork server did not provide an OpenCode URL.");
+      throw new Error("Antonic Agent server did not provide an OpenCode URL.");
     }
 
     const workspaceScopedBaseUrl =
@@ -563,7 +563,7 @@ export function createWorkspaceStore(options: {
       if (!hostUrl) {
         updateWorkspaceConnectionState(id, {
           status: "error",
-          message: "OpenWork server URL is required.",
+          message: "Antonic Agent server URL is required.",
         });
         return false;
       }
@@ -578,7 +578,7 @@ export function createWorkspaceStore(options: {
         if (resolved.kind !== "openwork") {
           updateWorkspaceConnectionState(id, {
             status: "error",
-            message: "OpenWork server unavailable. Check the URL and token.",
+            message: "Antonic Agent server unavailable. Check the URL and token.",
           });
           return false;
         }
@@ -748,10 +748,10 @@ export function createWorkspaceStore(options: {
         if (remoteType === "openwork") {
           const hostUrl = next.openworkHostUrl?.trim() ?? "";
           if (!hostUrl) {
-            options.setError("OpenWork server URL is required.");
+            options.setError("Antonic Agent server URL is required.");
             updateWorkspaceConnectionState(id, {
               status: "error",
-              message: "OpenWork server URL is required.",
+              message: "Antonic Agent server URL is required.",
             });
             return false;
           }
@@ -785,10 +785,10 @@ export function createWorkspaceStore(options: {
               directoryHint: next.directory ?? null,
             });
             if (resolved.kind !== "openwork") {
-              options.setError("OpenWork server unavailable. Check the URL and token.");
+              options.setError("Antonic Agent server unavailable. Check the URL and token.");
               updateWorkspaceConnectionState(id, {
                 status: "error",
-                message: "OpenWork server unavailable. Check the URL and token.",
+                message: "Antonic Agent server unavailable. Check the URL and token.",
               });
               return false;
             }
@@ -1466,8 +1466,8 @@ export function createWorkspaceStore(options: {
         { key: "docker", label: "Docker ready", status: "active", detail: null },
         { key: "workspace", label: "Prepare worker", status: "pending", detail: null },
         { key: "sandbox", label: "Start sandbox services", status: "pending", detail: null },
-        { key: "health", label: "Wait for OpenWork", status: "pending", detail: null },
-        { key: "connect", label: "Connect in OpenWork", status: "pending", detail: null },
+        { key: "health", label: "Wait for Antonic Agent", status: "pending", detail: null },
+        { key: "connect", label: "Connect in Antonic Agent", status: "pending", detail: null },
       ],
     });
 
@@ -1522,7 +1522,7 @@ export function createWorkspaceStore(options: {
       setSandboxStep("workspace", { status: "active", detail: name });
       pushSandboxCreateLog(`Worker: ${resolvedFolder}`);
 
-      // Ensure the workspace folder has baseline OpenWork/OpenCode files.
+      // Ensure the workspace folder has baseline Antonic Agent/OpenCode files.
       const created = await workspaceCreate({ folderPath: resolvedFolder, name, preset });
       setWorkspaces(created.workspaces);
       syncActiveWorkspaceId(created.activeId);
@@ -1760,7 +1760,7 @@ export function createWorkspaceStore(options: {
           directory: resolvedDirectory,
         });
       } else {
-        options.setError("OpenWork server unavailable. Check the URL and token.");
+        options.setError("Antonic Agent server unavailable. Check the URL and token.");
         return false;
       }
     } catch (error) {
@@ -1900,7 +1900,7 @@ export function createWorkspaceStore(options: {
 
     const remoteType = normalizeRemoteType(workspace.remoteType);
     if (remoteType !== "openwork") {
-      options.setError("Only OpenWork remote workers can be edited.");
+      options.setError("Only Antonic Agent remote workers can be edited.");
       return false;
     }
 
@@ -1944,7 +1944,7 @@ export function createWorkspaceStore(options: {
         directoryHint: directory || null,
       });
       if (resolved.kind !== "openwork") {
-        options.setError("OpenWork server unavailable. Check the URL and token.");
+        options.setError("Antonic Agent server unavailable. Check the URL and token.");
         return false;
       }
       resolvedBaseUrl = resolved.opencodeBaseUrl;
@@ -2176,7 +2176,7 @@ export function createWorkspaceStore(options: {
       const outputPath = await saveFile({
         title: "Export worker config",
         defaultPath,
-        filters: [{ name: "OpenWork Worker", extensions: ["openwork-workspace", "zip"] }],
+        filters: [{ name: "Antonic Agent Worker", extensions: ["openwork-workspace", "zip"] }],
       });
 
       if (!outputPath) {
@@ -2208,7 +2208,7 @@ export function createWorkspaceStore(options: {
     try {
       const selection = await pickFile({
         title: "Import worker config",
-        filters: [{ name: "OpenWork Worker", extensions: ["openwork-workspace", "zip"] }],
+        filters: [{ name: "Antonic Agent Worker", extensions: ["openwork-workspace", "zip"] }],
       });
       const filePath =
         typeof selection === "string" ? selection : Array.isArray(selection) ? selection[0] : null;
@@ -2383,7 +2383,7 @@ export function createWorkspaceStore(options: {
       if (!result.found) {
         options.setError(
           options.isWindowsPlatform()
-            ? "OpenCode CLI not found. Install OpenCode for Windows or bundle opencode.exe with OpenWork, then restart. If it is installed, ensure `opencode.exe` is on PATH (try `opencode --version` in PowerShell)."
+            ? "OpenCode CLI not found. Install OpenCode for Windows or bundle opencode.exe with Antonic Agent, then restart. If it is installed, ensure `opencode.exe` is on PATH (try `opencode --version` in PowerShell)."
             : "OpenCode CLI not found. Install with `brew install anomalyco/tap/opencode` or `curl -fsSL https://opencode.ai/install | bash`, then retry.",
         );
         return false;

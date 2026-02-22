@@ -1,11 +1,11 @@
 ---
 name: opencode-bridge
-description: Bridge between OpenWork UI and OpenCode runtime
+description: Bridge between Antonic Agent UI and OpenCode runtime
 ---
 
 ## Overview
 
-OpenWork communicates with OpenCode via three mechanisms:
+Antonic Agent communicates with OpenCode via three mechanisms:
 
 1. **CLI invocation**: Spawn `opencode` with prompts and get JSON responses.
 2. **Database access**: Read OpenCode's SQLite database for sessions and messages.
@@ -109,24 +109,24 @@ const sessions = await db.select<Session[]>(
 
 ## MCP Bridge (Advanced)
 
-OpenWork can register as an MCP server that OpenCode connects to.
+Antonic Agent can register as an MCP server that OpenCode connects to.
 
 ### Configuration (opencode.json)
 ```json
 {
   "mcpServers": {
-    "openwork": {
+    "antonic-agent": {
       "type": "stdio",
-      "command": "openwork-mcp-bridge"
+      "command": "antonic-agent-mcp-bridge"
     }
   }
 }
 ```
 
 ### Use cases
-- Real-time permission prompts surfaced in OpenWork UI.
+- Real-time permission prompts surfaced in Antonic Agent UI.
 - Streaming progress updates.
-- Custom tools exposed from OpenWork (e.g., native file picker).
+- Custom tools exposed from Antonic Agent (e.g., native file picker).
 
 ## Message Content Parts
 

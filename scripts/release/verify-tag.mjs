@@ -46,8 +46,8 @@ const check = (label, actual) => {
 
 check("app", appVersion);
 check("desktop", desktopVersion);
-check("openwork-orchestrator", orchestratorVersion);
-check("openwork-server", serverVersion);
+check("antonic-agent-orchestrator", orchestratorVersion);
+check("antonic-agent-server", serverVersion);
 check("opencode-router", opencodeRouterVersion);
 check("tauri", tauriVersion);
 check("cargo", cargoVersion);
@@ -60,4 +60,4 @@ if (mismatches.length) {
   process.exit(1);
 }
 
-console.log(`Release tag ${tag} matches app/desktop/openwork-orchestrator versions.`);
+console.log(`Release tag ${tag} matches app/desktop/antonic-agent-orchestrator versions.`);

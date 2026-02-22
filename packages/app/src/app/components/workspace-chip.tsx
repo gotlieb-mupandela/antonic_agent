@@ -32,7 +32,7 @@ export default function WorkspaceChip(props: {
   return (
     <button
       onClick={props.onClick}
-      class="flex items-center gap-2 pl-3 pr-2 py-1.5 bg-gray-2 border border-gray-6 rounded-lg hover:border-gray-7 hover:bg-gray-4 transition-all group"
+      class="flex items-center gap-2 pl-3 pr-2 py-1.5 bg-dls-hover border border-dls-border rounded-lg hover:border-dls-accent/30 hover:bg-dls-active transition-all group"
     >
       <div
         class={`p-1 rounded ${

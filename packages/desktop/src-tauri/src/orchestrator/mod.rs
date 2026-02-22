@@ -86,21 +86,21 @@ pub fn resolve_orchestrator_data_dir() -> String {
 
     if let Some(home) = home_dir() {
         return home
-            .join(".openwork")
-            .join("openwork-orchestrator")
+            .join(".antonic-agent")
+            .join("antonic-agent-orchestrator")
             .to_string_lossy()
             .to_string();
     }
 
-    ".openwork/openwork-orchestrator".to_string()
+    ".antonic-agent/antonic-agent-orchestrator".to_string()
 }
 
 fn orchestrator_state_path(data_dir: &str) -> PathBuf {
-    Path::new(data_dir).join("openwork-orchestrator-state.json")
+    Path::new(data_dir).join("antonic-agent-orchestrator-state.json")
 }
 
 fn orchestrator_auth_path(data_dir: &str) -> PathBuf {
-    Path::new(data_dir).join("openwork-orchestrator-auth.json")
+    Path::new(data_dir).join("antonic-agent-orchestrator-auth.json")
 }
 
 pub fn read_orchestrator_auth(data_dir: &str) -> Option<OrchestratorAuthFile> {
@@ -187,9 +187,9 @@ pub fn spawn_orchestrator_daemon(
     app: &AppHandle,
     options: &OrchestratorSpawnOptions,
 ) -> Result<(tauri::async_runtime::Receiver<CommandEvent>, CommandChild), String> {
-    let command = match app.shell().sidecar("openwork-orchestrator") {
+    let command = match app.shell().sidecar("antonic-agent-orchestrator") {
         Ok(command) => command,
-        Err(_) => app.shell().command("openwork"),
+        Err(_) => app.shell().command("antonic-agent"),
     };
 
     let mut args = vec![

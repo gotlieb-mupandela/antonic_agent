@@ -1,5 +1,5 @@
 {
-  "name": "@openwork/den-control-plane",
+  "name": "@antonic-agent/den-control-plane",
   "private": true,
   "type": "module",
   "scripts": {

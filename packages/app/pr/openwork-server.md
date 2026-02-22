@@ -1,17 +1,17 @@
-# OpenWork Server
-Bridge missing capabilities between OpenWork and OpenCode
+# Antonic Agent Server
+Bridge missing capabilities between Antonic Agent and OpenCode
 
 ---
 ## Summarize
-Introduce an OpenWork server layer that fills gaps in OpenCode APIs, enabling remote clients to manage workspace config, skills, plugins, and MCPs without direct filesystem access.
+Introduce an Antonic Agent server layer that fills gaps in OpenCode APIs, enabling remote clients to manage workspace config, skills, plugins, and MCPs without direct filesystem access.
 
 ---
 ## Define problem
-Remote clients cannot read or write workspace config because critical state lives in the filesystem. OpenWork needs a safe, minimal surface to access and mutate config, skills, plugins, and MCPs when connected to a host.
+Remote clients cannot read or write workspace config because critical state lives in the filesystem. Antonic Agent needs a safe, minimal surface to access and mutate config, skills, plugins, and MCPs when connected to a host.
 
 ---
 ## Set goals
-- Bridge OpenWork needs that OpenCode does not expose today
+- Bridge Antonic Agent needs that OpenCode does not expose today
 - Enable remote clients to view and update workspace config safely
 - Keep the surface minimal, auditable, and aligned to OpenCode primitives
 
@@ -31,7 +31,7 @@ Remote clients cannot read or write workspace config because critical state live
 - Functional: expose workspace config read/write APIs for `.opencode` and `opencode.json`
 - Functional: list installed skills, plugins, MCPs for a workspace without direct FS access
 - Functional: allow saving new skills, plugins, and MCP entries from a remote client
-- Functional: host mode auto-starts the OpenWork server alongside the OpenCode engine
+- Functional: host mode auto-starts the Antonic Agent server alongside the OpenCode engine
 - UX: surface pairing URL + tokens in Settings for host mode
 - UX: show remote-config origin, last updated time, and change attribution
 
@@ -42,7 +42,7 @@ All endpoints are scoped to an approved workspace root and require host approval
 When OpenCode already exposes a stable API (agents, skills, MCP status), prefer OpenCode directly and avoid duplicating it here. This server only covers filesystem-backed gaps.
 
 ### API conventions
-- Base URL: provided by the host during pairing (e.g., `http://host:PORT/openwork`)
+- Base URL: provided by the host during pairing (e.g., `http://host:PORT/antonic-agent`)
 - Content-Type: `application/json`
 - Auth: bearer token issued during pairing (`Authorization: Bearer <token>`)
 - Errors: JSON body with `{ code, message, details? }`
@@ -58,18 +58,18 @@ When OpenCode already exposes a stable API (agents, skills, MCP status), prefer 
 
 ### Capabilities
 - `GET /capabilities` -> { skills: { read, write, source }, plugins: { read, write }, mcp: { read, write }, commands: { read, write }, config: { read, write } }
-- `source` indicates whether OpenCode or OpenWork server is the authoritative API
+- `source` indicates whether OpenCode or Antonic Agent server is the authoritative API
 
 ### Workspace config
-- `GET /workspace/:id/config` -> returns parsed `opencode.json` + `.opencode/openwork.json`
+- `GET /workspace/:id/config` -> returns parsed `opencode.json` + `.opencode/antonic-agent.json`
 - `PATCH /workspace/:id/config` -> merges and writes config (write approval required)
-  - Request body: `{ opencode?: object, openwork?: object }`
+  - Request body: `{ opencode?: object, antonic-agent?: object }`
   - Merge strategy: shallow merge at top-level keys; arrays replaced (aligns with OpenCode config behavior)
-  - Response: `{ opencode, openwork, updatedAt }`
+  - Response: `{ opencode, antonic-agent, updatedAt }`
   - Only project config is writable by default; global config requires explicit host-only scope
 
 ### Skills
-- Prefer OpenCode skills API when available; OpenWork server only fills local FS gaps.
+- Prefer OpenCode skills API when available; Antonic Agent server only fills local FS gaps.
 - `GET /workspace/:id/skills` -> list skill metadata from `.opencode/skills` (fallback only)
 - `POST /workspace/:id/skills` -> add/update skill file(s) (write approval required, fallback only)
   - Request body: `{ name, content, description? }`
@@ -85,7 +85,7 @@ When OpenCode already exposes a stable API (agents, skills, MCP status), prefer 
   - Server de-dupes by normalized name (strip version where possible)
 
 ### MCPs
-- Prefer OpenCode MCP APIs for status/runtime; OpenWork server only reads/writes config.
+- Prefer OpenCode MCP APIs for status/runtime; Antonic Agent server only reads/writes config.
 - `GET /workspace/:id/mcp` -> list configured MCP servers
 - `POST /workspace/:id/mcp` -> add MCP config entry (write approval required)
 - `DELETE /workspace/:id/mcp/:name` -> remove MCP config entry (write approval required)
@@ -93,7 +93,7 @@ When OpenCode already exposes a stable API (agents, skills, MCP status), prefer 
   - Response: `{ items: [{ name, config, source }] }`
 
 ### Agents
-- Prefer OpenCode agents API; no OpenWork server endpoints needed unless OpenCode lacks coverage for remote clients.
+- Prefer OpenCode agents API; no Antonic Agent server endpoints needed unless OpenCode lacks coverage for remote clients.
 
 ### Commands
 - `GET /workspace/:id/commands` -> list commands from `.opencode/commands` (fallback only)
@@ -105,7 +105,7 @@ When OpenCode already exposes a stable API (agents, skills, MCP status), prefer 
 
 ---
 ## OpenCode behavior reference (from docs)
-This section captures the exact OpenCode semantics the OpenWork server must respect.
+This section captures the exact OpenCode semantics the Antonic Agent server must respect.
 
 ### Plugins
 - Config list: `opencode.json` -> `plugin` field. Can be string or string[].
@@ -150,31 +150,31 @@ This section captures the exact OpenCode semantics the OpenWork server must resp
 
 ### OpenCode server APIs
 - OpenCode already exposes: `/config`, `/mcp` (runtime), `/agent`, `/command` (list), `/session`.
-- OpenWork server should prefer OpenCode APIs for runtime status and only handle FS-backed config gaps.
+- Antonic Agent server should prefer OpenCode APIs for runtime status and only handle FS-backed config gaps.
 - When reading config, prefer OpenCode `/config` to capture precedence (remote defaults + global + project).
 - When writing, only modify project `opencode.json` to avoid clobbering upstream defaults.
-- `/command` is list-only; OpenWork server adds create/delete via filesystem for remote clients.
+- `/command` is list-only; Antonic Agent server adds create/delete via filesystem for remote clients.
 
 ### Config precedence (reference)
 - Remote defaults from `.well-known/opencode`
 - Global config `~/.config/opencode/opencode.json`
 - Project config `opencode.json`
 - `.opencode/` directories and inline env overrides
-- OpenWork server should preserve this ordering when presenting config sources
+- Antonic Agent server should preserve this ordering when presenting config sources
 
 ---
 ## OpenCode server alignment (from docs)
 - OpenCode runs an HTTP server via `opencode serve` (default `127.0.0.1:4096`).
-- `--cors` can be used to allow browser origins; OpenWork should align with that for web clients.
+- `--cors` can be used to allow browser origins; Antonic Agent should align with that for web clients.
 - Basic auth can be enabled via `OPENCODE_SERVER_PASSWORD` (username defaults to `opencode`).
-- The OpenWork server should not bypass OpenCode auth; if OpenCode is password-protected, the host UI must collect credentials and pass them to the client.
-- OpenCode publishes its OpenAPI spec at `/doc`; the OpenWork server should track upstream changes and avoid duplicating stable APIs.
+- The Antonic Agent server should not bypass OpenCode auth; if OpenCode is password-protected, the host UI must collect credentials and pass them to the client.
+- OpenCode publishes its OpenAPI spec at `/doc`; the Antonic Agent server should track upstream changes and avoid duplicating stable APIs.
 
 ---
 ## Host auto-start + pairing UX
-- When OpenWork runs in Host mode, it starts the OpenWork server automatically after the OpenCode engine comes online.
+- When Antonic Agent runs in Host mode, it starts the Antonic Agent server automatically after the OpenCode engine comes online.
 - The host UI exposes a pairing card in Settings with:
-  - OpenWork Server URL (prefers `.local` hostname, falls back to LAN IP)
+  - Antonic Agent Server URL (prefers `.local` hostname, falls back to LAN IP)
   - Client token (for remote devices)
   - Host token (for approvals)
 - Tokens are generated per run unless supplied by host config.
@@ -207,7 +207,7 @@ Response:
 ```json
 {
   "opencode": { "plugin": ["opencode-github"], "mcp": { "chrome": { "type": "local", "command": ["npx", "-y", "chrome-devtools-mcp@latest"] } } },
-  "openwork": { "version": 1, "authorizedRoots": ["/Users/susan/Finance"] }
+  "antonic-agent": { "version": 1, "authorizedRoots": ["/Users/susan/Finance"] }
 }
 ```
 
@@ -274,16 +274,16 @@ Response:
 
 ---
 ## Outline integration
-- Host side: OpenWork server exposes a narrow API layer on top of OpenCode
-- Implementation: Bun-based server initially, shipped as a sidecar inside the OpenWork desktop app
-- Client side: OpenWork UI uses this layer when remote, falls back to FS when local
+- Host side: Antonic Agent server exposes a narrow API layer on top of OpenCode
+- Implementation: Bun-based server initially, shipped as a sidecar inside the Antonic Agent desktop app
+- Client side: Antonic Agent UI uses this layer when remote, falls back to FS when local
 - Storage: persists changes to `.opencode` and `opencode.json` within workspace root
 
 ---
 ## Server runtime and sidecar lifecycle
-- The desktop app launches the OpenWork server as a sidecar process.
+- The desktop app launches the Antonic Agent server as a sidecar process.
 - The server binds to localhost on an ephemeral port and reports its URL back to the host UI.
-- The host UI includes the OpenWork server URL in the pairing payload for remote clients.
+- The host UI includes the Antonic Agent server URL in the pairing payload for remote clients.
 - On crash, the host restarts the server and re-issues capabilities.
 - The server must never expose filesystem paths outside approved workspace roots.
 
@@ -296,17 +296,17 @@ Response:
 
 ---
 ## Authentication and pairing
-- The host generates a short-lived pairing token and includes the OpenWork server base URL in the pairing payload.
+- The host generates a short-lived pairing token and includes the Antonic Agent server base URL in the pairing payload.
 - Remote clients store the token in memory (not on disk) and send it as `Authorization: Bearer <token>`.
 - Tokens are scoped to the host and expire on disconnect or after a short TTL (e.g., 24h).
-- The OpenWork server rejects requests without a valid token (`401`).
+- The Antonic Agent server rejects requests without a valid token (`401`).
 - Future: rotate tokens on reconnect and support revocation from host settings.
 
 ---
 ## Capability schema (example)
 ```json
 {
-  "skills": { "read": true, "write": true, "source": "openwork" },
+  "skills": { "read": true, "write": true, "source": "antonic-agent" },
   "plugins": { "read": true, "write": true },
   "mcp": { "read": true, "write": true },
   "commands": { "read": true, "write": true },
@@ -330,8 +330,8 @@ Response:
 
 ---
 ## Web app integration
-- Remote clients connect to both OpenCode (engine) and OpenWork server (config layer)
-- Capability check gates UI actions: if OpenWork server is missing, config actions are read-only
+- Remote clients connect to both OpenCode (engine) and Antonic Agent server (config layer)
+- Capability check gates UI actions: if Antonic Agent server is missing, config actions are read-only
 - Writes require host approval and are surfaced in the audit log
 - Future: this evolves into a sync layer across clients (out of scope here)
 
@@ -340,7 +340,7 @@ Response:
 - Cache the last successful config snapshot per workspace in local state.
 - On write success, refresh via `GET /workspace/:id/config` before updating UI.
 - Use optimistic UI only for read-only lists; for writes, wait for approval + server response.
-- If OpenWork server is unreachable, show read-only data and a reconnect CTA.
+- If Antonic Agent server is unreachable, show read-only data and a reconnect CTA.
 
 ---
 ## Sequence flows (examples)
@@ -364,30 +364,30 @@ Response:
 4) UI shows “Reload engine” banner if required.
 
 ---
-## OpenWork UI wiring (specific)
+## Antonic Agent UI wiring (specific)
 These are the concrete integration points inside `packages/app`.
 
 ### Data layer
 - `src/app/lib/opencode.ts`: keep as-is for OpenCode engine calls
 - `src/app/lib/tauri.ts`: host-only FS actions (local) stay here
-- **New** `src/app/lib/openwork-server.ts`: remote config API client (HTTP) + capability check
+- **New** `src/app/lib/antonic-agent-server.ts`: remote config API client (HTTP) + capability check
 
 Example client surface (TypeScript):
 ```ts
 type Capabilities = {
-  skills: { read: boolean; write: boolean; source: "opencode" | "openwork" };
+  skills: { read: boolean; write: boolean; source: "opencode" | "antonic-agent" };
   plugins: { read: boolean; write: boolean };
   mcp: { read: boolean; write: boolean };
   commands: { read: boolean; write: boolean };
   config: { read: boolean; write: boolean };
 };
 
-export const openworkServer = {
+export const antonic-agentServer = {
   health(): Promise<{ ok: boolean; version: string; uptimeMs: number }>;
   capabilities(): Promise<Capabilities>;
   listWorkspaces(): Promise<WorkspaceInfo[]>;
-  getConfig(id: string): Promise<{ opencode: object; openwork: object }>;
-  patchConfig(id: string, body: { opencode?: object; openwork?: object }): Promise<void>;
+  getConfig(id: string): Promise<{ opencode: object; antonic-agent: object }>;
+  patchConfig(id: string, body: { opencode?: object; antonic-agent?: object }): Promise<void>;
   listPlugins(id: string): Promise<string[]>;
   addPlugin(id: string, spec: string): Promise<string[]>;
   removePlugin(id: string, name: string): Promise<string[]>;
@@ -403,49 +403,49 @@ export const openworkServer = {
 ```
 
 ### State stores
-- `src/app/context/workspace.ts`: route remote config reads/writes to OpenWork server when workspaceType is `remote`
-- `src/app/context/extensions.ts`: use OpenWork server to list/add skills/plugins/MCPs in remote mode
+- `src/app/context/workspace.ts`: route remote config reads/writes to Antonic Agent server when workspaceType is `remote`
+- `src/app/context/extensions.ts`: use Antonic Agent server to list/add skills/plugins/MCPs in remote mode
 - `src/app/context/session.ts`: no changes; stays on OpenCode engine
 
 ### UI surfaces
 - `src/app/pages/dashboard.tsx`: display workspace config status + enable “Share config” only when supported
-- `src/app/pages/skills.tsx`: list and import skills via OpenWork server in remote mode
-- `src/app/pages/plugins.tsx`: list/add/remove plugins via OpenWork server in remote mode
-- `src/app/pages/mcp.tsx`: list/connect MCPs via OpenWork server in remote mode
-- `src/app/pages/commands.tsx`: list/add/remove commands via OpenWork server in remote mode
-- `src/app/pages/session.tsx`: surface agent list/selection via OpenWork server when remote if OpenCode lacks agent APIs
+- `src/app/pages/skills.tsx`: list and import skills via Antonic Agent server in remote mode
+- `src/app/pages/plugins.tsx`: list/add/remove plugins via Antonic Agent server in remote mode
+- `src/app/pages/mcp.tsx`: list/connect MCPs via Antonic Agent server in remote mode
+- `src/app/pages/commands.tsx`: list/add/remove commands via Antonic Agent server in remote mode
+- `src/app/pages/session.tsx`: surface agent list/selection via Antonic Agent server when remote if OpenCode lacks agent APIs
 - `src/app/components/workspace-chip.tsx` + `workspace-picker.tsx`: show capability badges (read-only if server missing)
 
 ### Capability checks
-- On connect, call `GET /health` on OpenWork server
+- On connect, call `GET /health` on Antonic Agent server
 - Store a `serverCapabilities` flag in app state and guard remote config actions
 
 ---
 ## Detailed wiring notes
-This section explains exactly how requests flow and where the UI switches between local FS and the OpenWork server.
+This section explains exactly how requests flow and where the UI switches between local FS and the Antonic Agent server.
 
 ### Connection flow (remote)
 1) User connects to a host (OpenCode engine). The client already has a base URL for OpenCode.
-2) The client derives or receives the OpenWork server base URL from the host pairing payload.
-3) The client calls `GET /health` and `GET /capabilities` on the OpenWork server.
-4) UI stores `openworkServerStatus` (ok/error) and `openworkServerCapabilities` in app state.
+2) The client derives or receives the Antonic Agent server base URL from the host pairing payload.
+3) The client calls `GET /health` and `GET /capabilities` on the Antonic Agent server.
+4) UI stores `antonic-agentServerStatus` (ok/error) and `antonic-agentServerCapabilities` in app state.
 5) All config-mutating UI surfaces check capabilities before enabling write actions.
 
 ### Local vs remote switching
 - **Local workspaces**: use Tauri FS helpers (existing `src/app/lib/tauri.ts`).
-- **Remote workspaces**: route all config reads/writes through `src/app/lib/openwork-server.ts`.
+- **Remote workspaces**: route all config reads/writes through `src/app/lib/antonic-agent-server.ts`.
 - The decision happens in the stores, not the UI, so pages don’t need to branch on runtime.
 
 ### Store-level routing (concrete)
 - `context/extensions.ts`
-  - `refreshSkills()` uses OpenWork server when remote, else lists local skills from FS.
-  - `refreshPlugins()` pulls config from OpenWork server in remote mode, else reads `opencode.json` locally.
-  - `refreshMcpServers()` reads MCP config from OpenWork server in remote mode, else from FS.
+  - `refreshSkills()` uses Antonic Agent server when remote, else lists local skills from FS.
+  - `refreshPlugins()` pulls config from Antonic Agent server in remote mode, else reads `opencode.json` locally.
+  - `refreshMcpServers()` reads MCP config from Antonic Agent server in remote mode, else from FS.
 - `context/workspace.ts`
-  - Loads `openwork.json` and `opencode.json` from OpenWork server when remote.
-  - On writes, calls OpenWork server endpoints and refreshes local state on success.
+  - Loads `antonic-agent.json` and `opencode.json` from Antonic Agent server when remote.
+  - On writes, calls Antonic Agent server endpoints and refreshes local state on success.
 - `context/commands.ts`
-  - `list`, `create`, and `delete` commands via OpenWork server when remote.
+  - `list`, `create`, and `delete` commands via Antonic Agent server when remote.
 
 ### Action mapping (UI -> endpoint -> file)
 - Add plugin (Plugins page) -> `POST /workspace/:id/plugins` -> `opencode.json` `plugin` array
@@ -457,7 +457,7 @@ This section explains exactly how requests flow and where the UI switches betwee
 
 ### UI wiring expectations
 - Pages call store methods without caring about local vs remote.
-- “Read-only” badges are derived from `openworkServerCapabilities` (e.g. missing `config.write`).
+- “Read-only” badges are derived from `antonic-agentServerCapabilities` (e.g. missing `config.write`).
 - “Share config” and any write action is disabled when capabilities are absent.
 
 ### Permissions and approvals
@@ -466,7 +466,7 @@ This section explains exactly how requests flow and where the UI switches betwee
 - If approval is denied or times out, the server returns a clear error and the UI shows a non-blocking toast.
 
 ### Data contracts (expected formats)
-These map to existing OpenWork types.
+These map to existing Antonic Agent types.
 
 **Plugins**
 - Source of truth: `opencode.json` → `plugin` field (string or string[]).
@@ -521,12 +521,12 @@ These map to existing OpenWork types.
 
 **Agents**
 - Prefer OpenCode SDK (`listAgents`) as the primary source.
-- Only add OpenWork server agent endpoints if OpenCode doesn’t expose them for remote clients.
+- Only add Antonic Agent server agent endpoints if OpenCode doesn’t expose them for remote clients.
 
 ---
 ## Write approval flow (detailed)
 1) Client sends a write request (POST/PATCH/DELETE).
-2) OpenWork server emits a permission request to the host UI with:
+2) Antonic Agent server emits a permission request to the host UI with:
    - action (write type), workspace id, list of file paths, and summary of changes
 3) Host approves or denies within a timeout window.
 4) Server executes the write only after approval and records an audit log entry.
@@ -570,14 +570,14 @@ Server behavior:
 - Specs may also be file URLs or absolute paths when supported by OpenCode.
 - Local plugin files are discovered in `.opencode/plugins/` and `~/.config/opencode/plugins/`.
 - Only JavaScript/TypeScript files are treated as plugins (`.js`, `.ts`).
-- The OpenWork server should return both config plugins and local plugin files, with a `source` field:
+- The Antonic Agent server should return both config plugins and local plugin files, with a `source` field:
   - `config` for npm specs
   - `dir.project` for `.opencode/plugins/`
   - `dir.global` for `~/.config/opencode/plugins/`
 - The UI can display these as separate sections while preserving OpenCode load order.
 - The server should not run `bun install`; OpenCode handles installs on startup.
 - If `.opencode/package.json` is present, note it in responses so the UI can link to dependency setup.
-- Plugin runtime behavior (events, custom tools, logging) remains owned by OpenCode; OpenWork server only manages config.
+- Plugin runtime behavior (events, custom tools, logging) remains owned by OpenCode; Antonic Agent server only manages config.
 
 ---
 ## Skill handling (detailed)
@@ -589,7 +589,7 @@ Server behavior:
   - `name` and `description` required
   - `license`, `compatibility`, `metadata` optional
 - Enforce name and description length rules on write.
-- The OpenWork server does not parse or interpret skill content beyond frontmatter extraction.
+- The Antonic Agent server does not parse or interpret skill content beyond frontmatter extraction.
 
 ---
 ## MCP handling (detailed)
@@ -598,8 +598,8 @@ Server behavior:
 - If OpenCode provides remote defaults via `.well-known/opencode`, treat those as `source: "config.remote"`.
 - Writes always go to project `opencode.json` and should not mutate remote defaults.
 - If MCP tools are disabled via `tools` glob patterns, surface that as `disabledByTools: true` in responses.
-- OAuth tokens are managed by OpenCode and stored in `~/.local/share/opencode/mcp-auth.json`; OpenWork server should not manage tokens directly.
-- Authentication flows should be triggered via OpenCode (`/mcp` endpoints or CLI), not via OpenWork server.
+- OAuth tokens are managed by OpenCode and stored in `~/.local/share/opencode/mcp-auth.json`; Antonic Agent server should not manage tokens directly.
+- Authentication flows should be triggered via OpenCode (`/mcp` endpoints or CLI), not via Antonic Agent server.
 - Reference CLI flows: `opencode mcp auth <name>`, `opencode mcp list`, `opencode mcp logout <name>`, `opencode mcp debug <name>`.
 
 ---
@@ -629,7 +629,7 @@ Server behavior:
 ---
 ## Implementation checklist
 ### Server runtime (Bun)
-- Create `packages/openwork-server` with HTTP routing + JSON schema validation
+- Create `packages/antonic-agent-server` with HTTP routing + JSON schema validation
 - Define stable port + discovery mechanism for clients
 - Add lifecycle hooks: start/stop/restart + health checks
 
@@ -652,8 +652,8 @@ Server behavior:
   - `opencode.json` plugin + mcp updates
 
 ### UI wiring
-- Add `src/app/lib/openwork-server.ts` client
-- Route remote mode reads/writes through OpenWork server:
+- Add `src/app/lib/antonic-agent-server.ts` client
+- Route remote mode reads/writes through Antonic Agent server:
   - `src/app/context/extensions.ts`
   - `src/app/context/workspace.ts`
   - `src/app/pages/commands.tsx`
@@ -702,8 +702,8 @@ Server behavior:
 - Deny returns `403` and no file is written
 - Approve writes file and returns success
 
-### Client wiring tests (OpenWork web)
-- Remote mode uses OpenWork server endpoints instead of Tauri FS
+### Client wiring tests (Antonic Agent web)
+- Remote mode uses Antonic Agent server endpoints instead of Tauri FS
 - Missing capability switches UI to read-only
 - Reconnect restores write actions after capabilities return
 - OpenCode basic auth prompts propagate to client when enabled
@@ -715,7 +715,7 @@ Server behavior:
 ---
 ## Test cases (initial)
 ### Config
-- `GET /workspace/:id/config` returns both `opencode` and `openwork` blocks
+- `GET /workspace/:id/config` returns both `opencode` and `antonic-agent` blocks
 - `PATCH /workspace/:id/config` updates plugin list and preserves unknown keys
 - Invalid JSONC returns `422` with parse location
 - Remote defaults from `.well-known/opencode` appear as `source: config.remote` in responses
@@ -761,8 +761,8 @@ Server behavior:
 - Workspace id mismatch returns `404`
 
 ### UI
-- Remote client with OpenWork server: write actions enabled
-- Remote client without OpenWork server: write actions disabled + read-only badge
+- Remote client with Antonic Agent server: write actions enabled
+- Remote client without Antonic Agent server: write actions disabled + read-only badge
 
 ---
 ## Set permissions
@@ -797,7 +797,7 @@ Server behavior:
 
 ---
 ## Plan rollout
-- Phase 0: Bun server prototype running alongside OpenWork host
+- Phase 0: Bun server prototype running alongside Antonic Agent host
 - Phase 1: read-only APIs for skills/plugins/MCPs + config metadata
 - Phase 2: write APIs for skills/plugins/MCPs with audit log
 - Phase 3: config export/import support for remote clients

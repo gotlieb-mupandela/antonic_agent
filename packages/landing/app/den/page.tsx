@@ -4,7 +4,7 @@ import { OpenCodeLogo } from "../../components/opencode-logo";
 import { getGithubData } from "../../lib/github";
 
 export const metadata = {
-  title: "OpenWork — Den",
+  title: "Antonic Agent — Den",
   description:
     "Hosted sandboxed workers for your team, available in desktop, Slack, and Telegram.",
 };
@@ -21,7 +21,7 @@ export default async function Den() {
         <div className="content-max-width px-6">
           <div className="animate-fade-up">
             <div className="mb-3 text-[12px] font-bold uppercase tracking-wider text-gray-500">
-              OpenWork hosted
+              Antonic Agent hosted
             </div>
             <h1 className="mb-3 text-4xl font-bold tracking-tight">Den</h1>
             <h2 className="mb-8 text-[34px] font-bold leading-tight tracking-tight text-black">
@@ -88,7 +88,7 @@ export default async function Den() {
                 Desktop, Slack, and Telegram access
               </h4>
               <p className="text-[13px] leading-relaxed text-gray-500">
-                Run and monitor the same workers from the OpenWork desktop app
+                Run and monitor the same workers from the Antonic Agent desktop app
                 or directly inside your team chats.
               </p>
             </div>
@@ -97,7 +97,7 @@ export default async function Den() {
                 Skills, agents, and MCP included
               </h4>
               <p className="text-[13px] leading-relaxed text-gray-500">
-                Bring your existing OpenWork setup and everything is available
+                Bring your existing Antonic Agent setup and everything is available
                 immediately in each hosted worker.
               </p>
             </div>

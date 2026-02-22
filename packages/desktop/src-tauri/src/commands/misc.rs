@@ -86,11 +86,11 @@ fn validate_server_name(name: &str) -> Result<String, String> {
     Ok(trimmed.to_string())
 }
 
-fn read_workspace_openwork_config(
+fn read_workspace_antonic-agent_config(
     workspace_path: &Path,
 ) -> Result<WorkspaceOpenworkConfig, String> {
-    let openwork_path = workspace_path.join(".opencode").join("openwork.json");
-    if !openwork_path.exists() {
+    let antonic-agent_path = workspace_path.join(".opencode").join("antonic-agent.json");
+    if !antonic-agent_path.exists() {
         let mut cfg = WorkspaceOpenworkConfig::default();
         let workspace_value = workspace_path.to_string_lossy().to_string();
         if !workspace_value.trim().is_empty() {
@@ -99,11 +99,11 @@ fn read_workspace_openwork_config(
         return Ok(cfg);
     }
 
-    let raw = fs::read_to_string(&openwork_path)
-        .map_err(|e| format!("Failed to read {}: {e}", openwork_path.display()))?;
+    let raw = fs::read_to_string(&antonic-agent_path)
+        .map_err(|e| format!("Failed to read {}: {e}", antonic-agent_path.display()))?;
 
     serde_json::from_str::<WorkspaceOpenworkConfig>(&raw)
-        .map_err(|e| format!("Failed to parse {}: {e}", openwork_path.display()))
+        .map_err(|e| format!("Failed to parse {}: {e}", antonic-agent_path.display()))
 }
 
 fn load_authorized_roots(app: &AppHandle) -> Result<Vec<PathBuf>, String> {
@@ -112,7 +112,7 @@ fn load_authorized_roots(app: &AppHandle) -> Result<Vec<PathBuf>, String> {
 
     for workspace in state.workspaces {
         let workspace_path = PathBuf::from(&workspace.path);
-        let mut config = read_workspace_openwork_config(&workspace_path)?;
+        let mut config = read_workspace_antonic-agent_config(&workspace_path)?;
 
         if config.authorized_roots.is_empty() {
             config.authorized_roots.push(workspace.path.clone());
@@ -228,7 +228,7 @@ pub fn reset_opencode_cache() -> Result<CacheResetResult, String> {
 }
 
 #[tauri::command]
-pub fn reset_openwork_state(app: tauri::AppHandle, mode: String) -> Result<(), String> {
+pub fn reset_antonic-agent_state(app: tauri::AppHandle, mode: String) -> Result<(), String> {
     let mode = mode.trim();
     if mode != "onboarding" && mode != "all" {
         return Err("mode must be 'onboarding' or 'all'".to_string());

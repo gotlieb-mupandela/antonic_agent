@@ -1,11 +1,11 @@
 {
   "service": {
     "id": "srv-d6ck5utm5p6s73er2av0",
-    "name": "den-control-plane-openwork-1771651835",
-    "repo": "https://github.com/different-ai/openwork",
-    "branch": "feat/den-cloud-worker-openwork-repo",
+    "name": "den-control-plane-antonic-agent-1771651835",
+    "repo": "https://github.com/Apnium Technology/antonic-agent",
+    "branch": "feat/den-cloud-worker-antonic-agent-repo",
     "rootDir": "services/den-control-plane",
-    "url": "https://den-control-plane-openwork-1771651835.onrender.com"
+    "url": "https://den-control-plane-antonic-agent-1771651835.onrender.com"
   },
   "latestDeploy": {
     "id": "dep-d6ckfgjh46gs73cjgq9g",

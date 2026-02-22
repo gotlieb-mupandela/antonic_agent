@@ -24,14 +24,14 @@ description: Guide users through browser automation setup using Chrome DevTools 
 4. If DevTools MCP calls fail:
    - Ask the user to open Chrome and keep it running.
    - Retry `chrome-devtools_list_pages`.
-   - If it still fails, ensure `opencode.jsonc` includes `mcp.control-chrome` with command `['chrome-devtools-mcp']` and ask the user to restart OpenWork/OpenCode.
+   - If it still fails, ensure `opencode.jsonc` includes `mcp.control-chrome` with command `['chrome-devtools-mcp']` and ask the user to restart Antonic Agent/OpenCode.
    - Retry the DevTools MCP check.
 5. If DevTools MCP is ready:
    - Offer a first task ("Let's try opening a webpage").
    - If yes, use `chrome-devtools_navigate_page` or `chrome-devtools_new_page` to open the URL and confirm completion.
 6. Fallback only if DevTools MCP cannot be used:
    - Check availability with `browser_version` or `browser_status`.
-   - If missing, run `npx @different-ai/opencode-browser install` yourself.
+   - If missing, run `npx @Apnium Technology/opencode-browser install` yourself.
    - Open the Extensions page yourself when possible:
      - macOS: `open -a "Google Chrome" "chrome://extensions"`
      - Windows: `start chrome://extensions`

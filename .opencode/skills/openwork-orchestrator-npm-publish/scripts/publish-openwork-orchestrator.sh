@@ -10,6 +10,6 @@ if [ -n "$(git status --porcelain)" ]; then
 fi
 
 version=$(node -p "require('./packages/orchestrator/package.json').version")
-echo "Publishing openwork-orchestrator@$version"
+echo "Publishing antonic-agent-orchestrator@$version"
 
-pnpm --filter openwork-orchestrator publish --access public
+pnpm --filter antonic-agent-orchestrator publish --access public

@@ -55,9 +55,9 @@ services:
 
         # --- Build Linux binaries into container-local path ---
         # Avoids overwriting macOS-native binaries on the host mount.
-        export OPENWORK_SERVER_BIN="/tmp/openwork-bins/openwork-server"
-        export OPENCODE_ROUTER_BIN="/tmp/openwork-bins/opencode-router"
-        mkdir -p /tmp/openwork-bins
+        export OPENWORK_SERVER_BIN="/tmp/antonic-agent-bins/antonic-agent-server"
+        export OPENCODE_ROUTER_BIN="/tmp/antonic-agent-bins/opencode-router"
+        mkdir -p /tmp/antonic-agent-bins
 
         # --- Compile sidecars for the container architecture ---
         case "$(uname -m)" in
@@ -73,7 +73,7 @@ services:
             ;;
         esac
 
-        echo "[orchestrator] Building openwork-server binary (linux)..."
+        echo "[orchestrator] Building antonic-agent-server binary (linux)..."
         cd /app/packages/server && bun build --compile --target "$$BUN_TARGET" src/cli.ts --outfile "$$OPENWORK_SERVER_BIN"
 
         echo "[orchestrator] Building opencode-router binary (linux)..."
@@ -100,7 +100,7 @@ services:
 
         echo ""
         echo "============================================"
-        echo "  OpenWork orchestrator"
+        echo "  Antonic Agent orchestrator"
         echo "  Server:     http://localhost:${OPENWORK_PORT:-8787}"
         echo "  Health:     http://localhost:${OPENWORK_PORT:-8787}/health"
         echo "  Token:      $$OPENWORK_TOKEN"
@@ -108,13 +108,13 @@ services:
         echo "============================================"
         echo ""
 
-        exec pnpm --filter openwork-orchestrator dev -- start \
+        exec pnpm --filter antonic-agent-orchestrator dev -- start \
           --workspace /workspace \
-          --openwork-host 0.0.0.0 \
-          --openwork-port 8787 \
-          --openwork-token "$$OPENWORK_TOKEN" \
-          --openwork-host-token "$$OPENWORK_HOST_TOKEN" \
-          --openwork-server-bin "$$OPENWORK_SERVER_BIN" \
+          --antonic-agent-host 0.0.0.0 \
+          --antonic-agent-port 8787 \
+          --antonic-agent-token "$$OPENWORK_TOKEN" \
+          --antonic-agent-host-token "$$OPENWORK_HOST_TOKEN" \
+          --antonic-agent-server-bin "$$OPENWORK_SERVER_BIN" \
           --opencode-router-bin "$$OPENCODE_ROUTER_BIN" \
           --approval auto \
           --allow-external \
@@ -165,7 +165,7 @@ services:
 
         echo ""
         echo "============================================"
-        echo "  OpenWork web UI"
+        echo "  Antonic Agent web UI"
         echo "  URL:   http://localhost:${WEB_PORT:-5173}"
         echo "  Token: $${VITE_OPENWORK_TOKEN:-<see orchestrator logs>}"
         echo "============================================"
@@ -177,7 +177,7 @@ services:
         export HOST="0.0.0.0"
         export PORT="5173"
 
-        exec pnpm --filter @different-ai/openwork-ui exec vite \
+        exec pnpm --filter @Apnium Technology/antonic-agent-ui exec vite \
           --host 0.0.0.0 \
           --port 5173 \
           --strictPort
@@ -188,6 +188,6 @@ services:
 
 volumes:
   pnpm-store:
-    name: openwork-dev-pnpm-store
+    name: antonic-agent-dev-pnpm-store
   bun-install:
-    name: openwork-dev-bun-install
+    name: antonic-agent-dev-bun-install

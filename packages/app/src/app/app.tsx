@@ -165,7 +165,7 @@ export default function App() {
       : null;
 
   // Workspace switch tracing is noisy, so only emit in developer mode.
-  // (OpenWork already has a developer mode toggle in Settings.)
+  // (Antonic Agent already has a developer mode toggle in Settings.)
   const wsDebugEnabled = () => developerMode();
 
   const wsDebug = (label: string, payload?: unknown) => {
@@ -1141,7 +1141,7 @@ export default function App() {
   };
 
   // OpenCode keeps reverted messages in the log and uses `session.revert.messageID`
-  // as the visibility boundary. OpenWork mirrors that behavior by filtering the
+  // as the visibility boundary. Antonic Agent mirrors that behavior by filtering the
   // displayed transcript.
   const visibleMessages = createMemo(() => {
     const list = messages();
@@ -2658,7 +2658,7 @@ export default function App() {
   };
 
   onMount(() => {
-    // OpenCode hot reload drives freshness now; OpenWork no longer listens for
+    // OpenCode hot reload drives freshness now; Antonic Agent no longer listens for
     // legacy reload-required events.
   });
 
@@ -2706,10 +2706,10 @@ export default function App() {
         setScheduledJobs([]);
         const status =
           openworkServerStatus() === "disconnected"
-            ? "OpenWork server unavailable. Connect to sync scheduled tasks."
+            ? "Antonic Agent server unavailable. Connect to sync scheduled tasks."
             : openworkServerStatus() === "limited"
-              ? "OpenWork server needs a token to load scheduled tasks."
-              : "OpenWork server not ready.";
+              ? "Antonic Agent server needs a token to load scheduled tasks."
+              : "Antonic Agent server not ready.";
         setScheduledJobsStatus(status);
         return;
       }
@@ -2771,7 +2771,7 @@ export default function App() {
     if (scheduledJobsSource() === "remote") {
       const scheduler = resolveOpenworkScheduler();
       if (!scheduler) {
-        throw new Error("OpenWork server unavailable. Connect to sync scheduled tasks.");
+        throw new Error("Antonic Agent server unavailable. Connect to sync scheduled tasks.");
       }
       const response = await scheduler.client.deleteScheduledJob(scheduler.workspaceId, name);
       setScheduledJobs((current) => current.filter((entry) => entry.slug !== response.job.slug));
@@ -3309,7 +3309,7 @@ export default function App() {
 
     if (isRemoteWorkspace) {
       if (!canUseOpenworkServer) {
-        setMcpStatus("OpenWork server unavailable. MCP config is read-only.");
+        setMcpStatus("Antonic Agent server unavailable. MCP config is read-only.");
         setMcpServers([]);
         setMcpStatuses({});
         return;
@@ -3467,7 +3467,7 @@ export default function App() {
       openworkCapabilities?.mcp?.write;
 
     if (isRemoteWorkspace && !canUseOpenworkServer) {
-      setMcpStatus("OpenWork server unavailable. MCP config is read-only.");
+      setMcpStatus("Antonic Agent server unavailable. MCP config is read-only.");
       finishPerf(developerMode(), "mcp.connect", "blocked", startedAt, {
         reason: "openwork-server-unavailable",
       });
@@ -3674,7 +3674,7 @@ export default function App() {
       openworkCapabilities?.mcp?.write;
 
     if (isRemoteWorkspace && !canUseOpenworkServer) {
-      setMcpStatus("OpenWork server unavailable. MCP auth is read-only.");
+      setMcpStatus("Antonic Agent server unavailable. MCP auth is read-only.");
       return;
     }
 
@@ -4544,7 +4544,7 @@ export default function App() {
     const normalizedVersion = openworkVersion.startsWith("v")
       ? openworkVersion
       : `v${openworkVersion}`;
-    return `OpenWork ${normalizedVersion}`;
+    return `Antonic Agent ${normalizedVersion}`;
   });
 
   const headerStatus = createMemo(() => {
@@ -4711,21 +4711,21 @@ export default function App() {
     const canUseGlobalPluginScope = !isRemoteWorkspace && isTauriRuntime();
     const skillsAccessHint = isRemoteWorkspace
       ? openworkStatus === "disconnected"
-        ? "OpenWork server unavailable. Add the server URL/token in Advanced to manage skills."
+        ? "Antonic Agent server unavailable. Add the server URL/token in Advanced to manage skills."
         : openworkStatus === "limited"
-          ? "OpenWork server needs a host token to install/update skills. Add it in Advanced and reconnect."
+          ? "Antonic Agent server needs a host token to install/update skills. Add it in Advanced and reconnect."
           : openworkServerCanWriteSkills()
             ? null
-            : "OpenWork server is read-only for skills. Add a host token in Advanced to enable installs."
+            : "Antonic Agent server is read-only for skills. Add a host token in Advanced to enable installs."
       : null;
     const pluginsAccessHint = isRemoteWorkspace
       ? openworkStatus === "disconnected"
-        ? "OpenWork server unavailable. Plugins are read-only."
+        ? "Antonic Agent server unavailable. Plugins are read-only."
         : openworkStatus === "limited"
-          ? "OpenWork server needs a token to edit plugins."
+          ? "Antonic Agent server needs a token to edit plugins."
           : openworkServerCanWritePlugins()
             ? null
-            : "OpenWork server is read-only for plugins."
+            : "Antonic Agent server is read-only for plugins."
       : null;
 
     return {

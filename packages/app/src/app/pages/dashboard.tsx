@@ -654,7 +654,7 @@ export default function DashboardView(props: DashboardViewProps) {
       const token = props.openworkServerHostInfo?.clientToken?.trim() || "";
       return [
         {
-          label: "OpenWork worker URL",
+          label: "Antonic Agent worker URL",
           value: url,
           placeholder: !isTauriRuntime() ? "Desktop app required" : "Starting server...",
           hint: mountedUrl
@@ -684,7 +684,7 @@ export default function DashboardView(props: DashboardViewProps) {
         "";
       return [
         {
-          label: "OpenWork worker URL",
+          label: "Antonic Agent worker URL",
           value: url,
         },
         {

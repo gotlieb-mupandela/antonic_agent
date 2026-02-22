@@ -21,9 +21,9 @@ The skill creator doesn't emphasize writing strong, specific trigger phrases. Us
 
 ## Location
 
-**Primary file in OpenWork:** `packages/app/src/app/data/skill-creator.md`
+**Primary file in Antonic Agent:** `packages/app/src/app/data/skill-creator.md`
 
-**Also update:** `vendor/openwork-enterprise` skill-creator template (same guidance, different repo)
+**Also update:** `vendor/antonic-agent-enterprise` skill-creator template (same guidance, different repo)
 
 The skill creator needs to:
 1. Explicitly ask for trigger phrases

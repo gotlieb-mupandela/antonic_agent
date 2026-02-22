@@ -1,6 +1,6 @@
-# OpenWork Repo Non-Stub Render E2E Proof
+# Antonic Agent Repo Non-Stub Render E2E Proof
 
-This directory captures end-to-end proof for the OpenWork-repo implementation of the Den control plane and worker provisioning flow.
+This directory captures end-to-end proof for the Antonic Agent-repo implementation of the Den control plane and worker provisioning flow.
 
 ## Control-plane deployment proof
 

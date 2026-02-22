@@ -1,7 +1,7 @@
 ---
-name: openwork-docker-chrome-mcp
+name: antonic-agent-docker-chrome-mcp
 description: |
-  Start the OpenWork dev stack via Docker and verify real user flows via Chrome MCP.
+  Start the Antonic Agent dev stack via Docker and verify real user flows via Chrome MCP.
 
   Triggers when user mentions:
   - "dev-up.sh"
@@ -14,14 +14,14 @@ description: |
 
 ### 1) Start the dev stack (Docker)
 
-Run from the OpenWork repo root:
+Run from the Antonic Agent repo root:
 ```bash
 packaging/docker/dev-up.sh
 ```
 
 This prints:
 - Web UI URL (http://localhost:<WEB_PORT>)
-- OpenWork server URL (http://localhost:<OPENWORK_PORT>)
+- Antonic Agent server URL (http://localhost:<OPENWORK_PORT>)
 - Token file path (`tmp/.dev-env-<id>`) containing `OPENWORK_TOKEN` + `OPENWORK_HOST_TOKEN`
 - A `docker compose ... down` command that stops this stack
 
@@ -68,7 +68,7 @@ Use the exact `docker compose -p ... down` command printed by `dev-up.sh`.
 
 If you lost it, you can find the project name via:
 ```bash
-docker ps --format '{{.Names}}' | rg '^openwork-dev-'
+docker ps --format '{{.Names}}' | rg '^antonic-agent-dev-'
 ```
 
 Then stop it (replace `<project>`):

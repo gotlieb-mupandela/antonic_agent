@@ -66,13 +66,13 @@ async function runCli(args, dataDir) {
 
   const [code] = await once(child, "exit");
   if (code !== 0) {
-    throw new Error(stderr.trim() || `openwork failed with code ${code}`);
+    throw new Error(stderr.trim() || `antonic-agent failed with code ${code}`);
   }
   const trimmed = stdout.trim();
   return trimmed ? JSON.parse(trimmed) : null;
 }
 
-const root = await mkdtemp(join(tmpdir(), "openwork-orchestrator-router-"));
+const root = await mkdtemp(join(tmpdir(), "antonic-agent-orchestrator-router-"));
 const dataDir = join(root, "data");
 const workspaceA = join(root, "ws-a");
 const workspaceB = join(root, "ws-b");

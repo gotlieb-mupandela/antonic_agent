@@ -1363,7 +1363,7 @@ export async function startBridge(config: Config, logger: Logger, reporter?: Bri
         inbound.channel,
         inbound.identityId,
         inbound.peerId,
-        "No workspace directory configured for this identity. Ask your OpenWork host to set it, or reply with /dir <path>.",
+        "No workspace directory configured for this identity. Ask your Antonic Agent host to set it, or reply with /dir <path>.",
         { kind: "system" },
       );
       return;
@@ -1427,7 +1427,7 @@ export async function startBridge(config: Config, logger: Logger, reporter?: Bri
           .filter(Boolean)
           .join("\n\n");
         const promptText = [
-          "You are handling a Slack/Telegram message via OpenWork.",
+          "You are handling a Slack/Telegram message via Antonic Agent.",
           `Workspace agent file: ${messagingAgent.filePath}`,
           ...(messagingAgent.selectedAgent ? [`Selected OpenCode agent: ${messagingAgent.selectedAgent}`] : []),
           "Follow these workspace messaging instructions:",

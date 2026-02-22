@@ -24,9 +24,9 @@ export default function ThinkingBlock(props: {
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
-          class="flex items-center gap-2 text-xs font-medium text-gray-10 hover:text-gray-12 transition-colors py-1 px-2 rounded-lg hover:bg-gray-2/40"
+          class="flex items-center gap-2 text-xs font-medium text-gray-10 hover:text-gray-12 transition-colors py-1 px-2 rounded-lg hover:bg-dls-hover"
         >
-          <div class="p-1 rounded bg-gray-2 border border-gray-6 text-gray-10">
+          <div class="p-1 rounded bg-dls-hover border border-dls-border text-gray-10">
             <Zap size={12} />
           </div>
           <span class="truncate">{activeStep()?.text ?? "Working…"}</span>

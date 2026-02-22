@@ -14,7 +14,7 @@ function normalizeArch(arch) {
 function parseArgs(argv) {
   const options = {
     tag: process.env.RELEASE_TAG || "",
-    repo: process.env.GITHUB_REPOSITORY || "different-ai/openwork",
+    repo: process.env.GITHUB_REPOSITORY || "Apnium Technology/antonic-agent",
     output: "latest.json",
   };
 
@@ -46,9 +46,9 @@ function parseArgs(argv) {
 }
 
 function updaterPlatformKeys(assetName) {
-  if (!assetName.startsWith("openwork-desktop-")) return [];
+  if (!assetName.startsWith("antonic-agent-desktop-")) return [];
 
-  const stem = assetName.slice("openwork-desktop-".length);
+  const stem = assetName.slice("antonic-agent-desktop-".length);
 
   if (stem.endsWith(".app.tar.gz")) {
     const match = stem.match(/^([^-]+)-([^.]+)\.app\.tar\.gz$/);
@@ -103,7 +103,7 @@ function authHeaders() {
   const headers = {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
-    "User-Agent": "openwork-release-latest-json",
+    "User-Agent": "antonic-agent-release-latest-json",
   };
   const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
   if (token) {

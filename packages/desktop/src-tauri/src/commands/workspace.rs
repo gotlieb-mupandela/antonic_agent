@@ -9,7 +9,7 @@ use crate::types::{
 use crate::workspace::files::ensure_workspace_files;
 use crate::workspace::state::{
     ensure_starter_workspace, load_workspace_state, save_workspace_state, stable_workspace_id,
-    stable_workspace_id_for_openwork, stable_workspace_id_for_remote,
+    stable_workspace_id_for_antonic-agent, stable_workspace_id_for_remote,
 };
 use crate::workspace::watch::{update_workspace_watch, WorkspaceWatchState};
 use serde::Serialize;
@@ -207,10 +207,10 @@ pub fn workspace_create(
         base_url: None,
         directory: None,
         display_name: None,
-        openwork_host_url: None,
-        openwork_token: None,
-        openwork_workspace_id: None,
-        openwork_workspace_name: None,
+        antonic-agent_host_url: None,
+        antonic-agent_token: None,
+        antonic-agent_workspace_id: None,
+        antonic-agent_workspace_name: None,
         sandbox_backend: None,
         sandbox_run_id: None,
         sandbox_container_name: None,
@@ -235,10 +235,10 @@ pub fn workspace_create_remote(
     directory: Option<String>,
     display_name: Option<String>,
     remote_type: Option<RemoteType>,
-    openwork_host_url: Option<String>,
-    openwork_token: Option<String>,
-    openwork_workspace_id: Option<String>,
-    openwork_workspace_name: Option<String>,
+    antonic-agent_host_url: Option<String>,
+    antonic-agent_token: Option<String>,
+    antonic-agent_workspace_id: Option<String>,
+    antonic-agent_workspace_name: Option<String>,
     sandbox_backend: Option<String>,
     sandbox_run_id: Option<String>,
     sandbox_container_name: Option<String>,
@@ -261,39 +261,39 @@ pub fn workspace_create_remote(
         .map(|value| value.trim().to_string())
         .filter(|value| !value.is_empty());
 
-    let openwork_host_url = openwork_host_url
+    let antonic-agent_host_url = antonic-agent_host_url
         .map(|value| value.trim().to_string())
         .filter(|value| !value.is_empty());
 
-    let openwork_token = openwork_token
+    let antonic-agent_token = antonic-agent_token
         .map(|value| value.trim().to_string())
         .filter(|value| !value.is_empty());
 
     if remote_type == RemoteType::Openwork {
-        let host_url = openwork_host_url.clone().unwrap_or_default();
+        let host_url = antonic-agent_host_url.clone().unwrap_or_default();
         if host_url.is_empty() {
-            return Err("openworkHostUrl is required for OpenWork remote".to_string());
+            return Err("antonic-agentHostUrl is required for Antonic Agent remote".to_string());
         }
         if !host_url.starts_with("http://") && !host_url.starts_with("https://") {
-            return Err("openworkHostUrl must start with http:// or https://".to_string());
+            return Err("antonic-agentHostUrl must start with http:// or https://".to_string());
         }
     }
 
     let id = if remote_type == RemoteType::Openwork {
-        stable_workspace_id_for_openwork(
-            openwork_host_url.as_deref().unwrap_or(""),
-            openwork_workspace_id.as_deref(),
+        stable_workspace_id_for_antonic-agent(
+            antonic-agent_host_url.as_deref().unwrap_or(""),
+            antonic-agent_workspace_id.as_deref(),
         )
     } else {
         stable_workspace_id_for_remote(&base_url, directory.as_deref())
     };
-    let name = openwork_workspace_name
+    let name = antonic-agent_workspace_name
         .clone()
         .filter(|value| !value.trim().is_empty())
         .or_else(|| display_name.clone())
         .unwrap_or_else(|| {
             if remote_type == RemoteType::Openwork {
-                openwork_host_url
+                antonic-agent_host_url
                     .clone()
                     .unwrap_or_else(|| base_url.clone())
             } else {
@@ -314,10 +314,10 @@ pub fn workspace_create_remote(
         base_url: Some(base_url),
         directory,
         display_name,
-        openwork_host_url,
-        openwork_token,
-        openwork_workspace_id,
-        openwork_workspace_name,
+        antonic-agent_host_url,
+        antonic-agent_token,
+        antonic-agent_workspace_id,
+        antonic-agent_workspace_name,
         sandbox_backend: sandbox_backend
             .map(|value| value.trim().to_string())
             .filter(|value| !value.is_empty()),
@@ -348,10 +348,10 @@ pub fn workspace_update_remote(
     directory: Option<String>,
     display_name: Option<String>,
     remote_type: Option<RemoteType>,
-    openwork_host_url: Option<String>,
-    openwork_token: Option<String>,
-    openwork_workspace_id: Option<String>,
-    openwork_workspace_name: Option<String>,
+    antonic-agent_host_url: Option<String>,
+    antonic-agent_token: Option<String>,
+    antonic-agent_workspace_id: Option<String>,
+    antonic-agent_workspace_name: Option<String>,
     sandbox_backend: Option<String>,
     sandbox_run_id: Option<String>,
     sandbox_container_name: Option<String>,
@@ -403,33 +403,33 @@ pub fn workspace_update_remote(
         entry.remote_type = Some(next_remote_type);
     }
 
-    if let Some(next_host_url) = openwork_host_url
+    if let Some(next_host_url) = antonic-agent_host_url
         .map(|value| value.trim().to_string())
         .filter(|value| !value.is_empty())
     {
         if !next_host_url.starts_with("http://") && !next_host_url.starts_with("https://") {
-            return Err("openworkHostUrl must start with http:// or https://".to_string());
+            return Err("antonic-agentHostUrl must start with http:// or https://".to_string());
         }
-        entry.openwork_host_url = Some(next_host_url);
+        entry.antonic-agent_host_url = Some(next_host_url);
     }
 
-    if openwork_token.is_some() {
-        entry.openwork_token = openwork_token
+    if antonic-agent_token.is_some() {
+        entry.antonic-agent_token = antonic-agent_token
             .map(|value| value.trim().to_string())
             .filter(|value| !value.is_empty());
     }
 
-    if openwork_workspace_id.is_some() {
-        entry.openwork_workspace_id = openwork_workspace_id
+    if antonic-agent_workspace_id.is_some() {
+        entry.antonic-agent_workspace_id = antonic-agent_workspace_id
             .map(|value| value.trim().to_string())
             .filter(|value| !value.is_empty());
     }
 
-    if let Some(next_name) = openwork_workspace_name
+    if let Some(next_name) = antonic-agent_workspace_name
         .map(|value| value.trim().to_string())
         .filter(|value| !value.is_empty())
     {
-        entry.openwork_workspace_name = Some(next_name.clone());
+        entry.antonic-agent_workspace_name = Some(next_name.clone());
         if entry.display_name.is_none() {
             entry.name = next_name;
         }
@@ -481,18 +481,18 @@ pub fn workspace_add_authorized_root(
         return Err("folderPath is required".to_string());
     }
 
-    let openwork_path = PathBuf::from(&workspace_path)
+    let antonic-agent_path = PathBuf::from(&workspace_path)
         .join(".opencode")
-        .join("openwork.json");
+        .join("antonic-agent.json");
 
-    if let Some(parent) = openwork_path.parent() {
+    if let Some(parent) = antonic-agent_path.parent() {
         fs::create_dir_all(parent)
             .map_err(|e| format!("Failed to create {}: {e}", parent.display()))?;
     }
 
-    let mut config: WorkspaceOpenworkConfig = if openwork_path.exists() {
-        let raw = fs::read_to_string(&openwork_path)
-            .map_err(|e| format!("Failed to read {}: {e}", openwork_path.display()))?;
+    let mut config: WorkspaceOpenworkConfig = if antonic-agent_path.exists() {
+        let raw = fs::read_to_string(&antonic-agent_path)
+            .map_err(|e| format!("Failed to read {}: {e}", antonic-agent_path.display()))?;
         serde_json::from_str(&raw).unwrap_or_default()
     } else {
         let mut cfg = WorkspaceOpenworkConfig::default();
@@ -507,10 +507,10 @@ pub fn workspace_add_authorized_root(
     }
 
     fs::write(
-        &openwork_path,
+        &antonic-agent_path,
         serde_json::to_string_pretty(&config).map_err(|e| e.to_string())?,
     )
-    .map_err(|e| format!("Failed to write {}: {e}", openwork_path.display()))?;
+    .map_err(|e| format!("Failed to write {}: {e}", antonic-agent_path.display()))?;
 
     Ok(ExecResult {
         ok: true,
@@ -521,7 +521,7 @@ pub fn workspace_add_authorized_root(
 }
 
 #[tauri::command]
-pub fn workspace_openwork_read(
+pub fn workspace_antonic-agent_read(
     _app: tauri::AppHandle,
     workspace_path: String,
 ) -> Result<WorkspaceOpenworkConfig, String> {
@@ -530,25 +530,25 @@ pub fn workspace_openwork_read(
         return Err("workspacePath is required".to_string());
     }
 
-    let openwork_path = PathBuf::from(&workspace_path)
+    let antonic-agent_path = PathBuf::from(&workspace_path)
         .join(".opencode")
-        .join("openwork.json");
+        .join("antonic-agent.json");
 
-    if !openwork_path.exists() {
+    if !antonic-agent_path.exists() {
         let mut cfg = WorkspaceOpenworkConfig::default();
         cfg.authorized_roots.push(workspace_path);
         return Ok(cfg);
     }
 
-    let raw = fs::read_to_string(&openwork_path)
-        .map_err(|e| format!("Failed to read {}: {e}", openwork_path.display()))?;
+    let raw = fs::read_to_string(&antonic-agent_path)
+        .map_err(|e| format!("Failed to read {}: {e}", antonic-agent_path.display()))?;
 
     serde_json::from_str::<WorkspaceOpenworkConfig>(&raw)
-        .map_err(|e| format!("Failed to parse {}: {e}", openwork_path.display()))
+        .map_err(|e| format!("Failed to parse {}: {e}", antonic-agent_path.display()))
 }
 
 #[tauri::command]
-pub fn workspace_openwork_write(
+pub fn workspace_antonic-agent_write(
     _app: tauri::AppHandle,
     workspace_path: String,
     config: WorkspaceOpenworkConfig,
@@ -558,25 +558,25 @@ pub fn workspace_openwork_write(
         return Err("workspacePath is required".to_string());
     }
 
-    let openwork_path = PathBuf::from(&workspace_path)
+    let antonic-agent_path = PathBuf::from(&workspace_path)
         .join(".opencode")
-        .join("openwork.json");
+        .join("antonic-agent.json");
 
-    if let Some(parent) = openwork_path.parent() {
+    if let Some(parent) = antonic-agent_path.parent() {
         fs::create_dir_all(parent)
             .map_err(|e| format!("Failed to create {}: {e}", parent.display()))?;
     }
 
     fs::write(
-        &openwork_path,
+        &antonic-agent_path,
         serde_json::to_string_pretty(&config).map_err(|e| e.to_string())?,
     )
-    .map_err(|e| format!("Failed to write {}: {e}", openwork_path.display()))?;
+    .map_err(|e| format!("Failed to write {}: {e}", antonic-agent_path.display()))?;
 
     Ok(ExecResult {
         ok: true,
         status: 0,
-        stdout: format!("Wrote {}", openwork_path.display()),
+        stdout: format!("Wrote {}", antonic-agent_path.display()),
         stderr: String::new(),
     })
 }
@@ -839,13 +839,13 @@ pub fn workspace_import_config(
         return Err("Archive is missing .opencode config".to_string());
     }
 
-    let openwork_path = target_path.join(".opencode").join("openwork.json");
+    let antonic-agent_path = target_path.join(".opencode").join("antonic-agent.json");
     let mut preset = "starter".to_string();
     let mut workspace_name = name.clone().filter(|value| !value.trim().is_empty());
 
-    if openwork_path.exists() {
-        let raw = fs::read_to_string(&openwork_path)
-            .map_err(|e| format!("Failed to read {}: {e}", openwork_path.display()))?;
+    if antonic-agent_path.exists() {
+        let raw = fs::read_to_string(&antonic-agent_path)
+            .map_err(|e| format!("Failed to read {}: {e}", antonic-agent_path.display()))?;
         if let Ok(mut config) = serde_json::from_str::<WorkspaceOpenworkConfig>(&raw) {
             config.authorized_roots = vec![target_dir.clone()];
             if let Some(workspace) = &config.workspace {
@@ -862,22 +862,22 @@ pub fn workspace_import_config(
                 }
             }
             fs::write(
-                &openwork_path,
+                &antonic-agent_path,
                 serde_json::to_string_pretty(&config).map_err(|e| e.to_string())?,
             )
-            .map_err(|e| format!("Failed to write {}: {e}", openwork_path.display()))?;
+            .map_err(|e| format!("Failed to write {}: {e}", antonic-agent_path.display()))?;
         }
     } else {
         let config = WorkspaceOpenworkConfig::new(&target_dir, &preset, now_ms());
-        if let Some(parent) = openwork_path.parent() {
+        if let Some(parent) = antonic-agent_path.parent() {
             fs::create_dir_all(parent)
                 .map_err(|e| format!("Failed to create {}: {e}", parent.display()))?;
         }
         fs::write(
-            &openwork_path,
+            &antonic-agent_path,
             serde_json::to_string_pretty(&config).map_err(|e| e.to_string())?,
         )
-        .map_err(|e| format!("Failed to write {}: {e}", openwork_path.display()))?;
+        .map_err(|e| format!("Failed to write {}: {e}", antonic-agent_path.display()))?;
     }
 
     let name = workspace_name
@@ -905,10 +905,10 @@ pub fn workspace_import_config(
         base_url: None,
         directory: None,
         display_name: None,
-        openwork_host_url: None,
-        openwork_token: None,
-        openwork_workspace_id: None,
-        openwork_workspace_name: None,
+        antonic-agent_host_url: None,
+        antonic-agent_token: None,
+        antonic-agent_workspace_id: None,
+        antonic-agent_workspace_name: None,
         sandbox_backend: None,
         sandbox_run_id: None,
         sandbox_container_name: None,

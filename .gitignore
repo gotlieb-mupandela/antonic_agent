@@ -37,5 +37,5 @@ vendor/opencode/
 .opencode/node_modules/
 .opencode/bun.lock
 
-# OpenWork workspace-local artifacts
-.opencode/openwork/
+# Antonic Agent workspace-local artifacts
+.opencode/antonic-agent/

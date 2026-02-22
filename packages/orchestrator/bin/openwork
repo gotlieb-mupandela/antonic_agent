@@ -43,15 +43,15 @@ if (!arch) {
   arch = os.arch()
 }
 
-const pkg = `openwork-orchestrator-${platform}-${arch}`
-const binary = platform === "windows" ? "openwork.exe" : "openwork"
+const pkg = `antonic-agent-orchestrator-${platform}-${arch}`
+const binary = platform === "windows" ? "antonic-agent.exe" : "antonic-agent"
 
 let pkgJsonPath
 try {
   pkgJsonPath = require.resolve(`${pkg}/package.json`)
 } catch {
   console.error(
-    `openwork: no prebuilt binary package found for ${platform}/${arch}.\n` +
+    `antonic-agent: no prebuilt binary package found for ${platform}/${arch}.\n` +
       `Try installing the platform package manually: ${pkg}`,
   )
   process.exit(1)

@@ -11,7 +11,7 @@ pub mod manager;
 pub mod spawn;
 
 use manager::OpenworkServerManager;
-use spawn::{resolve_openwork_port, spawn_openwork_server};
+use spawn::{resolve_antonic-agent_port, spawn_antonic-agent_server};
 
 fn generate_token() -> String {
     Uuid::new_v4().to_string()
@@ -38,7 +38,7 @@ pub fn resolve_connect_url(port: u16) -> Option<String> {
     connect_url
 }
 
-pub fn start_openwork_server(
+pub fn start_antonic-agent_server(
     app: &AppHandle,
     manager: &OpenworkServerManager,
     workspace_paths: &[String],
@@ -50,11 +50,11 @@ pub fn start_openwork_server(
     let mut state = manager
         .inner
         .lock()
-        .map_err(|_| "openwork server mutex poisoned".to_string())?;
+        .map_err(|_| "antonic-agent server mutex poisoned".to_string())?;
     OpenworkServerManager::stop_locked(&mut state);
 
     let host = "0.0.0.0".to_string();
-    let port = resolve_openwork_port()?;
+    let port = resolve_antonic-agent_port()?;
     let client_token = generate_token();
     let host_token = generate_token();
     let active_workspace = workspace_paths
@@ -62,7 +62,7 @@ pub fn start_openwork_server(
         .map(|path| path.as_str())
         .unwrap_or("");
 
-    let (mut rx, child) = spawn_openwork_server(
+    let (mut rx, child) = spawn_antonic-agent_server(
         app,
         &host,
         port,
@@ -119,7 +119,7 @@ pub fn start_openwork_server(
                     if let Ok(mut state) = state_handle.try_lock() {
                         state.child_exited = true;
                         if let Some(code) = payload.code {
-                            let next = format!("OpenWork server exited (code {code}).");
+                            let next = format!("Antonic Agent server exited (code {code}).");
                             state.last_stderr = Some(truncate_output(&next, 8000));
                         }
                     }

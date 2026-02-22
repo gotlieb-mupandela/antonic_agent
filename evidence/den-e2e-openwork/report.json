@@ -4,8 +4,8 @@
     "body": {
       "token": "REDACTED_SESSION_TOKEN",
       "user": {
-        "name": "Den OpenWork",
-        "email": "den-openwork-1771653211@example.com",
+        "name": "Den Antonic Agent",
+        "email": "den-antonic-agent-1771653211@example.com",
         "emailVerified": false,
         "image": null,
         "createdAt": "2026-02-21T05:53:32.550Z",
@@ -29,8 +29,8 @@
         "id": "REDACTED_SESSION_ID"
       },
       "user": {
-        "name": "Den OpenWork",
-        "email": "den-openwork-1771653211@example.com",
+        "name": "Den Antonic Agent",
+        "email": "den-antonic-agent-1771653211@example.com",
         "emailVerified": false,
         "image": null,
         "createdAt": "2026-02-21T05:53:32.550Z",
@@ -53,8 +53,8 @@
         "id": "REDACTED_SESSION_ID"
       },
       "user": {
-        "name": "Den OpenWork",
-        "email": "den-openwork-1771653211@example.com",
+        "name": "Den Antonic Agent",
+        "email": "den-antonic-agent-1771653211@example.com",
         "emailVerified": false,
         "image": null,
         "createdAt": "2026-02-21T05:53:32.550Z",
@@ -69,8 +69,8 @@
       "worker": {
         "id": "92500aab-e73a-437e-96a6-13210a555c39",
         "orgId": "6187652b-cd56-49c5-82a3-78f3c4731b41",
-        "name": "openwork-nonstub-1771653211",
-        "description": "openwork repo render e2e worker",
+        "name": "antonic-agent-nonstub-1771653211",
+        "description": "antonic-agent repo render e2e worker",
         "destination": "cloud",
         "status": "healthy",
         "imageVersion": "den-worker-v1",
@@ -83,19 +83,19 @@
       },
       "instance": {
         "provider": "render",
-        "url": "https://den-worker-openwork-openwork-nonstub-wnpt.onrender.com",
+        "url": "https://den-worker-antonic-agent-antonic-agent-nonstub-wnpt.onrender.com",
         "status": "healthy",
         "region": "oregon"
       }
     },
     "payload": {
-      "name": "openwork-nonstub-1771653211",
-      "description": "openwork repo render e2e worker",
+      "name": "antonic-agent-nonstub-1771653211",
+      "description": "antonic-agent repo render e2e worker",
       "destination": "cloud",
       "imageVersion": "den-worker-v1"
     }
   },
-  "worker_url": "https://den-worker-openwork-openwork-nonstub-wnpt.onrender.com",
+  "worker_url": "https://den-worker-antonic-agent-antonic-agent-nonstub-wnpt.onrender.com",
   "worker_id": "92500aab-e73a-437e-96a6-13210a555c39",
   "get_worker": {
     "status": 200,
@@ -103,8 +103,8 @@
       "worker": {
         "id": "92500aab-e73a-437e-96a6-13210a555c39",
         "orgId": "6187652b-cd56-49c5-82a3-78f3c4731b41",
-        "name": "openwork-nonstub-1771653211",
-        "description": "openwork repo render e2e worker",
+        "name": "antonic-agent-nonstub-1771653211",
+        "description": "antonic-agent repo render e2e worker",
         "destination": "cloud",
         "status": "healthy",
         "imageVersion": "den-worker-v1",
@@ -122,6 +122,6 @@
       "version": "0.11.113",
       "uptimeMs": 21378
     },
-    "url": "https://den-worker-openwork-openwork-nonstub-wnpt.onrender.com/health"
+    "url": "https://den-worker-antonic-agent-antonic-agent-nonstub-wnpt.onrender.com/health"
   }
 }

@@ -66,7 +66,7 @@ workersRouter.post("/", async (req, res) => {
     const access = await requireCloudWorkerAccess({
       userId: session.user.id,
       email: session.user.email ?? `${session.user.id}@placeholder.local`,
-      name: session.user.name ?? session.user.email ?? "OpenWork User",
+      name: session.user.name ?? session.user.email ?? "Antonic Agent User",
     })
 
     if (!access.allowed) {

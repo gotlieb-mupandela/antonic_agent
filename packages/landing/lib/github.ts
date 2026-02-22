@@ -15,7 +15,7 @@ type Repo = {
   stargazers_count?: number;
 };
 
-const FALLBACK_RELEASE = "https://github.com/different-ai/openwork/releases";
+const FALLBACK_RELEASE = "https://github.com/Apnium Technology/antonic-agent/releases";
 
 const formatCompact = (value: number) => {
   try {
@@ -70,9 +70,9 @@ const fetchJson = async <T,>(url: string): Promise<T | null> => {
 
 export const getGithubData = async () => {
   const [repo, releases] = await Promise.all([
-    fetchJson<Repo>("https://api.github.com/repos/different-ai/openwork"),
+    fetchJson<Repo>("https://api.github.com/repos/Apnium Technology/antonic-agent"),
     fetchJson<Release[]>(
-      "https://api.github.com/repos/different-ai/openwork/releases?per_page=10"
+      "https://api.github.com/repos/Apnium Technology/antonic-agent/releases?per_page=10"
     )
   ]);
 
@@ -90,7 +90,7 @@ export const getGithubData = async () => {
     const assets = Array.isArray(release.assets) ? release.assets : [];
     return assets.some((asset) => {
       const name = String(asset?.name || "").toLowerCase();
-      return name.startsWith("openwork-desktop-");
+      return name.startsWith("antonic-agent-desktop-");
     });
   };
 

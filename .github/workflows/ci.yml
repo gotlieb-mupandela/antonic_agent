@@ -34,7 +34,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build web
-        run: pnpm --filter @different-ai/openwork build:web
+        run: pnpm --filter @Apnium Technology/antonic-agent build:web
 
   build-den-control-plane:
     name: Build Den control plane
@@ -58,10 +58,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build den control plane
-        run: pnpm --filter @openwork/den-control-plane build
+        run: pnpm --filter @antonic-agent/den-control-plane build
 
   build-orchestrator-binary:
-    name: Build openwork orchestrator binary
+    name: Build antonic-agent orchestrator binary
     runs-on: ubuntu-latest
 
     steps:
@@ -86,13 +86,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Typecheck openwork-orchestrator
-        run: pnpm --filter openwork-orchestrator typecheck
+      - name: Typecheck antonic-agent-orchestrator
+        run: pnpm --filter antonic-agent-orchestrator typecheck
 
-      - name: Build openwork orchestrator binary
-        run: pnpm --filter openwork-orchestrator build:bin
+      - name: Build antonic-agent orchestrator binary
+        run: pnpm --filter antonic-agent-orchestrator build:bin
 
       - name: Validate compiled binary
         run: |
-          ./packages/orchestrator/dist/bin/openwork --version
-          ./packages/orchestrator/dist/bin/openwork --help >/dev/null
+          ./packages/orchestrator/dist/bin/antonic-agent --version
+          ./packages/orchestrator/dist/bin/antonic-agent --help >/dev/null

@@ -197,12 +197,12 @@ export default function ProviderAuthModal(props: ProviderAuthModalProps) {
 
   return (
     <Show when={props.open}>
-      <div class="fixed inset-0 z-50 bg-gray-1/60 backdrop-blur-sm flex items-start justify-center p-4 overflow-y-auto">
-        <div class="bg-gray-2 border border-gray-6/70 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden max-h-[calc(100vh-2rem)] flex flex-col">
+      <div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-start justify-center p-4 overflow-y-auto">
+        <div class="bg-dls-surface-elevated border border-dls-border w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden max-h-[calc(100vh-2rem)] flex flex-col">
           <div class="px-6 pt-6 pb-4 border-b border-gray-6/50 flex items-start justify-between gap-4">
             <div>
               <h3 class="text-lg font-semibold text-gray-12">Connect providers</h3>
-              <p class="text-sm text-gray-11 mt-1">Sign in to services you want OpenWork to use.</p>
+              <p class="text-sm text-gray-11 mt-1">Sign in to services you want Antonic Agent to use.</p>
             </div>
             <Button
               variant="ghost"

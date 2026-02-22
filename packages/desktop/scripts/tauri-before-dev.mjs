@@ -167,7 +167,7 @@ const main = async () => {
   }
 
   if (detectedViteUrl) {
-    console.log(`[openwork] UI dev server already running at ${detectedViteUrl} (reusing).`);
+    console.log(`[antonic-agent] UI dev server already running at ${detectedViteUrl} (reusing).`);
     holdOpenUntilSignal();
     return;
   }
@@ -182,13 +182,13 @@ const main = async () => {
 
   if (portInUse) {
     console.error(
-      `[openwork] Port ${port} is in use, but it does not look like a Vite dev server.\n` +
+      `[antonic-agent] Port ${port} is in use, but it does not look like a Vite dev server.\n` +
         `Set PORT to a free port (e.g. PORT=5174) or stop the process using port ${port}.`
     );
     process.exit(1);
   }
 
-  console.log(`[openwork] Starting UI dev server on port ${port}...`);
+  console.log(`[antonic-agent] Starting UI dev server on port ${port}...`);
   const uiChild = runUiDevServer();
   holdOpenUntilSignal({ uiChild });
 };

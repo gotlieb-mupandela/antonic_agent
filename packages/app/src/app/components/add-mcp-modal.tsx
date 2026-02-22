@@ -81,13 +81,13 @@ export default function AddMcpModal(props: AddMcpModalProps) {
     <Show when={props.open}>
       <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
-          class="absolute inset-0 bg-gray-1/60 backdrop-blur-sm"
+          class="absolute inset-0 bg-black/60 backdrop-blur-sm"
           onClick={handleClose}
         />
 
-        <div class="relative w-full max-w-lg bg-gray-2 border border-gray-6 rounded-2xl shadow-2xl overflow-hidden">
+        <div class="relative w-full max-w-lg bg-dls-surface-elevated border border-dls-border rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
-          <div class="flex items-center justify-between px-6 py-4 border-b border-gray-6">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-dls-border">
             <div>
               <h2 class="text-lg font-semibold text-gray-12">
                 {tr("mcp.add_modal_title")}

@@ -135,7 +135,7 @@ export function OpenCodeRouterSettings(_props: {
   developerMode: boolean;
 }) {
   return (
-    <div class="bg-gray-2/30 border border-gray-6/50 rounded-2xl p-5 space-y-2">
+    <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-2">
       <div class="flex items-center gap-2">
         <MessageCircle size={16} class="text-gray-11" />
         <div class="text-sm font-medium text-gray-12">Messaging</div>
@@ -376,10 +376,10 @@ export default function SettingsView(props: SettingsViewProps) {
         setOpenworkReconnectError("Reconnect failed. Check server URL/token and try again.");
         return;
       }
-      setOpenworkReconnectStatus("Reconnected to OpenWork server.");
+      setOpenworkReconnectStatus("Reconnected to Antonic Agent server.");
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      setOpenworkReconnectError(message || "Failed to reconnect OpenWork server.");
+      setOpenworkReconnectError(message || "Failed to reconnect Antonic Agent server.");
     }
   };
 
@@ -702,7 +702,7 @@ export default function SettingsView(props: SettingsViewProps) {
       <Switch>
         <Match when={activeTab() === "general"}>
           <div class="space-y-6">
-            <div class="bg-gray-2/30 border border-gray-7/60 rounded-2xl p-5 space-y-4">
+            <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-4">
               <div class="flex items-start justify-between gap-4">
                 <div>
                   <div class="flex items-center gap-2">
@@ -750,7 +750,7 @@ export default function SettingsView(props: SettingsViewProps) {
               </div>
             </div>
 
-            <div class="bg-gray-2/30 border border-gray-7/60 rounded-2xl p-5 space-y-4">
+            <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-4">
               <div>
                 <div class="text-sm font-medium text-gray-12">Appearance</div>
                 <div class="text-xs text-gray-9">Match the system or force light/dark mode.</div>
@@ -792,7 +792,7 @@ export default function SettingsView(props: SettingsViewProps) {
 
         <Match when={activeTab() === "model"}>
           <div class="space-y-6">
-            <div class="bg-gray-2/30 border border-gray-6/50 rounded-2xl p-5 space-y-4">
+            <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-4">
               <div>
                 <div class="text-sm font-medium text-gray-12">Model</div>
                 <div class="text-xs text-gray-10">Defaults + thinking controls for runs.</div>
@@ -848,7 +848,7 @@ export default function SettingsView(props: SettingsViewProps) {
 
         <Match when={activeTab() === "advanced"}>
           <div class="space-y-6">
-            <div class="bg-gray-2/30 border border-gray-7/60 rounded-2xl p-5 space-y-3">
+            <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-3">
               <div class="text-sm font-medium text-gray-12">Developer mode</div>
               <div class="text-xs text-gray-9">
                 Enables debug tools, diagnostics, and the Developer tab.
@@ -872,7 +872,7 @@ export default function SettingsView(props: SettingsViewProps) {
               </div>
             </div>
 
-            <div class="bg-gray-2/30 border border-gray-7/60 rounded-2xl p-5 space-y-3">
+            <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-3">
               <div class="text-sm font-medium text-gray-12">Connection</div>
               <div class="text-xs text-gray-9">{props.headerStatus}</div>
               <div class="text-xs text-gray-8 font-mono">{props.baseUrl}</div>
@@ -916,7 +916,7 @@ export default function SettingsView(props: SettingsViewProps) {
               </Show>
             </div>
 
-            <div class="bg-gray-2/30 border border-gray-7/60 rounded-2xl p-5 space-y-4">
+            <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-4">
               <div>
                 <div class="text-sm font-medium text-gray-12">{translate("settings.migration_recovery_label")}</div>
                 <div class="text-xs text-gray-9">{translate("settings.migration_recovery_hint")}</div>
@@ -955,11 +955,11 @@ export default function SettingsView(props: SettingsViewProps) {
               </Show>
             </div>
 
-            <div class="bg-gray-2/30 border border-gray-6/50 rounded-2xl p-5 space-y-3">
+            <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-3">
               <div class="flex items-start justify-between gap-4">
                 <div>
                   <div class="text-sm font-medium text-gray-12">Updates</div>
-                  <div class="text-xs text-gray-10">Keep OpenWork up to date.</div>
+                  <div class="text-xs text-gray-10">Keep Antonic Agent up to date.</div>
                 </div>
                 <div class="text-xs text-gray-7 font-mono">{props.appVersion ? `v${props.appVersion}` : ""}</div>
               </div>
@@ -974,7 +974,7 @@ export default function SettingsView(props: SettingsViewProps) {
                         <div class="flex items-center justify-between bg-gray-1 p-3 rounded-xl border border-gray-6">
                           <div class="space-y-0.5">
                             <div class="text-sm text-gray-12">Background checks</div>
-                            <div class="text-xs text-gray-7">OpenWork always checks on launch. Also checks once per day (quiet).</div>
+                            <div class="text-xs text-gray-7">Antonic Agent always checks on launch. Also checks once per day (quiet).</div>
                           </div>
                           <button
                             class={`min-w-[70px] px-4 py-1.5 rounded-full text-xs font-medium border shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] transition-colors ${
@@ -1094,7 +1094,7 @@ export default function SettingsView(props: SettingsViewProps) {
             </div>
 
             <Show when={isTauriRuntime()}>
-              <div class="bg-gray-2/30 border border-gray-6/50 rounded-2xl p-5 space-y-3">
+              <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-3">
                 <div>
                   <div class="text-sm font-medium text-gray-12">Appearance</div>
                   <div class="text-xs text-gray-10">Customize window appearance.</div>
@@ -1151,9 +1151,9 @@ export default function SettingsView(props: SettingsViewProps) {
 
                 <div class="bg-gray-2/30 border border-gray-6/50 rounded-2xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div class="min-w-0">
-                    <div class="text-sm text-gray-12">OpenWork Docker containers</div>
+                    <div class="text-sm text-gray-12">Antonic Agent Docker containers</div>
                     <div class="text-xs text-gray-7">
-                      Force-remove Docker containers launched by OpenWork (sandbox + local dev stacks).
+                      Force-remove Docker containers launched by Antonic Agent (sandbox + local dev stacks).
                     </div>
                     <Show when={props.dockerCleanupResult}>
                       <div class="text-xs text-gray-11 mt-2">{props.dockerCleanupResult}</div>
@@ -1176,7 +1176,7 @@ export default function SettingsView(props: SettingsViewProps) {
                   </Button>
                 </div>
 
-                <div class="bg-gray-2/30 border border-gray-6/50 rounded-2xl p-5 space-y-3">
+                <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-3">
                   <div class="text-sm font-medium text-gray-12">Startup</div>
 
                   <div class="flex items-center justify-between bg-gray-1 p-3 rounded-xl border border-gray-6">
@@ -1217,7 +1217,7 @@ export default function SettingsView(props: SettingsViewProps) {
                 </div>
 
                 <Show when={isTauriRuntime() && (isLocalPreference() || props.developerMode)}>
-                  <div class="bg-gray-2/30 border border-gray-6/50 rounded-2xl p-5 space-y-4">
+                  <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-4">
                     <div>
                       <div class="text-sm font-medium text-gray-12">Engine</div>
                       <div class="text-xs text-gray-10">Choose how OpenCode runs locally.</div>
@@ -1291,7 +1291,7 @@ export default function SettingsView(props: SettingsViewProps) {
                           </Button>
                         </div>
                         <div class="text-[11px] text-gray-7">
-                          Use this to point OpenWork at a local OpenCode build (e.g. your fork). Applies next time the engine starts or reloads.
+                          Use this to point Antonic Agent at a local OpenCode build (e.g. your fork). Applies next time the engine starts or reloads.
                         </div>
                       </div>
                     </Show>
@@ -1312,7 +1312,7 @@ export default function SettingsView(props: SettingsViewProps) {
                             onClick={() => props.setEngineRuntime("openwork-orchestrator")}
                             disabled={props.busy}
                           >
-                            OpenWork Orchestrator
+                            Antonic Agent Orchestrator
                           </Button>
                         </div>
                         <div class="text-[11px] text-gray-7">Applies the next time the engine starts or reloads.</div>
@@ -1321,7 +1321,7 @@ export default function SettingsView(props: SettingsViewProps) {
                   </div>
                 </Show>
 
-                <div class="bg-gray-2/30 border border-gray-6/50 rounded-2xl p-5 space-y-4">
+                <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-4">
                   <div>
                     <div class="text-sm font-medium text-gray-12">Reset & Recovery</div>
                     <div class="text-xs text-gray-10">Clear data or restart the setup flow.</div>
@@ -1330,7 +1330,7 @@ export default function SettingsView(props: SettingsViewProps) {
                   <div class="flex items-center justify-between bg-gray-1 p-3 rounded-xl border border-gray-6 gap-3">
                     <div class="min-w-0">
                       <div class="text-sm text-gray-12">Reset onboarding</div>
-                      <div class="text-xs text-gray-7">Clears OpenWork preferences and restarts the app.</div>
+                      <div class="text-xs text-gray-7">Clears Antonic Agent preferences and restarts the app.</div>
                     </div>
                     <Button
                       variant="outline"
@@ -1346,7 +1346,7 @@ export default function SettingsView(props: SettingsViewProps) {
                   <div class="flex items-center justify-between bg-gray-1 p-3 rounded-xl border border-gray-6 gap-3">
                     <div class="min-w-0">
                       <div class="text-sm text-gray-12">Reset app data</div>
-                      <div class="text-xs text-gray-7">More aggressive. Clears OpenWork cache + app data.</div>
+                      <div class="text-xs text-gray-7">More aggressive. Clears Antonic Agent cache + app data.</div>
                     </div>
                     <Button
                       variant="danger"
@@ -1364,7 +1364,7 @@ export default function SettingsView(props: SettingsViewProps) {
                   </div>
                 </div>
 
-                <div class="bg-gray-2/30 border border-gray-6/50 rounded-2xl p-5 space-y-4">
+                <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-4">
                   <div>
                     <div class="text-sm font-medium text-gray-12">Devtools</div>
                     <div class="text-xs text-gray-10">Sidecar health, capabilities, and audit trail.</div>
@@ -1382,7 +1382,7 @@ export default function SettingsView(props: SettingsViewProps) {
                           <div class="text-[11px] text-gray-7 font-mono truncate">Orchestrator: {orchestratorVersionLabel()}</div>
                           <div class="text-[11px] text-gray-7 font-mono truncate">OpenCode: {opencodeVersionLabel()}</div>
                           <div class="text-[11px] text-gray-7 font-mono truncate">
-                            OpenWork server: {openworkServerVersionLabel()}
+                            Antonic Agent server: {openworkServerVersionLabel()}
                           </div>
                           <div class="text-[11px] text-gray-7 font-mono truncate">OpenCodeRouter: {opencodeRouterVersionLabel()}</div>
                         </div>
@@ -1526,7 +1526,7 @@ export default function SettingsView(props: SettingsViewProps) {
                     <div class="bg-gray-1 p-4 rounded-xl border border-gray-6 space-y-3">
                       <div class="flex items-center justify-between gap-3">
                         <div>
-                          <div class="text-sm font-medium text-gray-12">OpenWork server</div>
+                          <div class="text-sm font-medium text-gray-12">Antonic Agent server</div>
                           <div class="text-xs text-gray-10">Config and approvals sidecar.</div>
                         </div>
                         <div class={`text-xs px-2 py-1 rounded-full border ${openworkStatusStyle()}`}>
@@ -1619,7 +1619,7 @@ export default function SettingsView(props: SettingsViewProps) {
 
                   <div class="bg-gray-1 p-4 rounded-xl border border-gray-6 space-y-3">
                     <div class="flex items-center justify-between gap-3">
-                      <div class="text-sm font-medium text-gray-12">OpenWork server diagnostics</div>
+                      <div class="text-sm font-medium text-gray-12">Antonic Agent server diagnostics</div>
                       <div class="text-[11px] text-gray-8 font-mono truncate">
                         {props.openworkServerDiagnostics?.version ?? "—"}
                       </div>
@@ -1647,7 +1647,7 @@ export default function SettingsView(props: SettingsViewProps) {
 
                   <div class="bg-gray-1 p-4 rounded-xl border border-gray-6 space-y-3">
                     <div class="flex items-center justify-between gap-3">
-                      <div class="text-sm font-medium text-gray-12">OpenWork server capabilities</div>
+                      <div class="text-sm font-medium text-gray-12">Antonic Agent server capabilities</div>
                       <div class="text-[11px] text-gray-8 font-mono truncate">
                         {props.openworkServerWorkspaceId ? `Worker ${props.openworkServerWorkspaceId}` : "Worker unresolved"}
                       </div>

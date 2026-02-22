@@ -595,7 +595,7 @@ export default function SessionSidebar(props: SidebarProps) {
 
         <div class="space-y-4">
           <Show when={realTodos().length > 0}>
-            <div class="rounded-2xl border border-gray-6 bg-gray-2/30" id="sidebar-progress">
+            <div class="rounded-2xl border border-dls-border bg-dls-hover" id="sidebar-progress">
               <button
                 class="w-full px-4 py-3 flex items-center justify-between text-sm text-gray-12 font-medium"
                 onClick={() => props.onToggleSection("progress")}

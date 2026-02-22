@@ -173,7 +173,7 @@ export function parseCliArgs(argv: string[]): CliArgs {
 
 export function printHelp(): void {
   const message = [
-    "openwork-server",
+    "antonic-agent-server",
     "",
     "Options:",
     "  --config <path>          Path to server.json",
@@ -206,7 +206,7 @@ async function loadFileConfig(configPath: string): Promise<FileConfig> {
 
 export async function resolveServerConfig(cli: CliArgs): Promise<ServerConfig> {
   const envConfigPath = process.env.OPENWORK_SERVER_CONFIG;
-  const configPath = cli.configPath ?? envConfigPath ?? resolve(homedir(), ".config", "openwork", "server.json");
+  const configPath = cli.configPath ?? envConfigPath ?? resolve(homedir(), ".config", "antonic-agent", "server.json");
   const fileConfig = await loadFileConfig(configPath);
   const configDir = dirname(configPath);
 

@@ -15,7 +15,7 @@ export function SiteNav(props: Props) {
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6">
         <div className="flex items-center gap-6">
           <Link href="/" className="text-lg font-bold tracking-tight">
-            OpenWork
+            Antonic Agent
           </Link>
           <div className="hidden items-center gap-6 text-[14px] text-gray-500 md:flex">
             <Link href="/#install" className="transition hover:text-black">
@@ -43,11 +43,11 @@ export function SiteNav(props: Props) {
             Book a call
           </a>
           <a
-            href="https://github.com/different-ai/openwork"
+            href="https://github.com/Apnium Technology/antonic-agent"
             className="flex items-center gap-1 text-gray-500 transition hover:text-black"
             rel="noreferrer"
             target="_blank"
-            aria-label="OpenWork GitHub stars"
+            aria-label="Antonic Agent GitHub stars"
           >
             <svg
               className="h-4 w-4"

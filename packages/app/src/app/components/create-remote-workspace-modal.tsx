@@ -67,8 +67,8 @@ export default function CreateRemoteWorkspaceModal(props: {
   });
 
   const content = (
-    <div class="bg-gray-2 border border-gray-6 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-      <div class="p-6 border-b border-gray-6 flex justify-between items-center bg-gray-1">
+    <div class="bg-dls-surface-elevated border border-dls-border w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="p-6 border-b border-dls-border flex justify-between items-center bg-dls-surface">
         <div>
           <h3 class="font-semibold text-gray-12 text-lg">{title()}</h3>
           <p class="text-gray-10 text-sm">{subtitle()}</p>

@@ -27,7 +27,7 @@ pnpm dev
 - `RENDER_WORKER_ROOT_DIR` render `rootDir` for worker services
 - `RENDER_WORKER_PLAN` Render plan for worker services
 - `RENDER_WORKER_REGION` Render region for worker services
-- `RENDER_WORKER_OPENWORK_VERSION` `openwork-orchestrator` npm version installed in workers
+- `RENDER_WORKER_OPENWORK_VERSION` `antonic-agent-orchestrator` npm version installed in workers
 - `RENDER_WORKER_NAME_PREFIX` service name prefix
 - `RENDER_PROVISION_TIMEOUT_MS` max time to wait for deploy to become live
 - `RENDER_HEALTHCHECK_TIMEOUT_MS` max time to wait for worker health checks

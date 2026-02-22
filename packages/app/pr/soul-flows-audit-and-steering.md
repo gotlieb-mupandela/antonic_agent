@@ -19,9 +19,9 @@
 
 ## Validation
 
-- `pnpm --filter @different-ai/openwork-ui typecheck` ✅
-- `pnpm --filter @different-ai/openwork-ui build` ✅
-- `pnpm --filter @different-ai/openwork-ui test:health` ⚠️ fails in this environment (`/global/health: Unauthorized`)
+- `pnpm --filter @Apnium Technology/antonic-agent-ui typecheck` ✅
+- `pnpm --filter @Apnium Technology/antonic-agent-ui build` ✅
+- `pnpm --filter @Apnium Technology/antonic-agent-ui test:health` ⚠️ fails in this environment (`/global/health: Unauthorized`)
 - Docker + Chrome MCP style verification via browser automation:
   - started stack with `packaging/docker/dev-up.sh`
   - validated both enable flows and steering trigger end-to-end in the running UI

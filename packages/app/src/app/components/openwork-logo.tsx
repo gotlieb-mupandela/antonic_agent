@@ -5,12 +5,12 @@ type Props = {
   class?: string;
 };
 
-export default function OpenWorkLogo(props: Props): JSX.Element {
+export default function AntonicAgentLogo(props: Props): JSX.Element {
   const size = props.size ?? 24;
   return (
     <img
       src="/openwork-logo.svg"
-      alt="OpenWork"
+      alt="Antonic Agent"
       width={size}
       height={size}
       class={`inline-block ${props.class ?? ""}`}

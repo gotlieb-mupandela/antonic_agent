@@ -30,18 +30,18 @@ fn seed_workspace_guide(skill_root: &PathBuf) -> Result<(), String> {
 
     let doc = r#"---
 name: workspace-guide
-description: Workspace guide to introduce OpenWork and onboard new users.
+description: Workspace guide to introduce Antonic Agent and onboard new users.
 ---
 
-# Welcome to OpenWork
+# Welcome to Antonic Agent
 
-Hi, I'm Ben and this is OpenWork. It's an open-source alternative to Claude's cowork. It helps you work on your files with AI and automate the mundane tasks so you don't have to.
+Hi, I'm Ben and this is Antonic Agent. It's an open-source alternative to Claude's cowork. It helps you work on your files with AI and automate the mundane tasks so you don't have to.
 
 Before we start, use the question tool to ask:
 "Are you more technical or non-technical? I'll tailor the explanation."
 
 ## If the person is non-technical
-OpenWork feels like a chat app, but it can safely work with the files you allow. Put files in this workspace and I can summarize them, create new ones, or help organize them.
+Antonic Agent feels like a chat app, but it can safely work with the files you allow. Put files in this workspace and I can summarize them, create new ones, or help organize them.
 
 Try:
 - "Summarize the files in this workspace."
@@ -52,12 +52,12 @@ Try:
 Skills add new capabilities. Plugins add advanced features like scheduling or browser automation. We can add them later when you're ready.
 
 ## If the person is technical
-OpenWork is a GUI for OpenCode. Everything that works in OpenCode works here.
+Antonic Agent is a GUI for OpenCode. Everything that works in OpenCode works here.
 
 Most reliable setup today:
 1) Install OpenCode from opencode.ai
 2) Configure providers there (models and API keys)
-3) Come back to OpenWork and start a session
+3) Come back to Antonic Agent and start a session
 
 Skills:
 - Install from the Skills tab, or add them to this workspace.
@@ -74,7 +74,7 @@ MCP servers:
 Config reference:
 - Docs: https://opencode.ai/docs/config/
 
-End with two friendly next actions to try in OpenWork."#;
+End with two friendly next actions to try in Antonic Agent."#;
 
     fs::write(guide_dir.join("SKILL.md"), doc)
         .map_err(|e| format!("Failed to write SKILL.md: {e}"))?;
@@ -101,7 +101,7 @@ description: Guide users through the get started setup and Chrome DevTools demo.
 
 ## What to do
 - Reply with these four lines, exactly and in order:
-  1) hey there welcome this is openwork
+  1) hey there welcome this is antonic-agent
   2) we've pre-configured you with a couple tools
   3) Get Started
   4) write \"hey go on google.com\"
@@ -117,8 +117,8 @@ description: Guide users through the get started setup and Chrome DevTools demo.
     Ok(())
 }
 
-fn seed_openwork_agent(agent_root: &PathBuf) -> Result<(), String> {
-    let agent_path = agent_root.join("openwork.md");
+fn seed_antonic-agent_agent(agent_root: &PathBuf) -> Result<(), String> {
+    let agent_path = agent_root.join("antonic-agent.md");
     if agent_path.exists() {
         return Ok(());
     }
@@ -127,14 +127,14 @@ fn seed_openwork_agent(agent_root: &PathBuf) -> Result<(), String> {
         .map_err(|e| format!("Failed to create {}: {e}", agent_root.display()))?;
 
     let doc = r#"---
-description: OpenWork default agent (safe, mobile-first, self-referential)
+description: Antonic Agent default agent (safe, mobile-first, self-referential)
 mode: primary
 temperature: 0.2
 ---
 
-You are OpenWork.
+You are Antonic Agent.
 
-When the user refers to \"you\", they mean the OpenWork app and the current workspace.
+When the user refers to \"you\", they mean the Antonic Agent app and the current workspace.
 
 Your job:
 - Help the user work on files safely.
@@ -177,8 +177,8 @@ Incremental adoption loop
 }
 
 const ENTERPRISE_ARCHIVE_URL: &str =
-    "https://github.com/different-ai/openwork-enterprise/archive/refs/heads/main.zip";
-const ENTERPRISE_SEED_MARKER: &str = ".openwork-enterprise-creators";
+    "https://github.com/Apnium Technology/antonic-agent-enterprise/archive/refs/heads/main.zip";
+const ENTERPRISE_SEED_MARKER: &str = ".antonic-agent-enterprise-creators";
 
 fn seed_enterprise_creator_skills(root: &PathBuf, skill_root: &PathBuf) -> Result<(), String> {
     let marker_path = root.join(".opencode").join(ENTERPRISE_SEED_MARKER);
@@ -360,7 +360,7 @@ pub fn ensure_workspace_files(workspace_path: &str, preset: &str) -> Result<(), 
     let agents_dir = root.join(".opencode").join("agents");
     fs::create_dir_all(&agents_dir)
         .map_err(|e| format!("Failed to create .opencode/agents: {e}"))?;
-    seed_openwork_agent(&agents_dir)?;
+    seed_antonic-agent_agent(&agents_dir)?;
 
     let commands_dir = root.join(".opencode").join("commands");
     fs::create_dir_all(&commands_dir)
@@ -405,7 +405,7 @@ pub fn ensure_workspace_files(workspace_path: &str, preset: &str) -> Result<(), 
         if current.is_empty() {
             obj.insert(
                 "default_agent".to_string(),
-                serde_json::Value::String("openwork".to_string()),
+                serde_json::Value::String("antonic-agent".to_string()),
             );
             config_changed = true;
         }
@@ -483,18 +483,18 @@ pub fn ensure_workspace_files(workspace_path: &str, preset: &str) -> Result<(), 
         .map_err(|e| format!("Failed to write {}: {e}", config_path.display()))?;
     }
 
-    let openwork_path = root.join(".opencode").join("openwork.json");
-    if !openwork_path.exists() {
-        let openwork = WorkspaceOpenworkConfig::new(workspace_path, preset, now_ms());
+    let antonic-agent_path = root.join(".opencode").join("antonic-agent.json");
+    if !antonic-agent_path.exists() {
+        let antonic-agent = WorkspaceOpenworkConfig::new(workspace_path, preset, now_ms());
 
-        fs::create_dir_all(openwork_path.parent().unwrap())
-            .map_err(|e| format!("Failed to create {}: {e}", openwork_path.display()))?;
+        fs::create_dir_all(antonic-agent_path.parent().unwrap())
+            .map_err(|e| format!("Failed to create {}: {e}", antonic-agent_path.display()))?;
 
         fs::write(
-            &openwork_path,
-            serde_json::to_string_pretty(&openwork).map_err(|e| e.to_string())?,
+            &antonic-agent_path,
+            serde_json::to_string_pretty(&antonic-agent).map_err(|e| e.to_string())?,
         )
-        .map_err(|e| format!("Failed to write {}: {e}", openwork_path.display()))?;
+        .map_err(|e| format!("Failed to write {}: {e}", antonic-agent_path.display()))?;
     }
 
     Ok(())

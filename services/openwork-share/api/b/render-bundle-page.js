@@ -1,5 +1,5 @@
-const OPENWORK_SITE_URL = "https://openwork.software";
-const OPENWORK_DOWNLOAD_URL = "https://openwork.software/download";
+const OPENWORK_SITE_URL = "https://antonic-agent.software";
+const OPENWORK_DOWNLOAD_URL = "https://antonic-agent.software/download";
 
 function escapeHtml(value) {
   return String(value)
@@ -123,13 +123,13 @@ export function renderBundlePage({ id, rawJson, req }) {
   const prettyBundleJson = prettyJson(rawJson);
   const schemaVersion = bundle.schemaVersion == null ? "unknown" : String(bundle.schemaVersion);
   const typeLabel = humanizeType(bundle.type);
-  const title = bundle.name || `OpenWork ${typeLabel}`;
+  const title = bundle.name || `Antonic Agent ${typeLabel}`;
   const description =
     bundle.description ||
-    "OpenWork share links stay human-friendly for reading while still exposing a stable machine-readable JSON bundle.";
+    "Antonic Agent share links stay human-friendly for reading while still exposing a stable machine-readable JSON bundle.";
   const installHint =
     bundle.type === "skill"
-      ? "Open OpenWork, go to Skills, choose Install from link, then paste this URL."
+      ? "Open Antonic Agent, go to Skills, choose Install from link, then paste this URL."
       : "Use the JSON endpoint if you want to import this bundle programmatically.";
   const contentLabel = bundle.type === "skill" && bundle.content.trim() ? "Skill content" : "Bundle payload";
   const contentPreview =
@@ -140,11 +140,11 @@ export function renderBundlePage({ id, rawJson, req }) {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>${escapeHtml(title)} - OpenWork Share</title>
+  <title>${escapeHtml(title)} - Antonic Agent Share</title>
   <meta name="description" content="${escapeHtml(description)}" />
-  <meta name="openwork:bundle-id" content="${escapeHtml(id)}" />
-  <meta name="openwork:bundle-type" content="${escapeHtml(bundle.type || "unknown")}" />
-  <meta name="openwork:schema-version" content="${escapeHtml(schemaVersion)}" />
+  <meta name="antonic-agent:bundle-id" content="${escapeHtml(id)}" />
+  <meta name="antonic-agent:bundle-type" content="${escapeHtml(bundle.type || "unknown")}" />
+  <meta name="antonic-agent:schema-version" content="${escapeHtml(schemaVersion)}" />
   <link rel="alternate" type="application/json" href="${escapeHtml(urls.jsonUrl)}" />
   <style>
     :root {
@@ -363,18 +363,18 @@ export function renderBundlePage({ id, rawJson, req }) {
   </style>
 </head>
 <body
-  data-openwork-share="true"
-  data-openwork-bundle-id="${escapeHtml(id)}"
-  data-openwork-bundle-type="${escapeHtml(bundle.type || "unknown")}" 
-  data-openwork-schema-version="${escapeHtml(schemaVersion)}"
+  data-antonic-agent-share="true"
+  data-antonic-agent-bundle-id="${escapeHtml(id)}"
+  data-antonic-agent-bundle-type="${escapeHtml(bundle.type || "unknown")}" 
+  data-antonic-agent-schema-version="${escapeHtml(schemaVersion)}"
 >
   <main class="page">
     <section class="card topbar">
       <a class="brand" href="${OPENWORK_SITE_URL}" target="_blank" rel="noreferrer">
         <span class="brand-badge">O</span>
-        <span>OpenWork Share</span>
+        <span>Antonic Agent Share</span>
       </a>
-      <a class="action-link secondary" href="${OPENWORK_DOWNLOAD_URL}" target="_blank" rel="noreferrer">Get OpenWork</a>
+      <a class="action-link secondary" href="${OPENWORK_DOWNLOAD_URL}" target="_blank" rel="noreferrer">Get Antonic Agent</a>
     </section>
 
     <section class="card hero">
@@ -391,7 +391,7 @@ export function renderBundlePage({ id, rawJson, req }) {
 
     <div class="grid">
       <section class="card">
-        <h2>Install in OpenWork</h2>
+        <h2>Install in Antonic Agent</h2>
         <ol>
           <li>${escapeHtml(installHint)}</li>
           <li>If you are using the API directly, call this link with <code>?format=json</code>.</li>
@@ -422,11 +422,11 @@ export function renderBundlePage({ id, rawJson, req }) {
     </section>
   </main>
 
-  <script id="openwork-bundle-json" type="application/json">${escapeJsonForScript(rawJson)}</script>
+  <script id="antonic-agent-bundle-json" type="application/json">${escapeJsonForScript(rawJson)}</script>
   <div class="notice" id="copy-notice" role="status" aria-live="polite"></div>
   <script>
     const shareUrl = ${JSON.stringify(urls.shareUrl)};
-    const jsonNode = document.getElementById("openwork-bundle-json");
+    const jsonNode = document.getElementById("antonic-agent-bundle-json");
     const copyNotice = document.getElementById("copy-notice");
 
     function showNotice(text) {

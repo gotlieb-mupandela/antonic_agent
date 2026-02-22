@@ -1,4 +1,4 @@
-# OpenWork Principles
+# Antonic Agent Principles
 
 ## Decision framework for adding new features or fixing bugs:
 
@@ -9,7 +9,7 @@
 ## Constraints
 
 - Work with **only the folders the user authorizes**.
-- Treat **plugins + skills + commands + mcp** as the primary extensibility system. These are native to OpenCode and OpenWork must be a thin layer on top of them. They're mostly fs based.
+- Treat **plugins + skills + commands + mcp** as the primary extensibility system. These are native to OpenCode and Antonic Agent must be a thin layer on top of them. They're mostly fs based.
 
 ## Principles
 

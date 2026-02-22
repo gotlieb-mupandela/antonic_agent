@@ -18,21 +18,21 @@ export default async function Home() {
               Not just suggestions. Automate your work.
             </h1>
             <p className="mb-8 flex flex-wrap items-center gap-1.5 text-lg font-normal text-gray-500">
-              OpenWork is your open-source
+              Antonic Agent is your open-source
               <span className="word-cycle">
                 <span>Cowork</span>
                 <span>Codex</span>
               </span>
               alternative for teams.
               <span className="sr-only">
-                OpenWork is your open-source Cowork alternative for teams.
+                Antonic Agent is your open-source Cowork alternative for teams.
               </span>
             </p>
           </div>
 
           <div className="mb-10 space-y-4 text-[15px] leading-relaxed text-gray-700">
             <p>
-              OpenWork is a desktop app for working on automation threads in
+              Antonic Agent is a desktop app for working on automation threads in
               parallel, with built-in support for your local tools, files, and
               browser.
             </p>
@@ -125,7 +125,7 @@ export default async function Home() {
           <section id="install">
             <h2 className="mb-6 text-2xl font-bold">Getting started</h2>
             <p className="mb-8 text-sm text-gray-500">
-              The OpenWork app is available on macOS, Windows, and Linux.
+              The Antonic Agent app is available on macOS, Windows, and Linux.
             </p>
 
             <div className="space-y-12">
@@ -133,7 +133,7 @@ export default async function Home() {
                 <div className="step-circle shrink-0">1</div>
                 <div className="space-y-4">
                   <h3 className="text-[15px] font-bold">
-                    Download and install the OpenWork app
+                    Download and install the Antonic Agent app
                   </h3>
                   <p className="text-[14px] text-gray-600">
                     Stable release for macOS. Windows and Linux builds are
@@ -265,7 +265,7 @@ export default async function Home() {
           <hr />
 
           <section id="capabilities" className="py-12">
-            <h2 className="mb-10 text-2xl font-bold">Work with the OpenWork app</h2>
+            <h2 className="mb-10 text-2xl font-bold">Work with the Antonic Agent app</h2>
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
               <div className="feature-card">
@@ -294,7 +294,7 @@ export default async function Home() {
               <div className="feature-card">
                 <h4 className="mb-2 text-[14px] font-bold">Slack-native agents</h4>
                 <p className="text-[13px] leading-relaxed text-gray-500">
-                  Bring OpenWork into Slack threads. Mention the agent, watch
+                  Bring Antonic Agent into Slack threads. Mention the agent, watch
                   progress stream in real time, and keep the whole team in the
                   loop.
                 </p>
@@ -309,7 +309,7 @@ export default async function Home() {
               Automate your entire company, safely
             </h2>
             <p className="mb-8 text-[15px] leading-relaxed text-gray-600">
-              OpenWork Cloud runs your automations so you don&apos;t have to
+              Antonic Agent Cloud runs your automations so you don&apos;t have to
               manage infrastructure. Join the waitlist to get early access and
               a free series that walks you through automating every part of
               your business.
@@ -375,10 +375,10 @@ export default async function Home() {
             <div className="space-y-12">
               <div>
                 <h4 className="mb-2 text-[15px] font-bold">
-                  What&apos;s the difference between OpenWork and regular chat?
+                  What&apos;s the difference between Antonic Agent and regular chat?
                 </h4>
                 <p className="text-[14px] leading-relaxed text-gray-600">
-                  Regular chat gives you text answers. OpenWork can perform
+                  Regular chat gives you text answers. Antonic Agent can perform
                   actions like creating files, editing folders, and running
                   browser commands on your local machine, after you approve
                   them.
@@ -387,7 +387,7 @@ export default async function Home() {
               <div>
                 <h4 className="mb-2 text-[15px] font-bold">Is it free?</h4>
                 <p className="text-[14px] leading-relaxed text-gray-600">
-                  Yes. OpenWork is open source. You can download and use it for
+                  Yes. Antonic Agent is open source. You can download and use it for
                   free using free models on your machine. You only pay for API
                   usage if you choose to connect paid cloud models.
                 </p>
@@ -405,7 +405,7 @@ export default async function Home() {
               <div>
                 <h4 className="mb-2 text-[15px] font-bold">Is it safe?</h4>
                 <p className="text-[14px] leading-relaxed text-gray-600">
-                  OpenWork runs locally. It cannot access files or run commands
+                  Antonic Agent runs locally. It cannot access files or run commands
                   without your permission. You see a clear plan before any
                   action is taken.
                 </p>
@@ -416,7 +416,7 @@ export default async function Home() {
                 </h4>
                 <p className="text-[14px] leading-relaxed text-gray-600">
                   Yes. Once it is running somewhere, you can keep requests
-                  flowing from Slack, Telegram, or WhatsApp and let OpenWork
+                  flowing from Slack, Telegram, or WhatsApp and let Antonic Agent
                   carry them out.
                 </p>
               </div>

@@ -1,18 +1,18 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "OpenWork",
+  "productName": "Antonic Agent",
   "version": "0.11.113",
-  "identifier": "com.differentai.openwork",
+  "identifier": "com.apnium.antonicagent",
   "build": {
     "beforeDevCommand": "node ./scripts/tauri-before-dev.mjs",
-    "beforeBuildCommand": "pnpm -C ../.. --filter @different-ai/openwork run prepare:sidecar && pnpm -w build:ui",
+    "beforeBuildCommand": "pnpm -C ../.. --filter @Apnium Technology/antonic-agent run prepare:sidecar && pnpm -w build:ui",
     "devUrl": "http://localhost:5173",
     "frontendDist": "../../app/dist"
   },
   "app": {
     "windows": [
       {
-        "title": "OpenWork",
+        "title": "Antonic Agent",
         "width": 1180,
         "height": 820,
         "resizable": true
@@ -36,9 +36,9 @@
     ],
     "externalBin": [
       "sidecars/opencode",
-      "sidecars/openwork-server",
+      "sidecars/antonic-agent-server",
       "sidecars/opencode-router",
-      "sidecars/openwork-orchestrator",
+      "sidecars/antonic-agent-orchestrator",
       "sidecars/chrome-devtools-mcp",
       "sidecars/versions.json"
     ]
@@ -47,7 +47,7 @@
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDUwNDdCNTAwMTcxNUUxQTQKUldTazRSVVhBTFZIVUpNRi9OQnNRaElZY1NUWUQxS1ZJOTFUeUdPd2d6ZnFmMW5QV2xJQ1hXTTkK",
       "endpoints": [
-        "https://github.com/different-ai/openwork/releases/latest/download/latest.json"
+        "https://github.com/Apnium Technology/antonic-agent/releases/latest/download/latest.json"
       ]
     }
   }

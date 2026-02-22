@@ -9,8 +9,8 @@ export function opencodeConfigPath(workspaceRoot: string): string {
   return jsoncPath;
 }
 
-export function openworkConfigPath(workspaceRoot: string): string {
-  return join(workspaceRoot, ".opencode", "openwork.json");
+export function antonic-agentConfigPath(workspaceRoot: string): string {
+  return join(workspaceRoot, ".opencode", "antonic-agent.json");
 }
 
 export function projectSkillsDir(workspaceRoot: string): string {

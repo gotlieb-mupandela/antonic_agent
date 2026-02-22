@@ -75,7 +75,7 @@ pub fn spawn_engine(
         command = command.env("XDG_CONFIG_HOME", xdg_config_home);
     }
 
-    command = command.env("OPENCODE_CLIENT", "openwork");
+    command = command.env("OPENCODE_CLIENT", "antonic-agent");
     command = command.env("OPENWORK", "1");
 
     for (key, value) in crate::bun_env::bun_env_overrides() {

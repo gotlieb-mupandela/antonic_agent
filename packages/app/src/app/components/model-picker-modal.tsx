@@ -115,8 +115,8 @@ export default function ModelPickerModal(props: ModelPickerModalProps) {
 
   return (
     <Show when={props.open}>
-      <div class="fixed inset-0 z-50 bg-gray-1/60 backdrop-blur-sm flex items-start justify-center p-4 overflow-y-auto">
-        <div class="bg-gray-2 border border-gray-6/70 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden max-h-[calc(100vh-2rem)] flex flex-col">
+      <div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-start justify-center p-4 overflow-y-auto">
+        <div class="bg-dls-surface-elevated border border-dls-border w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden max-h-[calc(100vh-2rem)] flex flex-col">
           <div class="p-6 flex flex-col min-h-0">
             <div class="flex items-start justify-between gap-4">
               <div>

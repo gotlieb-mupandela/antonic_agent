@@ -15,9 +15,9 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: "OpenWork — Local-first, open-source Cowork alternative",
+  title: "Antonic Agent — Local-first, open-source Cowork alternative",
   description:
-    "OpenWork is the open-source Cowork alternative powered by OpenCode—run local-first workflows with any model, and extend with skills."
+    "Antonic Agent is the open-source Cowork alternative powered by OpenCode—run local-first workflows with any model, and extend with skills."
 };
 
 export default function RootLayout({

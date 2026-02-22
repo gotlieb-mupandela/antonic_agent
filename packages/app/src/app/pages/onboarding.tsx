@@ -5,7 +5,7 @@ import { CheckCircle2, ChevronDown, Circle, Globe } from "lucide-solid";
 
 import Button from "../components/button";
 import OnboardingWorkspaceSelector from "../components/onboarding-workspace-selector";
-import OpenWorkLogo from "../components/openwork-logo";
+import AntonicAgentLogo from "../components/openwork-logo";
 import TextInput from "../components/text-input";
 import { isTauriRuntime, isWindowsPlatform } from "../utils/index";
 import { currentLocale, t } from "../../i18n";
@@ -114,7 +114,7 @@ export default function OnboardingView(props: OnboardingViewProps) {
           <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-2 via-gray-1 to-gray-1 opacity-50" />
           <div class="z-10 flex flex-col items-center gap-6">
             <div class="relative">
-              <OpenWorkLogo size={40} />
+              <AntonicAgentLogo size={40} />
             </div>
             <div class="text-center">
               <h2 class="text-xl font-medium mb-2">
@@ -158,7 +158,7 @@ export default function OnboardingView(props: OnboardingViewProps) {
           <div class="max-w-lg w-full z-10 space-y-6">
               <div class="text-center space-y-2">
                 <div class="">
-                  <OpenWorkLogo size={48} />
+                  <AntonicAgentLogo size={48} />
                 </div>
               <h2 class="text-2xl font-bold tracking-tight">
                 {props.workspaces.length <= 1 ? translate("onboarding.create_first_workspace") : translate("onboarding.create_workspace")}
@@ -169,7 +169,7 @@ export default function OnboardingView(props: OnboardingViewProps) {
             </div>
 
             <div class="space-y-4">
-              <div class="bg-gray-2/40 border border-gray-6 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
+              <div class="bg-dls-hover border border-dls-border rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <div class="text-xs font-semibold text-gray-10 uppercase tracking-wider">{translate("onboarding.theme_label")}</div>
                   <div class="text-sm text-gray-12">{translate("onboarding.theme_current").replace("{mode}", props.themeMode)}</div>
@@ -209,7 +209,7 @@ export default function OnboardingView(props: OnboardingViewProps) {
               </div>
 
               <OnboardingWorkspaceSelector
-                defaultPath="~/OpenWork/Worker"
+                defaultPath="~/Antonic Agent/Worker"
                 onConfirm={props.onCreateWorkspace}
                 onPickFolder={props.onPickWorkspaceFolder}
               />
@@ -336,7 +336,7 @@ export default function OnboardingView(props: OnboardingViewProps) {
                 </div>
 
                 <Show when={isTauriRuntime() && props.developerMode}>
-                  <div class="rounded-2xl bg-gray-2/40 border border-gray-6 p-4">
+                  <div class="rounded-2xl bg-dls-hover border border-dls-border p-4">
                     <div class="flex items-start justify-between gap-4">
                       <div class="min-w-0">
                         <div class="text-sm font-medium text-gray-12">{translate("onboarding.cli_label")}</div>
@@ -592,9 +592,9 @@ export default function OnboardingView(props: OnboardingViewProps) {
             <div class="text-center space-y-4">
               <div class="flex items-center justify-center gap-3 mb-6">
                 <div class="">
-                  <OpenWorkLogo size={48} />
+                  <AntonicAgentLogo size={48} />
                 </div>
-                <h1 class="text-3xl font-bold tracking-tight text-gray-12">OpenWork</h1>
+                <h1 class="text-3xl font-bold tracking-tight text-gray-12">Antonic Agent</h1>
               </div>
               <h2 class="text-xl text-gray-11">{translate("onboarding.welcome_title")}</h2>
             </div>
@@ -602,7 +602,7 @@ export default function OnboardingView(props: OnboardingViewProps) {
             <div class="space-y-4">
               <button
                 onClick={() => props.onSelectStartup("local")}
-                class="group w-full relative bg-gray-2 hover:bg-gray-4 border border-gray-6 hover:border-gray-7 p-6 md:p-8 rounded-3xl text-left transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-6/10 hover:-translate-y-0.5 flex items-start gap-6"
+                class="group w-full relative bg-gray-2 hover:bg-gray-4 border border-gray-6 hover:border-indigo-6/30 p-6 md:p-8 rounded-3xl text-left transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-9/20 hover:-translate-y-0.5 flex items-start gap-6"
               >
                 <div class="shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-7/20 to-purple-7/20 flex items-center justify-center border border-indigo-7/20 group-hover:border-indigo-7/40 transition-colors">
                   <Circle size={18} class="text-indigo-11" />
@@ -622,7 +622,7 @@ export default function OnboardingView(props: OnboardingViewProps) {
               </button>
 
               <Show when={props.engineRunning && props.engineBaseUrl}>
-                <div class="rounded-2xl bg-gray-2/40 border border-gray-6 p-5 flex items-center justify-between">
+                <div class="rounded-2xl bg-dls-hover border border-dls-border p-5 flex items-center justify-between">
                   <div>
                     <div class="text-sm text-gray-12 font-medium">{translate("onboarding.engine_running")}</div>
                     <div class="text-xs text-gray-10">{translate("onboarding.attach_description")}</div>
@@ -640,7 +640,7 @@ export default function OnboardingView(props: OnboardingViewProps) {
 
               <button
                 onClick={() => props.onSelectStartup("server")}
-                class="group w-full relative bg-gray-2 hover:bg-gray-4 border border-gray-6 hover:border-gray-7 p-6 md:p-8 rounded-3xl text-left transition-all duration-300 hover:shadow-2xl hover:shadow-gray-12/10 hover:-translate-y-0.5 flex items-start gap-6"
+                class="group w-full relative bg-gray-2 hover:bg-gray-4 border border-gray-6 hover:border-gray-6/50 p-6 md:p-8 rounded-3xl text-left transition-all duration-300 hover:shadow-2xl hover:shadow-gray-12/5 hover:-translate-y-0.5 flex items-start gap-6"
               >
                 <div class="shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-7/20 to-gray-5/10 flex items-center justify-center border border-gray-6 group-hover:border-gray-7 transition-colors">
                   <Globe size={18} class="text-gray-11" />

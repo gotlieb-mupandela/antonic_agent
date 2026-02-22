@@ -1,10 +1,10 @@
 ---
-title: openwork-orchestrator multi-workspace router
-description: Keep a single opencode process alive and switch workspaces JIT via openwork-orchestrator daemon + CLI.
+title: antonic-agent-orchestrator multi-workspace router
+description: Keep a single opencode process alive and switch workspaces JIT via antonic-agent-orchestrator daemon + CLI.
 ---
 
 ## Set context
-OpenWork currently restarts the OpenCode engine whenever a local workspace changes. That is slow, drops session streams, and makes it impossible to keep multiple local workspaces warm at once. OpenCode already supports routing requests by `directory`, and caches per-directory instances in a single server process. The missing piece is a stable local control plane that keeps one OpenCode process alive, manages multiple workspaces, and exposes a CLI for programmatic tests and automation.
+Antonic Agent currently restarts the OpenCode engine whenever a local workspace changes. That is slow, drops session streams, and makes it impossible to keep multiple local workspaces warm at once. OpenCode already supports routing requests by `directory`, and caches per-directory instances in a single server process. The missing piece is a stable local control plane that keeps one OpenCode process alive, manages multiple workspaces, and exposes a CLI for programmatic tests and automation.
 
 ---
 
@@ -35,11 +35,11 @@ OpenWork currently restarts the OpenCode engine whenever a local workspace chang
 
 ## Proposed architecture
 
-### openwork-orchestrator daemon
+### antonic-agent-orchestrator daemon
 - Runs on localhost only.
 - Spawns a single `opencode serve` process and keeps it alive.
 - Exposes a small HTTP control plane to manage workspaces and report status.
-- Stores state in a JSON file under an OpenWork data directory.
+- Stores state in a JSON file under an Antonic Agent data directory.
 - Provides JIT instance creation by calling OpenCode endpoints with `directory`.
 
 ### Workspace registry
@@ -48,7 +48,7 @@ OpenWork currently restarts the OpenCode engine whenever a local workspace chang
 - Tracks last used timestamps for future idle eviction.
 
 ### Request routing
-- openwork-orchestrator never changes OpenCode internals.
+- antonic-agent-orchestrator never changes OpenCode internals.
 - It passes `directory` to the OpenCode SDK client.
 - OpenCode `Instance.provide` creates or reuses per-directory instances.
 
@@ -62,21 +62,21 @@ OpenWork currently restarts the OpenCode engine whenever a local workspace chang
 ## CLI design
 
 ### Daemon
-- `openwork daemon` (foreground)
-- `openwork daemon start` (background)
-- `openwork daemon stop`
-- `openwork status` (includes opencode PID + baseUrl)
+- `antonic-agent daemon` (foreground)
+- `antonic-agent daemon start` (background)
+- `antonic-agent daemon stop`
+- `antonic-agent status` (includes opencode PID + baseUrl)
 
 ### Workspaces
-- `openwork workspace add <path> [--name]`
-- `openwork workspace add-remote <baseUrl> [--directory] [--name]`
-- `openwork workspace list [--json]`
-- `openwork workspace switch <id>`
-- `openwork workspace info <id>`
-- `openwork workspace path <id>` (calls OpenCode `/path` with directory)
+- `antonic-agent workspace add <path> [--name]`
+- `antonic-agent workspace add-remote <baseUrl> [--directory] [--name]`
+- `antonic-agent workspace list [--json]`
+- `antonic-agent workspace switch <id>`
+- `antonic-agent workspace info <id>`
+- `antonic-agent workspace path <id>` (calls OpenCode `/path` with directory)
 
 ### Instances
-- `openwork instance dispose <id>` (calls OpenCode `/instance/dispose` for directory)
+- `antonic-agent instance dispose <id>` (calls OpenCode `/instance/dispose` for directory)
 
 ### Programmatic output
 - All commands support `--json` for machine parsing.
@@ -129,8 +129,8 @@ Calls OpenCode `/instance/dispose` with the workspace directory.
   "workspaces": [
     {
       "id": "ws-abc123",
-      "name": "OpenWork",
-      "path": "/Users/me/openwork",
+      "name": "Antonic Agent",
+      "path": "/Users/me/antonic-agent",
       "workspaceType": "local",
       "lastUsedAt": 1730000000000
     },
@@ -180,8 +180,8 @@ Calls OpenCode `/instance/dispose` with the workspace directory.
 ---
 
 ## Rollout plan
-- Phase 0: openwork-orchestrator daemon + CLI only, programmatic tests.
-- Phase 1: OpenWork desktop can read openwork-orchestrator state and attach to baseUrl + directory.
+- Phase 0: antonic-agent-orchestrator daemon + CLI only, programmatic tests.
+- Phase 1: Antonic Agent desktop can read antonic-agent-orchestrator state and attach to baseUrl + directory.
 - Phase 2: Add idle eviction and remote workspace helpers.
 
 ---
@@ -194,6 +194,6 @@ Calls OpenCode `/instance/dispose` with the workspace directory.
 ---
 
 ## Open questions
-- Where should openwork-orchestrator store its state on each platform (XDG vs OS app data)?
-- Should openwork-orchestrator reuse OpenWork desktop workspace registry for compatibility?
+- Where should antonic-agent-orchestrator store its state on each platform (XDG vs OS app data)?
+- Should antonic-agent-orchestrator reuse Antonic Agent desktop workspace registry for compatibility?
 - Should we standardize a `workspaceId` format shared by desktop and CLI?

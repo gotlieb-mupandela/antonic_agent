@@ -29,8 +29,8 @@ The config needs to restart twice:
 - Notion quick-connect flow: `packages/app/src/app/app.tsx:2177`
   - Writes Notion MCP config: `app.tsx:2222`
   - Marks reload required: `app.tsx:2246`
-  - Sets localStorage `openwork.notionStatus`: `app.tsx:2246`
-- On startup, `openwork.notionStatus === "connecting"` triggers reload-required: `app.tsx:2817`
+  - Sets localStorage `antonic-agent.notionStatus`: `app.tsx:2246`
+- On startup, `antonic-agent.notionStatus === "connecting"` triggers reload-required: `app.tsx:2817`
 - MCP status refresh uses OpenCode `client.mcp.status`: `app.tsx:2294`
 - File watcher emits reload-required for config changes: `packages/desktop/src-tauri/src/workspace/watch.rs:99-124`
 - UI listener converts event to `markReloadRequired`: `packages/app/src/app/app.tsx:1868`
@@ -50,7 +50,7 @@ Questions:
 - Does the app know the token is saved?
 - Is there a race condition between token save and config reload?
 
-Add checks around `openwork.notionStatus` transitions to confirm if status ever clears after the first reload.
+Add checks around `antonic-agent.notionStatus` transitions to confirm if status ever clears after the first reload.
 
 ### 2. Check what happens on first restart
 
@@ -65,7 +65,7 @@ console.log('[MCP] Has token:', !!notionToken);
 ### 3. Check CSRF error source
 
 - Is this from Notion's OAuth?
-- Is this from OpenWork server?
+- Is this from Antonic Agent server?
 - Is there stale state from previous connection attempt?
 
 Check if reload-required is firing twice (explicit `markReloadRequired("mcp")` + file watcher event) right after OAuth.
@@ -73,7 +73,7 @@ Check if reload-required is firing twice (explicit `markReloadRequired("mcp")` +
 ### 4. Check server restart logic
 
 **Files:**
-- `packages/desktop/src-tauri/src/openwork_server/spawn.rs`
+- `packages/desktop/src-tauri/src/antonic-agent_server/spawn.rs`
 - OpenCode server handling
 
 Questions:
@@ -119,7 +119,7 @@ const connectNotion = async () => {
 };
 ```
 
-**Also consider:** clearing `openwork.notionStatus` after successful engine reload to avoid repeated reload prompts on startup.
+**Also consider:** clearing `antonic-agent.notionStatus` after successful engine reload to avoid repeated reload prompts on startup.
 
 ---
 

@@ -1,17 +1,17 @@
-pkgname=openwork
+pkgname=antonic-agent
 pkgver=0.11.113
 pkgrel=1 # pkgrel should change when PKGBUILD does. Standard is to change back to 1 next time. Any interger is valid.
 pkgdesc="An Open source alternative to Claude Cowork"
 arch=('x86_64' 'aarch64')
-url="https://github.com/different-ai/openwork"
+url="https://github.com/Apnium Technology/antonic-agent"
 license=('MIT')
 depends=('gtk3' 'glib2' 'libayatana-appindicator' 'libsoup3' 'webkit2gtk-4.1' 'openssl' 'dbus' 'librsvg')
 
 # Architecture-specific sources and checksums
-source_x86_64=("${pkgname}-${pkgver}.deb::${url}/releases/download/v${pkgver}/openwork-desktop-linux-amd64.deb")
+source_x86_64=("${pkgname}-${pkgver}.deb::${url}/releases/download/v${pkgver}/antonic-agent-desktop-linux-amd64.deb")
 sha256sums_x86_64=('bc6995980b5608a641a810b5ee063c3ad6067f6bfe12c30052cbfde0aa07e303')
 
-source_aarch64=("${pkgname}-${pkgver}.deb::${url}/releases/download/v${pkgver}/openwork-desktop-linux-arm64.deb")
+source_aarch64=("${pkgname}-${pkgver}.deb::${url}/releases/download/v${pkgver}/antonic-agent-desktop-linux-arm64.deb")
 sha256sums_aarch64=('c598b5aca0095252fb008b717f6c0e7c984e2f8e37ef263b00c45b2f21697b42')
 
 # Makes sure makepkg doesn't extract the .deb since it will break
@@ -26,11 +26,11 @@ package() {
 }
 
 # .deb Internal Structure Reference:
-# └── openwork-desktop-linux-amd64.deb
+# └── antonic-agent-desktop-linux-amd64.deb
 #     ├── debian-binary
 #     ├── control.tar.zst
 #     └── data.tar.zst (Extracted to $pkgdir)
-#         ├── opt/openwork/ (App files)
+#         ├── opt/antonic-agent/ (App files)
 #         └── usr/bin/
 #             ├── opencode (Terminal agent)
-#             └── openwork (GUI launcher)
+#             └── antonic-agent (GUI launcher)

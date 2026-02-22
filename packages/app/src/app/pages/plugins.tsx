@@ -45,7 +45,7 @@ export type PluginsViewProps = {
 export default function PluginsView(props: PluginsViewProps) {
   return (
     <section class="space-y-6">
-      <div class="bg-gray-2/30 border border-gray-6/50 rounded-2xl p-5 space-y-4">
+      <div class="bg-dls-hover border border-dls-border rounded-2xl p-5 space-y-4">
         <div class="flex items-start justify-between gap-4">
           <div class="space-y-1">
             <div class="text-sm font-medium text-gray-12">OpenCode plugins</div>

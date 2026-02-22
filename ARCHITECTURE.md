@@ -1,8 +1,8 @@
-# OpenWork Architecture
+# Antonic Agent Architecture
 
 ## Design principle: Predictable > Clever
 
-OpenWork optimizes for **predictability** over "clever" auto-detection. Users should be able to form a correct mental model of what will happen.
+Antonic Agent optimizes for **predictability** over "clever" auto-detection. Users should be able to form a correct mental model of what will happen.
 
 Guidelines:
 
@@ -65,26 +65,26 @@ use when you need to create tasks that are executed by different models than the
 
 These are all opencode primitives you can read the docs to find out exactly how to set them up.
 
-## Core Concepts of OpenWork
+## Core Concepts of Antonic Agent
 
 - uses all these primitives
 - uses native OpenCode commands for reusable flows (markdown files in `.opencode/commands`)
 - adds a new abstraction "workspace" is a project fodler and a simple .json file that includes a list of opencode primitives that map perfectly to an opencode workdir (not fully implemented)
-  - openwork can open a workpace.json and decide where to populate a folder with thse settings (not implemented today
+  - antonic-agent can open a workpace.json and decide where to populate a folder with thse settings (not implemented today
 
 ## Core Architecture
 
-OpenWork is a Tauri application with two runtime modes:
+Antonic Agent is a Tauri application with two runtime modes:
 
 ### Mode A - Host (Desktop/Server)
 
-- OpenWork runs on a desktop/laptop and **starts** OpenCode locally.
+- Antonic Agent runs on a desktop/laptop and **starts** OpenCode locally.
 - The OpenCode server runs on loopback (default `127.0.0.1:4096`).
-- OpenWork UI connects via the official SDK and listens to events.
+- Antonic Agent UI connects via the official SDK and listens to events.
 
 ### Mode B - Client (Desktop/Mobile)
 
-- OpenWork runs on iOS/Android as a **remote controller**.
+- Antonic Agent runs on iOS/Android as a **remote controller**.
 - It connects to an already-running OpenCode server hosted by a trusted device.
 - Pairing uses a QR code / one-time token and a secure transport (LAN or tunneled).
 
@@ -100,16 +100,16 @@ The browser runtime cannot read or write arbitrary local files. Any feature that
 
 must be routed through a host-side service.
 
-In OpenWork, the long-term direction is:
+In Antonic Agent, the long-term direction is:
 
-- Use the OpenWork server (`packages/server`) as the single API surface for filesystem-backed operations.
+- Use the Antonic Agent server (`packages/server`) as the single API surface for filesystem-backed operations.
 - Treat Tauri-only file operations as an implementation detail / convenience fallback, not a separate feature set.
 
 This ensures the same UI flows work on desktop, mobile, and web clients, with approvals and auditing handled centrally.
 
 ## OpenCode Integration (Exact SDK + APIs)
 
-OpenWork uses the official JavaScript/TypeScript SDK:
+Antonic Agent uses the official JavaScript/TypeScript SDK:
 
 - Package: `@opencode-ai/sdk/v2` (UI should import `@opencode-ai/sdk/v2/client` to avoid Node-only server code)
 - Purpose: type-safe client generated from OpenAPI spec
@@ -154,7 +154,7 @@ const client = createOpencodeClient({
 
 ### Event Streaming (Real-time UI)
 
-OpenWork must be real-time. It subscribes to SSE events:
+Antonic Agent must be real-time. It subscribes to SSE events:
 
 - `client.event.subscribe()`
 
@@ -167,7 +167,7 @@ The UI uses these events to drive:
 
 ### Sessions (Primary Primitive)
 
-OpenWork maps a "Task Run" to an OpenCode **Session**.
+Antonic Agent maps a "Task Run" to an OpenCode **Session**.
 
 Core methods:
 
@@ -181,7 +181,7 @@ Core methods:
 
 ### Files + Search
 
-OpenWork's file browser and "what changed" UI are powered by:
+Antonic Agent's file browser and "what changed" UI are powered by:
 
 - `client.find.text()`
 - `client.find.files()`
@@ -191,12 +191,12 @@ OpenWork's file browser and "what changed" UI are powered by:
 
 ### Permissions
 
-OpenWork must surface permission requests clearly and respond explicitly.
+Antonic Agent must surface permission requests clearly and respond explicitly.
 
 - Permission response API:
   - `client.permission.reply({ requestID, reply })` (where `reply` is `once` | `always` | `reject`)
 
-OpenWork UI should:
+Antonic Agent UI should:
 
 1. Show what is being requested (scope + reason).
 2. Provide choices (allow once / allow for session / deny).
@@ -205,7 +205,7 @@ OpenWork UI should:
 
 ### Config + Providers
 
-OpenWork's settings pages use:
+Antonic Agent's settings pages use:
 
 - `client.config.get()`
 - `client.config.providers()`
@@ -213,27 +213,27 @@ OpenWork's settings pages use:
 
 ### Extensibility - Skills + Plugins
 
-OpenWork exposes two extension surfaces:
+Antonic Agent exposes two extension surfaces:
 
 1. **Skills (OpenPackage)**
    - Installed into `.opencode/skills/*`.
-   - OpenWork can run `opkg install` to pull packages from the registry or GitHub.
+   - Antonic Agent can run `opkg install` to pull packages from the registry or GitHub.
 
 2. **Plugins (OpenCode)**
    - Plugins are configured via `opencode.json` in the workspace.
    - The format is the same as OpenCode CLI uses today.
-   - OpenWork should show plugin status and instructions; a native plugin manager is planned.
+   - Antonic Agent should show plugin status and instructions; a native plugin manager is planned.
 
 ### Engine reload (config refresh)
 
-- OpenWork server exposes `POST /workspace/:id/engine/reload`.
+- Antonic Agent server exposes `POST /workspace/:id/engine/reload`.
 - It calls OpenCode `POST /instance/dispose` with the workspace directory to force a config re-read.
 - Use after skills/plugins/MCP/config edits; reloads can interrupt active sessions.
-- Reload requests follow OpenWork server approval rules.
+- Reload requests follow Antonic Agent server approval rules.
 
 ### OpenPackage Registry (Current + Future)
 
-- Today, OpenWork only supports **curated lists + manual sources**.
+- Today, Antonic Agent only supports **curated lists + manual sources**.
 - Publishing to the official registry currently requires authentication (`opkg push` + `opkg configure`).
 - Future goals:
   - in-app registry search
@@ -245,11 +245,11 @@ OpenWork exposes two extension surfaces:
 - `client.project.list()` / `client.project.current()`
 - `client.path.get()`
 
-OpenWork conceptually treats "workspace" as the current project/path.
+Antonic Agent conceptually treats "workspace" as the current project/path.
 
 ## Optional TUI Control (Advanced)
 
-The SDK exposes `client.tui.*` methods. OpenWork can optionally provide a "Developer Mode" screen to:
+The SDK exposes `client.tui.*` methods. Antonic Agent can optionally provide a "Developer Mode" screen to:
 
 - append/submit prompt
 - open help/sessions/themes/models
@@ -259,15 +259,15 @@ This is optional and not required for non-technical MVP.
 
 ## Folder Authorization Model
 
-OpenWork enforces folder access through **two layers**:
+Antonic Agent enforces folder access through **two layers**:
 
-1. **OpenWork UI authorization**
+1. **Antonic Agent UI authorization**
    - user explicitly selects allowed folders via native picker
-   - OpenWork remembers allowed roots per profile
+   - Antonic Agent remembers allowed roots per profile
 
 2. **OpenCode server permissions**
    - OpenCode requests permissions as needed
-   - OpenWork intercepts requests via events and displays them
+   - Antonic Agent intercepts requests via events and displays them
 
 Rules:
 
@@ -280,4 +280,4 @@ Rules:
 
 - Best packaging strategy for Host mode engine (bundled vs user-installed Node/runtime).
 - Best remote transport for mobile client (LAN only vs optional tunnel).
-- Scheduling API surface (native in OpenCode server vs OpenWork-managed scheduler).
+- Scheduling API surface (native in OpenCode server vs Antonic Agent-managed scheduler).

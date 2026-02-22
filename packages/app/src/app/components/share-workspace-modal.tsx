@@ -56,13 +56,13 @@ export default function ShareWorkspaceModal(props: {
 
   return (
     <Show when={props.open}>
-      <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-1/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+      <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
         <div
-          class="bg-gray-2 border border-gray-6 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+          class="bg-dls-surface-elevated border border-dls-border w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
           role="dialog"
           aria-modal="true"
         >
-          <div class="p-6 border-b border-gray-6 flex justify-between items-center bg-gray-1">
+          <div class="p-6 border-b border-dls-border flex justify-between items-center bg-dls-surface">
             <div class="min-w-0">
               <h3 class="font-semibold text-gray-12 text-lg">{title()}</h3>
               <div class="text-sm text-gray-10 truncate">{props.workspaceName}</div>

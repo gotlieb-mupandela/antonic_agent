@@ -20,7 +20,7 @@
 
 ## Validation
 
-- `pnpm --filter @different-ai/openwork-ui typecheck`
-- `pnpm --filter @different-ai/openwork-ui test:health`
+- `pnpm --filter @Apnium Technology/antonic-agent-ui typecheck`
+- `pnpm --filter @Apnium Technology/antonic-agent-ui test:health`
 - Brought up Docker stack for manual verification: `packaging/docker/dev-up.sh`
 - Verified Soul dashboard renders new controls and state card in browser, then shut stack down.

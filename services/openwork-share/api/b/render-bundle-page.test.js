@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 
 import { buildBundleUrls, renderBundlePage, wantsDownload, wantsJsonResponse } from "./render-bundle-page.js";
 
-function makeReq({ accept = "", query = {}, host = "share.openwork.software" } = {}) {
+function makeReq({ accept = "", query = {}, host = "share.antonic-agent.software" } = {}) {
   return {
     query,
     headers: {
@@ -52,13 +52,13 @@ test("renderBundlePage includes machine-readable metadata and escaped json scrip
   const html = renderBundlePage({
     id: "01TEST",
     rawJson,
-    req: makeReq({ accept: "text/html", host: "share.openwork.software" }),
+    req: makeReq({ accept: "text/html", host: "share.antonic-agent.software" }),
   });
 
-  assert.match(html, /data-openwork-share="true"/);
-  assert.match(html, /data-openwork-bundle-type="skill"/);
-  assert.match(html, /meta name="openwork:bundle-id" content="01TEST"/);
+  assert.match(html, /data-antonic-agent-share="true"/);
+  assert.match(html, /data-antonic-agent-bundle-type="skill"/);
+  assert.match(html, /meta name="antonic-agent:bundle-id" content="01TEST"/);
   assert.match(html, /\?format=json/);
-  assert.match(html, /id="openwork-bundle-json" type="application\/json"/);
+  assert.match(html, /id="antonic-agent-bundle-json" type="application\/json"/);
   assert.match(html, /demo \\u003c\/script\\u003e skill/);
 });

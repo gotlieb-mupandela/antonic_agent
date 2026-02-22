@@ -9,8 +9,8 @@ use crate::engine::manager::EngineManager;
 use crate::engine::spawn::{find_free_port, spawn_engine};
 use crate::opencode_router::manager::OpenCodeRouterManager;
 use crate::opencode_router::spawn::resolve_opencode_router_health_port;
-use crate::openwork_server::{
-    manager::OpenworkServerManager, resolve_connect_url, start_openwork_server,
+use crate::antonic-agent_server::{
+    manager::OpenworkServerManager, resolve_connect_url, start_antonic-agent_server,
 };
 use crate::orchestrator::manager::OrchestratorManager;
 use crate::orchestrator::{self, OrchestratorSpawnOptions};
@@ -94,7 +94,7 @@ pub fn engine_info(
 
         // The orchestrator can keep running across app relaunches. In that case, the in-memory
         // EngineManager state (including opencode basic auth) is lost. Persist a small
-        // auth snapshot next to openwork-orchestrator-state.json so the UI can reconnect.
+        // auth snapshot next to antonic-agent-orchestrator-state.json so the UI can reconnect.
         let auth_snapshot = orchestrator::read_orchestrator_auth(&data_dir);
         let opencode_username = state.opencode_username.clone().or_else(|| {
             auth_snapshot
@@ -128,7 +128,7 @@ pub fn engine_info(
 pub fn engine_stop(
     manager: State<EngineManager>,
     orchestrator_manager: State<OrchestratorManager>,
-    openwork_manager: State<OpenworkServerManager>,
+    antonic-agent_manager: State<OpenworkServerManager>,
     opencode_router_manager: State<OpenCodeRouterManager>,
 ) -> EngineInfo {
     let mut state = manager.inner.lock().expect("engine mutex poisoned");
@@ -136,8 +136,8 @@ pub fn engine_stop(
         OrchestratorManager::stop_locked(&mut orchestrator_state);
     }
     EngineManager::stop_locked(&mut state);
-    if let Ok(mut openwork_state) = openwork_manager.inner.lock() {
-        OpenworkServerManager::stop_locked(&mut openwork_state);
+    if let Ok(mut antonic-agent_state) = antonic-agent_manager.inner.lock() {
+        OpenworkServerManager::stop_locked(&mut antonic-agent_state);
     }
     if let Ok(mut opencode_router_state) = opencode_router_manager.inner.lock() {
         OpenCodeRouterManager::stop_locked(&mut opencode_router_state);
@@ -202,7 +202,7 @@ pub fn engine_install() -> Result<ExecResult, String> {
       ok: false,
       status: -1,
       stdout: String::new(),
-      stderr: "Guided install is not supported on Windows yet. Install OpenCode via Scoop/Chocolatey or https://opencode.ai/install, then restart OpenWork.".to_string(),
+      stderr: "Guided install is not supported on Windows yet. Install OpenCode via Scoop/Chocolatey or https://opencode.ai/install, then restart Antonic Agent.".to_string(),
     });
     }
 
@@ -235,7 +235,7 @@ pub fn engine_start(
     app: AppHandle,
     manager: State<EngineManager>,
     orchestrator_manager: State<OrchestratorManager>,
-    openwork_manager: State<OpenworkServerManager>,
+    antonic-agent_manager: State<OpenworkServerManager>,
     opencode_router_manager: State<OpenCodeRouterManager>,
     project_dir: String,
     prefer_sidecar: Option<bool>,
@@ -410,7 +410,7 @@ pub fn engine_start(
 
         let daemon_base_url = format!("http://{}:{}", daemon_host, daemon_port);
 
-        // openwork-orchestrator doesn't start its daemon HTTP server until it has ensured that
+        // antonic-agent-orchestrator doesn't start its daemon HTTP server until it has ensured that
         // OpenCode is available. On fresh installs (or after schema changes), OpenCode can run a
         // one-time SQLite migration that takes longer than a few seconds.
         //
@@ -461,9 +461,9 @@ pub fn engine_start(
             }
         };
 
-        if let Err(error) = start_openwork_server(
+        if let Err(error) = start_antonic-agent_server(
             &app,
-            &openwork_manager,
+            &antonic-agent_manager,
             &workspace_paths,
             Some(&opencode_connect_url),
             opencode_username.as_deref(),
@@ -472,7 +472,7 @@ pub fn engine_start(
         ) {
             if let Ok(mut state) = manager.inner.lock() {
                 state.last_stderr =
-                    Some(truncate_output(&format!("OpenWork server: {error}"), 8000));
+                    Some(truncate_output(&format!("Antonic Agent server: {error}"), 8000));
             }
         }
 
@@ -642,16 +642,16 @@ pub fn engine_start(
         }
     };
 
-    if let Err(error) = start_openwork_server(
+    if let Err(error) = start_antonic-agent_server(
         &app,
-        &openwork_manager,
+        &antonic-agent_manager,
         &workspace_paths,
         Some(&opencode_connect_url),
         opencode_username.as_deref(),
         opencode_password.as_deref(),
         opencode_router_health_port,
     ) {
-        state.last_stderr = Some(truncate_output(&format!("OpenWork server: {error}"), 8000));
+        state.last_stderr = Some(truncate_output(&format!("Antonic Agent server: {error}"), 8000));
     }
 
     if let Err(error) = opencodeRouter_start(

@@ -120,7 +120,7 @@ async function provisionWorkerOnRender(input: ProvisionInput): Promise<Provision
   const serviceName = slug(`${env.render.workerNamePrefix}-${input.name}-${input.workerId.slice(0, 8)}`).slice(0, 62)
   const startCommand = [
     "mkdir -p /tmp/workspace",
-    "attempt=0; while [ $attempt -lt 3 ]; do attempt=$((attempt + 1)); openwork serve --workspace /tmp/workspace --openwork-host 0.0.0.0 --openwork-port ${PORT:-10000} --opencode-host 127.0.0.1 --opencode-port 4096 --connect-host 127.0.0.1 --cors '*' --approval manual --no-opencode-router --verbose && exit 0; echo \"openwork serve failed (attempt $attempt); retrying in 3s\"; sleep 3; done; exit 1",
+    "attempt=0; while [ $attempt -lt 3 ]; do attempt=$((attempt + 1)); antonic-agent serve --workspace /tmp/workspace --antonic-agent-host 0.0.0.0 --antonic-agent-port ${PORT:-10000} --opencode-host 127.0.0.1 --opencode-port 4096 --connect-host 127.0.0.1 --cors '*' --approval manual --no-opencode-router --verbose && exit 0; echo \"antonic-agent serve failed (attempt $attempt); retrying in 3s\"; sleep 3; done; exit 1",
   ].join(" && ")
 
   const payload = {
@@ -142,7 +142,7 @@ async function provisionWorkerOnRender(input: ProvisionInput): Promise<Provision
       region: env.render.workerRegion,
       healthCheckPath: "/health",
       envSpecificDetails: {
-        buildCommand: `npm install -g openwork-orchestrator@${env.render.workerOpenworkVersion}`,
+        buildCommand: `npm install -g antonic-agent-orchestrator@${env.render.workerOpenworkVersion}`,
         startCommand,
       },
     },

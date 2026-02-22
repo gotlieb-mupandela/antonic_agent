@@ -51,9 +51,9 @@ export async function publishOpenworkBundleJson(input: {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        "X-OpenWork-Bundle-Type": input.bundleType,
-        "X-OpenWork-Schema-Version": "v1",
-        ...(input.name?.trim() ? { "X-OpenWork-Name": input.name.trim() } : null),
+        "X-Antonic Agent-Bundle-Type": input.bundleType,
+        "X-Antonic Agent-Schema-Version": "v1",
+        ...(input.name?.trim() ? { "X-Antonic Agent-Name": input.name.trim() } : null),
       },
       body: JSON.stringify(input.payload),
       signal: controller.signal,

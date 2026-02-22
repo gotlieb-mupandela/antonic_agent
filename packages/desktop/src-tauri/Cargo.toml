@@ -1,7 +1,7 @@
 [package]
-name = "openwork"
+name = "antonic-agent"
 version = "0.11.113"
-description = "OpenWork"
+description = "Antonic Agent gives your team the power of AI agents on your desktop. Automate tasks, run workflows, and work smarter — all in one place."
 authors = ["Different AI"]
 edition = "2021"
 

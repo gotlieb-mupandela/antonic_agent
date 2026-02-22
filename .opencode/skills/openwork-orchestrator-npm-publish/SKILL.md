@@ -1,18 +1,18 @@
 ---
-name: openwork-orchestrator-npm-publish
+name: antonic-agent-orchestrator-npm-publish
 description: |
-  Publish the openwork-orchestrator npm package with clean git hygiene.
+  Publish the antonic-agent-orchestrator npm package with clean git hygiene.
 
   Triggers when user mentions:
-  - "openwork-orchestrator npm publish"
-  - "publish openwork-orchestrator"
-  - "bump openwork-orchestrator"
+  - "antonic-agent-orchestrator npm publish"
+  - "publish antonic-agent-orchestrator"
+  - "bump antonic-agent-orchestrator"
 ---
 
 ## Quick usage (already configured)
 
 1. Ensure you are on the default branch and the tree is clean.
-2. Bump versions via the shared release bump (this keeps `openwork-orchestrator` aligned with the app/desktop release).
+2. Bump versions via the shared release bump (this keeps `antonic-agent-orchestrator` aligned with the app/desktop release).
 
 ```bash
 pnpm bump:patch
@@ -27,20 +27,20 @@ pnpm bump:patch
 Manual recovery path (sidecars + npm) below.
 
 ```bash
-pnpm --filter openwork-orchestrator build:sidecars
-gh release create openwork-orchestrator-vX.Y.Z packages/orchestrator/dist/sidecars/* \
-  --repo different-ai/openwork \
-  --title "openwork-orchestrator vX.Y.Z sidecars" \
-  --notes "Sidecar binaries and manifest for openwork-orchestrator vX.Y.Z"
+pnpm --filter antonic-agent-orchestrator build:sidecars
+gh release create antonic-agent-orchestrator-vX.Y.Z packages/orchestrator/dist/sidecars/* \
+  --repo Apnium Technology/antonic-agent \
+  --title "antonic-agent-orchestrator vX.Y.Z sidecars" \
+  --notes "Sidecar binaries and manifest for antonic-agent-orchestrator vX.Y.Z"
 ```
 
-5. Build openwork-orchestrator binaries for all supported platforms.
+5. Build antonic-agent-orchestrator binaries for all supported platforms.
 
 ```bash
-pnpm --filter openwork-orchestrator build:bin:all
+pnpm --filter antonic-agent-orchestrator build:bin:all
 ```
 
-6. Publish `openwork-orchestrator` as a meta package + platform packages (optionalDependencies).
+6. Publish `antonic-agent-orchestrator` as a meta package + platform packages (optionalDependencies).
 
 ```bash
 node packages/orchestrator/scripts/publish-npm.mjs
@@ -49,7 +49,7 @@ node packages/orchestrator/scripts/publish-npm.mjs
 7. Verify the published version.
 
 ```bash
-npm view openwork-orchestrator version
+npm view antonic-agent-orchestrator version
 ```
 
 ---
@@ -57,7 +57,7 @@ npm view openwork-orchestrator version
 ## Scripted publish
 
 ```bash
-./.opencode/skills/openwork-orchestrator-npm-publish/scripts/publish-openwork-orchestrator.sh
+./.opencode/skills/antonic-agent-orchestrator-npm-publish/scripts/publish-antonic-agent-orchestrator.sh
 ```
 
 ---
@@ -76,8 +76,8 @@ Alternatively, export an npm token in your environment (see `.env.example`).
 
 ## Notes
 
-- `openwork-orchestrator` is published as:
-  - `openwork-orchestrator` (wrapper + optionalDependencies)
-  - `openwork-orchestrator-darwin-arm64`, `openwork-orchestrator-darwin-x64`, `openwork-orchestrator-linux-arm64`, `openwork-orchestrator-linux-x64`, `openwork-orchestrator-windows-x64` (platform binaries)
-- `openwork-orchestrator` is versioned in lockstep with OpenWork app/desktop releases.
-- openwork-orchestrator downloads sidecars from `openwork-orchestrator-vX.Y.Z` release assets by default.
+- `antonic-agent-orchestrator` is published as:
+  - `antonic-agent-orchestrator` (wrapper + optionalDependencies)
+  - `antonic-agent-orchestrator-darwin-arm64`, `antonic-agent-orchestrator-darwin-x64`, `antonic-agent-orchestrator-linux-arm64`, `antonic-agent-orchestrator-linux-x64`, `antonic-agent-orchestrator-windows-x64` (platform binaries)
+- `antonic-agent-orchestrator` is versioned in lockstep with Antonic Agent app/desktop releases.
+- antonic-agent-orchestrator downloads sidecars from `antonic-agent-orchestrator-vX.Y.Z` release assets by default.

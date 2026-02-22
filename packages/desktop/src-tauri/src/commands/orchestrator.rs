@@ -20,12 +20,12 @@ use crate::orchestrator::{resolve_orchestrator_data_dir, resolve_orchestrator_st
 use crate::platform::configure_hidden;
 use crate::types::{ExecResult, OrchestratorStatus, OrchestratorWorkspace};
 
-const SANDBOX_PROGRESS_EVENT: &str = "openwork://sandbox-create-progress";
+const SANDBOX_PROGRESS_EVENT: &str = "antonic-agent://sandbox-create-progress";
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct OrchestratorDetachedHost {
-    pub openwork_url: String,
+    pub antonic-agent_url: String,
     pub token: String,
     pub host_token: String,
     pub port: u16,
@@ -367,8 +367,8 @@ fn truncate_for_debug(input: &str) -> String {
 }
 
 fn derive_orchestrator_container_name(run_id: &str) -> String {
-    // Must match openwork-orchestrator's docker naming scheme:
-    // `openwork-orchestrator-${runId.replace(/[^a-zA-Z0-9_.-]+/g, "-").slice(0, 24)}`
+    // Must match antonic-agent-orchestrator's docker naming scheme:
+    // `antonic-agent-orchestrator-${runId.replace(/[^a-zA-Z0-9_.-]+/g, "-").slice(0, 24)}`
     let mut sanitized = String::new();
     for ch in run_id.chars() {
         let ok = ch.is_ascii_alphanumeric() || ch == '_' || ch == '.' || ch == '-';
@@ -377,16 +377,16 @@ fn derive_orchestrator_container_name(run_id: &str) -> String {
     if sanitized.len() > 24 {
         sanitized.truncate(24);
     }
-    format!("openwork-orchestrator-{sanitized}")
+    format!("antonic-agent-orchestrator-{sanitized}")
 }
 
-fn is_openwork_managed_container(name: &str) -> bool {
-    name.starts_with("openwork-orchestrator-")
-        || name.starts_with("openwork-dev-")
+fn is_antonic-agent_managed_container(name: &str) -> bool {
+    name.starts_with("antonic-agent-orchestrator-")
+        || name.starts_with("antonic-agent-dev-")
         || name.starts_with("openwrk-")
 }
 
-fn list_openwork_managed_containers() -> Result<Vec<String>, String> {
+fn list_antonic-agent_managed_containers() -> Result<Vec<String>, String> {
     let (status, stdout, stderr) = run_docker_command(
         &["ps", "-a", "--format", "{{.Names}}"],
         Duration::from_secs(8),
@@ -406,7 +406,7 @@ fn list_openwork_managed_containers() -> Result<Vec<String>, String> {
     let mut names: Vec<String> = stdout
         .lines()
         .map(|line| line.trim().to_string())
-        .filter(|name| !name.is_empty() && is_openwork_managed_container(name))
+        .filter(|name| !name.is_empty() && is_antonic-agent_managed_container(name))
         .collect();
     names.sort();
     names.dedup();
@@ -649,7 +649,7 @@ pub fn orchestrator_start_detached(
     let port = allocate_free_port()?;
     let token = Uuid::new_v4().to_string();
     let host_token = Uuid::new_v4().to_string();
-    let openwork_url = format!("http://127.0.0.1:{port}");
+    let antonic-agent_url = format!("http://127.0.0.1:{port}");
 
     emit_sandbox_progress(
         &app,
@@ -658,7 +658,7 @@ pub fn orchestrator_start_detached(
         "Starting sandbox...",
         json!({
             "workspacePath": workspace_path,
-            "openworkUrl": openwork_url,
+            "antonic-agentUrl": antonic-agent_url,
             "port": port,
             "sandboxBackend": if wants_docker_sandbox { "docker" } else { "none" },
             "containerName": sandbox_container_name,
@@ -677,16 +677,16 @@ pub fn orchestrator_start_detached(
             "Inspecting Docker configuration...",
             json!({
                 "candidates": candidates,
-                "openworkDockerBin": env::var("OPENWORK_DOCKER_BIN").ok(),
+                "antonic-agentDockerBin": env::var("OPENWORK_DOCKER_BIN").ok(),
                 "openwrkDockerBin": env::var("OPENWRK_DOCKER_BIN").ok(),
                 "dockerBin": env::var("DOCKER_BIN").ok(),
             }),
         );
     }
 
-    let command = match app.shell().sidecar("openwork-orchestrator") {
+    let command = match app.shell().sidecar("antonic-agent-orchestrator") {
         Ok(command) => command,
-        Err(_) => app.shell().command("openwork"),
+        Err(_) => app.shell().command("antonic-agent"),
     };
 
     // Start a dedicated host stack for this workspace.
@@ -702,13 +702,13 @@ pub fn orchestrator_start_detached(
             "--opencode-router".to_string(),
             "true".to_string(),
             "--detach".to_string(),
-            "--openwork-host".to_string(),
+            "--antonic-agent-host".to_string(),
             "0.0.0.0".to_string(),
-            "--openwork-port".to_string(),
+            "--antonic-agent-port".to_string(),
             port.to_string(),
-            "--openwork-token".to_string(),
+            "--antonic-agent-token".to_string(),
             token.clone(),
-            "--openwork-host-token".to_string(),
+            "--antonic-agent-host-token".to_string(),
             host_token.clone(),
             "--run-id".to_string(),
             sandbox_run_id.clone(),
@@ -728,9 +728,9 @@ pub fn orchestrator_start_detached(
         command
             .args(str_args)
             .spawn()
-            .map_err(|e| format!("Failed to start openwork orchestrator: {e}"))?;
+            .map_err(|e| format!("Failed to start antonic-agent orchestrator: {e}"))?;
         eprintln!(
-            "[sandbox-create][at={}][runId={}][stage=spawn] launched openwork sidecar for detached sandbox host",
+            "[sandbox-create][at={}][runId={}][stage=spawn] launched antonic-agent sidecar for detached sandbox host",
             now_ms(),
             sandbox_run_id
         );
@@ -740,9 +740,9 @@ pub fn orchestrator_start_detached(
         &app,
         &sandbox_run_id,
         "spawned",
-        "Sandbox process launched. Waiting for OpenWork server...",
+        "Sandbox process launched. Waiting for Antonic Agent server...",
         json!({
-            "openworkUrl": openwork_url,
+            "antonic-agentUrl": antonic-agent_url,
         }),
     );
 
@@ -804,15 +804,15 @@ pub fn orchestrator_start_detached(
             }
         }
 
-        match ureq::get(&format!("{}/health", openwork_url.trim_end_matches('/'))).call() {
+        match ureq::get(&format!("{}/health", antonic-agent_url.trim_end_matches('/'))).call() {
             Ok(response) if response.status() >= 200 && response.status() < 300 => {
                 emit_sandbox_progress(
                     &app,
                     &sandbox_run_id,
-                    "openwork.healthy",
-                    "OpenWork server is ready.",
+                    "antonic-agent.healthy",
+                    "Antonic Agent server is ready.",
                     json!({
-                        "openworkUrl": openwork_url,
+                        "antonic-agentUrl": antonic-agent_url,
                         "elapsedMs": elapsed_ms,
                         "containerState": last_container_state,
                     }),
@@ -833,10 +833,10 @@ pub fn orchestrator_start_detached(
             emit_sandbox_progress(
                 &app,
                 &sandbox_run_id,
-                "openwork.waiting",
-                "Waiting for OpenWork server...",
+                "antonic-agent.waiting",
+                "Waiting for Antonic Agent server...",
                 json!({
-                    "openworkUrl": openwork_url,
+                    "antonic-agentUrl": antonic-agent_url,
                     "elapsedMs": elapsed_ms,
                     "lastError": last_error,
                     "containerState": last_container_state,
@@ -850,7 +850,7 @@ pub fn orchestrator_start_detached(
 
     if start.elapsed() >= Duration::from_millis(health_timeout_ms) {
         let message =
-            last_error.unwrap_or_else(|| "Timed out waiting for OpenWork server".to_string());
+            last_error.unwrap_or_else(|| "Timed out waiting for Antonic Agent server".to_string());
         emit_sandbox_progress(
             &app,
             &sandbox_run_id,
@@ -859,7 +859,7 @@ pub fn orchestrator_start_detached(
             json!({
                 "error": message,
                 "elapsedMs": start.elapsed().as_millis() as u64,
-                "openworkUrl": openwork_url,
+                "antonic-agentUrl": antonic-agent_url,
                 "containerState": last_container_state,
                 "containerProbeError": last_container_probe_error,
             }),
@@ -879,11 +879,11 @@ pub fn orchestrator_start_detached(
         now_ms(),
         sandbox_run_id,
         start.elapsed().as_millis(),
-        openwork_url
+        antonic-agent_url
     );
 
     Ok(OrchestratorDetachedHost {
-        openwork_url,
+        antonic-agent_url,
         token,
         host_token,
         port,
@@ -1078,9 +1078,9 @@ pub fn sandbox_stop(container_name: String) -> Result<ExecResult, String> {
     if name.is_empty() {
         return Err("containerName is required".to_string());
     }
-    if !name.starts_with("openwork-orchestrator-") {
+    if !name.starts_with("antonic-agent-orchestrator-") {
         return Err(
-            "Refusing to stop container: expected name starting with 'openwork-orchestrator-'"
+            "Refusing to stop container: expected name starting with 'antonic-agent-orchestrator-'"
                 .to_string(),
         );
     }
@@ -1101,8 +1101,8 @@ pub fn sandbox_stop(container_name: String) -> Result<ExecResult, String> {
 }
 
 #[tauri::command]
-pub fn sandbox_cleanup_openwork_containers() -> Result<OpenworkDockerCleanupResult, String> {
-    let candidates = list_openwork_managed_containers()?;
+pub fn sandbox_cleanup_antonic-agent_containers() -> Result<OpenworkDockerCleanupResult, String> {
+    let candidates = list_antonic-agent_managed_containers()?;
     if candidates.is_empty() {
         return Ok(OpenworkDockerCleanupResult {
             candidates,
@@ -1200,7 +1200,7 @@ mod tests {
             .unwrap_or_else(|poisoned| poisoned.into_inner());
 
         let tmp =
-            std::env::temp_dir().join(format!("openwork-docker-timeout-test-{}", Uuid::new_v4()));
+            std::env::temp_dir().join(format!("antonic-agent-docker-timeout-test-{}", Uuid::new_v4()));
         fs::create_dir_all(&tmp).expect("create tmp dir");
 
         let slow = tmp.join("slow-docker");
@@ -1245,7 +1245,7 @@ exit 0
             .unwrap_or_else(|poisoned| poisoned.into_inner());
 
         let tmp =
-            std::env::temp_dir().join(format!("openwork-docker-doctor-test-{}", Uuid::new_v4()));
+            std::env::temp_dir().join(format!("antonic-agent-docker-doctor-test-{}", Uuid::new_v4()));
         fs::create_dir_all(&tmp).expect("create tmp dir");
 
         let fast = tmp.join("docker");

@@ -125,7 +125,7 @@ export function createExtensionsStore(options: {
       }
 
       // Browser fallback: fetch directly from GitHub (public catalog).
-      const listingRes = await fetch("https://api.github.com/repos/different-ai/openwork-hub/contents/skills?ref=main", {
+      const listingRes = await fetch("https://api.github.com/repos/Apnium Technology/openwork-hub/contents/skills?ref=main", {
         headers: { Accept: "application/vnd.github+json" },
       });
       if (!listingRes.ok) {
@@ -140,7 +140,7 @@ export function createExtensionsStore(options: {
 
       const next: HubSkillCard[] = dirs.map((dirName) => ({
         name: dirName,
-        source: { owner: "different-ai", repo: "openwork-hub", ref: "main", path: `skills/${dirName}` },
+        source: { owner: "Apnium Technology", repo: "openwork-hub", ref: "main", path: `skills/${dirName}` },
       }));
 
       if (refreshHubSkillsAborted) return;
@@ -175,9 +175,9 @@ export function createExtensionsStore(options: {
 
     if (!canUseOpenworkServer) {
       if (isRemoteWorkspace) {
-        return { ok: false, message: "OpenWork server unavailable. Connect to install skills." };
+        return { ok: false, message: "Antonic Agent server unavailable. Connect to install skills." };
       }
-      return { ok: false, message: "Hub install requires OpenWork server." };
+      return { ok: false, message: "Hub install requires Antonic Agent server." };
     }
 
     options.setBusy(true);
@@ -227,7 +227,7 @@ export function createExtensionsStore(options: {
       return;
     }
 
-    // Prefer OpenWork server when available
+    // Prefer Antonic Agent server when available
     if (canUseOpenworkServer) {
       if (root !== skillsRoot) {
         skillsLoaded = false;
@@ -327,7 +327,7 @@ export function createExtensionsStore(options: {
     const c = options.client();
     if (!c) {
       setSkills([]);
-      setSkillsStatus("OpenWork server unavailable. Connect to load skills.");
+      setSkillsStatus("Antonic Agent server unavailable. Connect to load skills.");
       return;
     }
 
@@ -470,9 +470,9 @@ export function createExtensionsStore(options: {
     }
 
     if (!isLocalWorkspace && !canUseOpenworkServer) {
-      setPluginStatus("OpenWork server unavailable. Connect to manage plugins.");
+      setPluginStatus("Antonic Agent server unavailable. Connect to manage plugins.");
       setPluginList([]);
-      setSidebarPluginStatus("Connect an OpenWork server to load plugins.");
+      setSidebarPluginStatus("Connect an Antonic Agent server to load plugins.");
       setSidebarPluginList([]);
       refreshPluginsInFlight = false;
       return;
@@ -578,7 +578,7 @@ export function createExtensionsStore(options: {
     }
 
     if (!isLocalWorkspace && !canUseOpenworkServer) {
-      setPluginStatus("OpenWork server unavailable. Connect to manage plugins.");
+      setPluginStatus("Antonic Agent server unavailable. Connect to manage plugins.");
       return;
     }
 
@@ -699,7 +699,7 @@ export function createExtensionsStore(options: {
       openworkWorkspaceId &&
       openworkCapabilities?.skills?.write;
 
-    // Use OpenWork server when available
+    // Use Antonic Agent server when available
     if (canUseOpenworkServer) {
       options.setBusy(true);
       options.setError(null);
@@ -729,7 +729,7 @@ export function createExtensionsStore(options: {
 
     // Remote workspace without server
     if (isRemoteWorkspace) {
-      const message = "OpenWork server unavailable. Connect to install skills.";
+      const message = "Antonic Agent server unavailable. Connect to install skills.";
       setSkillsStatus(message);
       return { ok: false, message };
     }
@@ -915,7 +915,7 @@ export function createExtensionsStore(options: {
     }
 
     if (isRemoteWorkspace) {
-      setSkillsStatus("OpenWork server unavailable. Connect to view skills.");
+      setSkillsStatus("Antonic Agent server unavailable. Connect to view skills.");
       return null;
     }
 
@@ -983,7 +983,7 @@ export function createExtensionsStore(options: {
     }
 
     if (isRemoteWorkspace) {
-      setSkillsStatus("OpenWork server unavailable. Connect to edit skills.");
+      setSkillsStatus("Antonic Agent server unavailable. Connect to edit skills.");
       return;
     }
 

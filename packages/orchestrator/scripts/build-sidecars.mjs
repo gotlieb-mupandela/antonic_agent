@@ -11,7 +11,7 @@ const outdir = resolve(root, "dist", "sidecars");
 const orchestratorPkg = JSON.parse(readFileSync(resolve(root, "package.json"), "utf8"));
 const orchestratorVersion = String(orchestratorPkg.version ?? "").trim();
 if (!orchestratorVersion) {
-  throw new Error("openwork-orchestrator version missing in packages/orchestrator/package.json");
+  throw new Error("antonic-agent-orchestrator version missing in packages/orchestrator/package.json");
 }
 
 const sourceDateEpoch = process.env.SOURCE_DATE_EPOCH
@@ -24,7 +24,7 @@ const generatedAt = Number.isFinite(sourceDateEpoch)
 const serverPkg = JSON.parse(readFileSync(resolve(repoRoot, "packages", "server", "package.json"), "utf8"));
 const serverVersion = String(serverPkg.version ?? "").trim();
 if (!serverVersion) {
-  throw new Error("openwork-server version missing in packages/server/package.json");
+  throw new Error("antonic-agent-server version missing in packages/server/package.json");
 }
 
 const routerPkg = JSON.parse(
@@ -42,7 +42,7 @@ const run = (command, args, cwd) => {
   }
 };
 
-run("pnpm", ["--filter", "openwork-server", "build:bin:all"], repoRoot);
+run("pnpm", ["--filter", "antonic-agent-server", "build:bin:all"], repoRoot);
 run("pnpm", ["--filter", "opencode-router", "build:bin:all"], repoRoot);
 
 const targets = [
@@ -64,17 +64,17 @@ const routerDir = resolve(repoRoot, "packages", "opencode-router", "dist", "bin"
 mkdirSync(outdir, { recursive: true });
 
 const entries = {
-  "openwork-server": { version: serverVersion, targets: {} },
+  "antonic-agent-server": { version: serverVersion, targets: {} },
   "opencode-router": { version: routerVersion, targets: {} },
 };
 
 for (const target of targets) {
   const ext = target.id.startsWith("windows") ? ".exe" : "";
-  const serverSrc = join(serverDir, `openwork-server-${target.bun}${ext}`);
+  const serverSrc = join(serverDir, `antonic-agent-server-${target.bun}${ext}`);
   if (!existsSync(serverSrc)) {
-    throw new Error(`Missing openwork-server binary at ${serverSrc}`);
+    throw new Error(`Missing antonic-agent-server binary at ${serverSrc}`);
   }
-  const serverDest = join(outdir, `openwork-server-${target.id}${ext}`);
+  const serverDest = join(outdir, `antonic-agent-server-${target.id}${ext}`);
   copyFileSync(serverSrc, serverDest);
 
   const routerSrc = join(routerDir, `opencode-router-${target.bun}${ext}`);
@@ -84,7 +84,7 @@ for (const target of targets) {
   const routerDest = join(outdir, `opencode-router-${target.id}${ext}`);
   copyFileSync(routerSrc, routerDest);
 
-  entries["openwork-server"].targets[target.id] = {
+  entries["antonic-agent-server"].targets[target.id] = {
     asset: basename(serverDest),
     sha256: sha256File(serverDest),
     size: statSync(serverDest).size,
@@ -103,7 +103,7 @@ const manifest = {
 };
 
 writeFileSync(
-  join(outdir, "openwork-orchestrator-sidecars.json"),
+  join(outdir, "antonic-agent-orchestrator-sidecars.json"),
   `${JSON.stringify(manifest, null, 2)}\n`,
   "utf8",
 );

@@ -9,7 +9,7 @@ use std::os::unix::fs::PermissionsExt;
 fn main() {
     emit_build_info();
     ensure_opencode_sidecar();
-    ensure_openwork_server_sidecar();
+    ensure_antonic-agent_server_sidecar();
     ensure_opencode_router_sidecar();
     ensure_orchestrator_sidecar();
     ensure_chrome_devtools_mcp_sidecar();
@@ -160,11 +160,11 @@ fn ensure_orchestrator_sidecar() {
     let sidecar_dir = manifest_dir.join("sidecars");
 
     let canonical_name = if target.contains("windows") {
-        "openwork-orchestrator.exe"
+        "antonic-agent-orchestrator.exe"
     } else {
-        "openwork-orchestrator"
+        "antonic-agent-orchestrator"
     };
-    let mut target_name = format!("openwork-orchestrator-{target}");
+    let mut target_name = format!("antonic-agent-orchestrator-{target}");
     if target.contains("windows") {
         target_name.push_str(".exe");
     }
@@ -196,15 +196,15 @@ fn ensure_orchestrator_sidecar() {
         .filter(|path| path.is_file())
         .or_else(|| {
             find_in_path(if target.contains("windows") {
-                "openwork.exe"
+                "antonic-agent.exe"
             } else {
-                "openwork"
+                "antonic-agent"
             })
         });
 
     let Some(source_path) = source_path else {
         println!(
-            "cargo:warning=orchestrator sidecar missing at {} (set OPENWORK_ORCHESTRATOR_BIN_PATH or install openwork-orchestrator)",
+            "cargo:warning=orchestrator sidecar missing at {} (set OPENWORK_ORCHESTRATOR_BIN_PATH or install antonic-agent-orchestrator)",
             dest_path.display()
         );
         create_debug_stub(&dest_path, &sidecar_dir, &profile, &target);
@@ -331,7 +331,7 @@ fn ensure_opencode_sidecar() {
     }
 }
 
-fn ensure_openwork_server_sidecar() {
+fn ensure_antonic-agent_server_sidecar() {
     let target = env::var("CARGO_CFG_TARGET_TRIPLE")
         .or_else(|_| env::var("TARGET"))
         .or_else(|_| env::var("TAURI_ENV_TARGET_TRIPLE"))
@@ -346,12 +346,12 @@ fn ensure_openwork_server_sidecar() {
     let sidecar_dir = manifest_dir.join("sidecars");
 
     let canonical_name = if target.contains("windows") {
-        "openwork-server.exe"
+        "antonic-agent-server.exe"
     } else {
-        "openwork-server"
+        "antonic-agent-server"
     };
 
-    let mut target_name = format!("openwork-server-{target}");
+    let mut target_name = format!("antonic-agent-server-{target}");
     if target.contains("windows") {
         target_name.push_str(".exe");
     }
@@ -375,9 +375,9 @@ fn ensure_openwork_server_sidecar() {
         .filter(|path| path.is_file())
         .or_else(|| {
             find_in_path(if target.contains("windows") {
-                "openwork-server.exe"
+                "antonic-agent-server.exe"
             } else {
-                "openwork-server"
+                "antonic-agent-server"
             })
         });
 
@@ -385,7 +385,7 @@ fn ensure_openwork_server_sidecar() {
 
     let Some(source_path) = source_path else {
         println!(
-      "cargo:warning=OpenWork server sidecar missing at {} (set OPENWORK_SERVER_BIN_PATH or install openwork-server)",
+      "cargo:warning=Antonic Agent server sidecar missing at {} (set OPENWORK_SERVER_BIN_PATH or install antonic-agent-server)",
       dest_path.display()
     );
 
@@ -408,7 +408,7 @@ fn ensure_openwork_server_sidecar() {
         let _ = copy_sidecar(&dest_path, &target_dest_path, &target);
     } else {
         println!(
-            "cargo:warning=Failed to copy OpenWork server sidecar from {} to {}",
+            "cargo:warning=Failed to copy Antonic Agent server sidecar from {} to {}",
             source_path.display(),
             dest_path.display()
         );

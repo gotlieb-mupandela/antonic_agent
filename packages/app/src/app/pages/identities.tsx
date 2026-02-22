@@ -487,7 +487,7 @@ export default function IdentitiesView(props: IdentitiesViewProps) {
 
     const ok = await props.reconnectOpenworkServer();
     if (!ok) {
-      setReconnectError("Reconnect failed. Check OpenWork URL/token and try again.");
+      setReconnectError("Reconnect failed. Check Antonic Agent URL/token and try again.");
       return;
     }
 
@@ -711,9 +711,9 @@ export default function IdentitiesView(props: IdentitiesViewProps) {
       {/* ---- Not connected to server ---- */}
       <Show when={!serverReady()}>
         <div class="rounded-xl border border-gray-4 bg-gray-1 p-5">
-          <div class="text-sm font-semibold text-gray-12">Connect to an OpenWork server</div>
+          <div class="text-sm font-semibold text-gray-12">Connect to an Antonic Agent server</div>
           <div class="mt-1 text-xs text-gray-10">
-            Identities are available when you are connected to an OpenWork host (<code class="text-[11px] font-mono bg-gray-3 px-1 py-0.5 rounded">openwork</code>).
+            Identities are available when you are connected to an Antonic Agent host (<code class="text-[11px] font-mono bg-gray-3 px-1 py-0.5 rounded">openwork</code>).
           </div>
         </div>
       </Show>
@@ -890,7 +890,7 @@ export default function IdentitiesView(props: IdentitiesViewProps) {
 
                     {/* Connected stats summary */}
                     <div class="flex gap-2.5">
-                      <div class="flex-1 rounded-lg border border-gray-4 bg-gray-2/50 px-3 py-2.5">
+                      <div class="flex-1 rounded-lg border border-dls-border bg-dls-hover px-3 py-2.5">
                         <div class="text-[11px] text-gray-9 mb-0.5">Status</div>
                         <div class="flex items-center gap-1.5">
                           <div class={`w-1.5 h-1.5 rounded-full ${
@@ -903,11 +903,11 @@ export default function IdentitiesView(props: IdentitiesViewProps) {
                           </span>
                         </div>
                       </div>
-                      <div class="flex-1 rounded-lg border border-gray-4 bg-gray-2/50 px-3 py-2.5">
+                      <div class="flex-1 rounded-lg border border-dls-border bg-dls-hover px-3 py-2.5">
                         <div class="text-[11px] text-gray-9 mb-0.5">Identities</div>
                         <div class="text-[13px] font-semibold text-gray-12">{telegramIdentities().length} configured</div>
                       </div>
-                      <div class="flex-1 rounded-lg border border-gray-4 bg-gray-2/50 px-3 py-2.5">
+                      <div class="flex-1 rounded-lg border border-dls-border bg-dls-hover px-3 py-2.5">
                         <div class="text-[11px] text-gray-9 mb-0.5">Channel</div>
                         <div class="text-[13px] font-semibold text-gray-12">
                           {health()?.channels.telegram ? "On" : "Off"}
@@ -926,7 +926,7 @@ export default function IdentitiesView(props: IdentitiesViewProps) {
                   {/* Add new identity form */}
                   <div class="space-y-2.5">
                     <Show when={telegramIdentities().length === 0}>
-                      <div class="rounded-xl border border-gray-4 bg-gray-2/60 px-3.5 py-3 space-y-2.5">
+                      <div class="rounded-xl border border-dls-border bg-dls-hover px-3.5 py-3 space-y-2.5">
                         <div class="text-[12px] font-semibold text-gray-12">Quick setup</div>
                         <ol class="space-y-2 text-[12px] text-gray-10 leading-relaxed">
                           <li class="flex items-start gap-2">
@@ -1093,7 +1093,7 @@ export default function IdentitiesView(props: IdentitiesViewProps) {
 
                     {/* Connected stats summary */}
                     <div class="flex gap-2.5">
-                      <div class="flex-1 rounded-lg border border-gray-4 bg-gray-2/50 px-3 py-2.5">
+                      <div class="flex-1 rounded-lg border border-dls-border bg-dls-hover px-3 py-2.5">
                         <div class="text-[11px] text-gray-9 mb-0.5">Status</div>
                         <div class="flex items-center gap-1.5">
                           <div class={`w-1.5 h-1.5 rounded-full ${
@@ -1106,11 +1106,11 @@ export default function IdentitiesView(props: IdentitiesViewProps) {
                           </span>
                         </div>
                       </div>
-                      <div class="flex-1 rounded-lg border border-gray-4 bg-gray-2/50 px-3 py-2.5">
+                      <div class="flex-1 rounded-lg border border-dls-border bg-dls-hover px-3 py-2.5">
                         <div class="text-[11px] text-gray-9 mb-0.5">Identities</div>
                         <div class="text-[13px] font-semibold text-gray-12">{slackIdentities().length} configured</div>
                       </div>
-                      <div class="flex-1 rounded-lg border border-gray-4 bg-gray-2/50 px-3 py-2.5">
+                      <div class="flex-1 rounded-lg border border-dls-border bg-dls-hover px-3 py-2.5">
                         <div class="text-[11px] text-gray-9 mb-0.5">Channel</div>
                         <div class="text-[13px] font-semibold text-gray-12">
                           {health()?.channels.slack ? "On" : "Off"}

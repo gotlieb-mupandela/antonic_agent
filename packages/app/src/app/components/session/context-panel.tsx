@@ -147,7 +147,7 @@ export default function ContextPanel(props: ContextPanelProps) {
   return (
     <div class="flex flex-col h-full overflow-hidden">
       <div class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-        <div class="rounded-2xl border border-gray-6 bg-gray-2/30" id="sidebar-context">
+        <div class="rounded-2xl border border-dls-border bg-dls-hover" id="sidebar-context">
           <button
             class="w-full px-4 py-3 flex items-center justify-between text-sm text-gray-12 font-medium"
             onClick={() => props.onToggleSection("context")}

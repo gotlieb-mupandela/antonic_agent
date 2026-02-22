@@ -155,21 +155,21 @@ const opencodeTargetPath = opencodeTargetName ? join(sidecarDir, opencodeTargetN
 const opencodeCandidatePath = opencodeTargetPath ?? opencodePath;
 let existingOpencodeVersion = null;
 
-// openwork-server paths
-const openworkServerBaseName = "openwork-server";
-const openworkServerName = process.platform === "win32" ? `${openworkServerBaseName}.exe` : openworkServerBaseName;
-const openworkServerPath = join(sidecarDir, openworkServerName);
-const openworkServerBuildName = bunTarget
-  ? `${openworkServerBaseName}-${bunTarget}${bunTarget.includes("windows") ? ".exe" : ""}`
-  : openworkServerName;
-const openworkServerBuildPath = join(sidecarDir, openworkServerBuildName);
-const openworkServerTargetTriple = resolvedTargetTriple;
-const openworkServerTargetName = openworkServerTargetTriple
-  ? `${openworkServerBaseName}-${openworkServerTargetTriple}${openworkServerTargetTriple.includes("windows") ? ".exe" : ""}`
+// antonic-agent-server paths
+const antonic-agentServerBaseName = "antonic-agent-server";
+const antonic-agentServerName = process.platform === "win32" ? `${antonic-agentServerBaseName}.exe` : antonic-agentServerBaseName;
+const antonic-agentServerPath = join(sidecarDir, antonic-agentServerName);
+const antonic-agentServerBuildName = bunTarget
+  ? `${antonic-agentServerBaseName}-${bunTarget}${bunTarget.includes("windows") ? ".exe" : ""}`
+  : antonic-agentServerName;
+const antonic-agentServerBuildPath = join(sidecarDir, antonic-agentServerBuildName);
+const antonic-agentServerTargetTriple = resolvedTargetTriple;
+const antonic-agentServerTargetName = antonic-agentServerTargetTriple
+  ? `${antonic-agentServerBaseName}-${antonic-agentServerTargetTriple}${antonic-agentServerTargetTriple.includes("windows") ? ".exe" : ""}`
   : null;
-const openworkServerTargetPath = openworkServerTargetName ? join(sidecarDir, openworkServerTargetName) : null;
+const antonic-agentServerTargetPath = antonic-agentServerTargetName ? join(sidecarDir, antonic-agentServerTargetName) : null;
 
-const openworkServerDir = resolve(__dirname, "..", "..", "server");
+const antonic-agentServerDir = resolve(__dirname, "..", "..", "server");
 
 const resolveBuildScript = (dir) => {
   const scriptPath = resolve(dir, "script", "build.ts");
@@ -195,7 +195,7 @@ const opencodeRouterTargetPath = opencodeRouterTargetName ? join(sidecarDir, ope
 const opencodeRouterDir = resolve(__dirname, "..", "..", "opencode-router");
 
 // orchestrator paths
-const orchestratorBaseName = "openwork-orchestrator";
+const orchestratorBaseName = "antonic-agent-orchestrator";
 const orchestratorName =
   process.platform === "win32" ? `${orchestratorBaseName}.exe` : orchestratorBaseName;
 const orchestratorPath = join(sidecarDir, orchestratorName);
@@ -320,28 +320,28 @@ const parseChecksum = (content, assetName) => {
 
 let didBuildOpenworkServer = false;
 const shouldBuildOpenworkServer =
-  forceBuild || !existsSync(openworkServerBuildPath) || isStubBinary(openworkServerBuildPath);
+  forceBuild || !existsSync(antonic-agentServerBuildPath) || isStubBinary(antonic-agentServerBuildPath);
 
 if (shouldBuildOpenworkServer) {
   mkdirSync(sidecarDir, { recursive: true });
-  if (existsSync(openworkServerBuildPath)) {
+  if (existsSync(antonic-agentServerBuildPath)) {
     try {
-      unlinkSync(openworkServerBuildPath);
+      unlinkSync(antonic-agentServerBuildPath);
     } catch {
       // ignore
     }
   }
-  const openworkServerScript = resolveBuildScript(openworkServerDir);
-  if (!existsSync(openworkServerScript)) {
-    console.error(`OpenWork server build script not found at ${openworkServerScript}`);
+  const antonic-agentServerScript = resolveBuildScript(antonic-agentServerDir);
+  if (!existsSync(antonic-agentServerScript)) {
+    console.error(`Antonic Agent server build script not found at ${antonic-agentServerScript}`);
     process.exit(1);
   }
-  const openworkServerArgs = [openworkServerScript, "--outdir", sidecarDir, "--filename", "openwork-server"];
+  const antonic-agentServerArgs = [antonic-agentServerScript, "--outdir", sidecarDir, "--filename", "antonic-agent-server"];
   if (bunTarget) {
-    openworkServerArgs.push("--target", bunTarget);
+    antonic-agentServerArgs.push("--target", bunTarget);
   }
-  const buildResult = spawnSync("bun", openworkServerArgs, {
-    cwd: openworkServerDir,
+  const buildResult = spawnSync("bun", antonic-agentServerArgs, {
+    cwd: antonic-agentServerDir,
     stdio: "inherit",
     shell: true,
   });
@@ -353,31 +353,31 @@ if (shouldBuildOpenworkServer) {
   didBuildOpenworkServer = true;
 }
 
-if (existsSync(openworkServerBuildPath)) {
-  const shouldCopyCanonical = didBuildOpenworkServer || !existsSync(openworkServerPath) || isStubBinary(openworkServerPath);
-  if (shouldCopyCanonical && openworkServerBuildPath !== openworkServerPath) {
+if (existsSync(antonic-agentServerBuildPath)) {
+  const shouldCopyCanonical = didBuildOpenworkServer || !existsSync(antonic-agentServerPath) || isStubBinary(antonic-agentServerPath);
+  if (shouldCopyCanonical && antonic-agentServerBuildPath !== antonic-agentServerPath) {
     try {
-      if (existsSync(openworkServerPath)) {
-        unlinkSync(openworkServerPath);
+      if (existsSync(antonic-agentServerPath)) {
+        unlinkSync(antonic-agentServerPath);
       }
     } catch {
       // ignore
     }
-    copyFileSync(openworkServerBuildPath, openworkServerPath);
+    copyFileSync(antonic-agentServerBuildPath, antonic-agentServerPath);
   }
 
-  if (openworkServerTargetPath) {
+  if (antonic-agentServerTargetPath) {
     const shouldCopyTarget =
-      didBuildOpenworkServer || !existsSync(openworkServerTargetPath) || isStubBinary(openworkServerTargetPath);
-    if (shouldCopyTarget && openworkServerBuildPath !== openworkServerTargetPath) {
+      didBuildOpenworkServer || !existsSync(antonic-agentServerTargetPath) || isStubBinary(antonic-agentServerTargetPath);
+    if (shouldCopyTarget && antonic-agentServerBuildPath !== antonic-agentServerTargetPath) {
       try {
-        if (existsSync(openworkServerTargetPath)) {
-          unlinkSync(openworkServerTargetPath);
+        if (existsSync(antonic-agentServerTargetPath)) {
+          unlinkSync(antonic-agentServerTargetPath);
         }
       } catch {
         // ignore
       }
-      copyFileSync(openworkServerBuildPath, openworkServerTargetPath);
+      copyFileSync(antonic-agentServerBuildPath, antonic-agentServerTargetPath);
     }
   }
 }
@@ -741,9 +741,9 @@ if (existsSync(chromeDevtoolsBuildPath)) {
   }
 }
 
-const openworkServerVersion = (() => {
+const antonic-agentServerVersion = (() => {
   try {
-    const raw = readFileSync(resolve(openworkServerDir, "package.json"), "utf8");
+    const raw = readFileSync(resolve(antonic-agentServerDir, "package.json"), "utf8");
     return String(JSON.parse(raw).version ?? "").trim();
   } catch {
     return null;
@@ -764,15 +764,15 @@ const versions = {
     version: normalizedOpencodeVersion,
     sha256: opencodeCandidatePath && existsSync(opencodeCandidatePath) ? sha256File(opencodeCandidatePath) : null,
   },
-  "openwork-server": {
-    version: openworkServerVersion,
-    sha256: existsSync(openworkServerPath) ? sha256File(openworkServerPath) : null,
+  "antonic-agent-server": {
+    version: antonic-agentServerVersion,
+    sha256: existsSync(antonic-agentServerPath) ? sha256File(antonic-agentServerPath) : null,
   },
   opencodeRouter: {
     version: expectedOpenCodeRouterVersion,
     sha256: existsSync(opencodeRouterPath) ? sha256File(opencodeRouterPath) : null,
   },
-  "openwork-orchestrator": {
+  "antonic-agent-orchestrator": {
     version: orchestratorVersion,
     sha256: existsSync(orchestratorPath) ? sha256File(orchestratorPath) : null,
   },

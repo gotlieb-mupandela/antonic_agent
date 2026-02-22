@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
-  "identifier": "openwork-default",
-  "description": "Default OpenWork capability (UI permissions)",
+  "identifier": "antonic-agent-default",
+  "description": "Default Antonic Agent capability (UI permissions)",
   "windows": ["*"],
   "permissions": [
     "core:default",

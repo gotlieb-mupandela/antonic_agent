@@ -1,25 +1,25 @@
 # AGENTS.md
 
-OpenWork helps users run agents, skills, and MCP. It is an open-source alternative to Claude Cowork/Codex as a desktop app.
+Antonic Agent helps users run agents, skills, and MCP. It is an open-source alternative to Claude Cowork/Codex as a desktop app.
 
-## What OpenWork Is
+## What Antonic Agent Is
 
-OpenWork is a practical control surface for agentic work:
+Antonic Agent is a practical control surface for agentic work:
 
 * Run local and remote agent workflows from one place.
-* Use OpenCode capabilities directly through OpenWork.
+* Use OpenCode capabilities directly through Antonic Agent.
 * Compose desktop app, server, and messaging connectors without lock-in.
 
 ## Core Philosophy
 
-* **Local-first, cloud-ready**: OpenWork runs on your machine in one click and can connect to cloud workflows when needed.
+* **Local-first, cloud-ready**: Antonic Agent runs on your machine in one click and can connect to cloud workflows when needed.
 * **Composable**: use the desktop app, WhatsApp/Slack/Telegram connectors, or server mode based on the task.
-* **Ejectable**: OpenWork is powered by OpenCode, so anything OpenCode can do is available in OpenWork, even before a dedicated UI exists.
+* **Ejectable**: Antonic Agent is powered by OpenCode, so anything OpenCode can do is available in Antonic Agent, even before a dedicated UI exists.
 * **Sharing is caring**: start solo, then share quickly; one CLI or desktop command can spin up an instantly shareable instance.
 
 Read INFRASTRUCTURE.md
 
-## Why OpenWork Exists
+## Why Antonic Agent Exists
 
 **Cowork is closed-source and locked to Claude Max.** We need an open alternative.
 **Mobile-first matters.** People want to run tasks from their phones, including via messaging surfaces like WhatsApp and Telegram through OpenCode Router.
@@ -30,7 +30,7 @@ Read INFRASTRUCTURE.md
 * **Purpose-first UI**: prioritize clarity, safety, and approachability for non-technical users.
 * **Parity with OpenCode**: anything the UI can do must map cleanly to OpenCode tools.
 * **Prefer OpenCode primitives**: represent concepts using OpenCode's native surfaces first (folders/projects, `.opencode`, `opencode.json`, skills, plugins) before introducing new abstractions.
-* **Web parity**: anything that mutates `.opencode/` should be expressible via the OpenWork server API; Tauri-only filesystem calls are a fallback for host mode, not a separate capability set.
+* **Web parity**: anything that mutates `.opencode/` should be expressible via the Antonic Agent server API; Tauri-only filesystem calls are a fallback for host mode, not a separate capability set.
 * **Self-referential**: maintain a gitignored mirror of OpenCode at `vendor/opencode` for inspection.
 * **Self-building**: prefer prompts, skills, and composable primitives over bespoke logic.
 * **Open source**: keep the repo portable; no secrets committed.
@@ -43,7 +43,7 @@ Before making changes, explicitly confirm the target repository in your first ta
 
 Required format:
 
-1. `Target repo: <path>` (for example: `_repos/openwork`)
+1. `Target repo: <path>` (for example: `_repos/antonic-agent`)
 2. `Out of scope repos: <list>` (for example: `_repos/opencode`)
 3. `Planned output: <what will be changed/tested>`
 
@@ -56,8 +56,8 @@ When the user asks to create a new feature, follow this exact procedure:
 1. Make sure you are up to date on all submodules and repos synced to the head of remotes.
 2. Create a worktree.
 3. Implement the feature.
-4. Start the OpenWork dev stack via Docker (from the OpenWork repo root): `packaging/docker/dev-up.sh`.
-5. Use Chrome MCP to fully test the feature: `.opencode/skills/openwork-docker-chrome-mcp/SKILL.md`.
+4. Start the Antonic Agent dev stack via Docker (from the Antonic Agent repo root): `packaging/docker/dev-up.sh`.
+5. Use Chrome MCP to fully test the feature: `.opencode/skills/antonic-agent-docker-chrome-mcp/SKILL.md`.
 6. Take screenshots and put them in the repo.
 7. Refer to these screenshots in the PR (only if relevant in the UI).
 8. Always test the flow you just implemented.
@@ -81,14 +81,14 @@ If you cannot run tests or capture the video, say so explicitly and explain why,
 
 ## Living Systems
 
-OpenWork aims to be a **living system**: agents, skills, commands, and config are hot-reloadable while sessions are running. This enables agents to create new skills or update their own configuration and have changes take effect immediately, without tearing down active sessions.
+Antonic Agent aims to be a **living system**: agents, skills, commands, and config are hot-reloadable while sessions are running. This enables agents to create new skills or update their own configuration and have changes take effect immediately, without tearing down active sessions.
 
 Design principles for hot reload:
 
-* **Conservative triggers**: only reload when a file that OpenCode reads at startup actually changes inside `.opencode/` or `opencode.json`. Ignore metadata files like `openwork.json`, `.DS_Store`, etc.
+* **Conservative triggers**: only reload when a file that OpenCode reads at startup actually changes inside `.opencode/` or `opencode.json`. Ignore metadata files like `antonic-agent.json`, `.DS_Store`, etc.
 * **Workspace-scoped**: reload state is keyed per workspace. Switching workspaces never leaks reload signals from one workspace to another.
 * **Session-aware**: when sessions are actively running, queue reload signals. Promote to visible reload (toast or auto-reload) only after all active sessions finish. This avoids interrupting in-flight tool calls.
-* **Auto-reload setting**: each workspace can opt into automatic reload via `.opencode/openwork.json` (`reload.auto`). When enabled, the engine reloads automatically once queued signals are ready and no sessions are active.
+* **Auto-reload setting**: each workspace can opt into automatic reload via `.opencode/antonic-agent.json` (`reload.auto`). When enabled, the engine reloads automatically once queued signals are ready and no sessions are active.
 * **Session continuity**: before reload, capture running session IDs, agents, and models. After reload, optionally relaunch those sessions so the user experiences seamless continuity.
 * **Per-workspace isolation**: the desktop file watcher only watches the active workspace root and its `.opencode/` directory. The server reload event store is already keyed by `workspaceId`.
 
@@ -108,12 +108,12 @@ Design principles for hot reload:
 
 ## Dev Debugging
 
-* If you change `packages/server/src`, rebuild the OpenWork server binary (`pnpm --filter openwork-server build:bin`) because `openwork` (openwork-orchestrator) runs the compiled server, not the TS sources.
+* If you change `packages/server/src`, rebuild the Antonic Agent server binary (`pnpm --filter antonic-agent-server build:bin`) because `antonic-agent` (antonic-agent-orchestrator) runs the compiled server, not the TS sources.
 
 ## Local Structure
 
 ```
-openwork/
+antonic-agent/
   AGENTS.md                    # This file
   VISION.md                     # Product vision and positioning
   PRINCIPLES.md                 # Decision framework and guardrails
@@ -135,7 +135,7 @@ openwork/
 
 ## OpenCode SDK Usage
 
-OpenWork integrates with OpenCode via:
+Antonic Agent integrates with OpenCode via:
 
 1.  **Non-interactive mode**: `opencode -p "prompt" -f json -q`
 2.  **Database access**: Read `.opencode/opencode.db` for sessions and messages.
@@ -171,12 +171,12 @@ When editing SolidJS UI (`packages/app/src/**/*.tsx`), consult:
 
 * `.opencode/skills/solidjs-patterns/SKILL.md`
 
-This captures OpenWork’s preferred reactivity + UI state patterns (avoid global `busy()` deadlocks; use scoped async state).
+This captures Antonic Agent’s preferred reactivity + UI state patterns (avoid global `busy()` deadlocks; use scoped async state).
 
 ## Skill: Trigger a Release
 
-OpenWork releases are built by GitHub Actions (`Release App`). A release is triggered by pushing a `v*` tag (e.g. `v0.1.6`).
-`Release App` can also publish openwork-orchestrator sidecars and npm packages when enabled via workflow inputs or repo vars (`RELEASE_PUBLISH_SIDECARS`, `RELEASE_PUBLISH_NPM`).
+Antonic Agent releases are built by GitHub Actions (`Release App`). A release is triggered by pushing a `v*` tag (e.g. `v0.1.6`).
+`Release App` can also publish antonic-agent-orchestrator sidecars and npm packages when enabled via workflow inputs or repo vars (`RELEASE_PUBLISH_SIDECARS`, `RELEASE_PUBLISH_NPM`).
 
 ### Standard release (recommended)
 
@@ -185,7 +185,7 @@ OpenWork releases are built by GitHub Actions (`Release App`). A release is trig
 
 * `packages/app/package.json` (`version`)
 * `packages/desktop/package.json` (`version`)
-* `packages/orchestrator/package.json` (`version`, publishes as `openwork-orchestrator`)
+* `packages/orchestrator/package.json` (`version`, publishes as `antonic-agent-orchestrator`)
 * `packages/desktop/src-tauri/tauri.conf.json` (`version`)
 * `packages/desktop/src-tauri/Cargo.toml` (`version`)
 
@@ -207,26 +207,26 @@ This triggers the workflow automatically (`on: push.tags: v*`).
 
 If the workflow needs to be re-run for an existing tag (e.g. notarization retry), use workflow dispatch:
 
-* `gh workflow run "Release App" --repo different-ai/openwork -f tag=vX.Y.Z`
+* `gh workflow run "Release App" --repo Apnium Technology/antonic-agent -f tag=vX.Y.Z`
 
 ### Verify
 
-* Runs: `gh run list --repo different-ai/openwork --workflow "Release App" --limit 5`
-* Release: `gh release view vX.Y.Z --repo different-ai/openwork`
+* Runs: `gh run list --repo Apnium Technology/antonic-agent --workflow "Release App" --limit 5`
+* Release: `gh release view vX.Y.Z --repo Apnium Technology/antonic-agent`
 
 Confirm the DMG assets are attached and versioned correctly.
 
-## Skill: Publish openwork-orchestrator (npm)
+## Skill: Publish antonic-agent-orchestrator (npm)
 
-This is usually covered by `Release App` when `publish_sidecars` + `publish_npm` are enabled. Use `.opencode/skills/openwork-orchestrator-npm-publish/SKILL.md` for manual recovery or one-off publishing.
+This is usually covered by `Release App` when `publish_sidecars` + `publish_npm` are enabled. Use `.opencode/skills/antonic-agent-orchestrator-npm-publish/SKILL.md` for manual recovery or one-off publishing.
 
 1.  Ensure the default branch is up to date and clean.
 2.  Bump `packages/orchestrator/package.json` (`version`).
 3.  Commit the bump.
 4.  Build and upload sidecar assets for the same version tag:
-    * `pnpm --filter openwork-orchestrator build:sidecars`
-    * `gh release create openwork-orchestrator-vX.Y.Z packages/orchestrator/dist/sidecars/* --repo different-ai/openwork`
+    * `pnpm --filter antonic-agent-orchestrator build:sidecars`
+    * `gh release create antonic-agent-orchestrator-vX.Y.Z packages/orchestrator/dist/sidecars/* --repo Apnium Technology/antonic-agent`
 5.  Publish:
-    * `pnpm --filter openwork-orchestrator publish --access public`
+    * `pnpm --filter antonic-agent-orchestrator publish --access public`
 6.  Verify:
-    * `npm view openwork-orchestrator version`
+    * `npm view antonic-agent-orchestrator version`

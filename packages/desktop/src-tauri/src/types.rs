@@ -65,7 +65,7 @@ impl WorkspaceOpenworkConfig {
 #[serde(rename_all = "lowercase")]
 pub enum EngineRuntime {
     Direct,
-    #[serde(rename = "openwork-orchestrator")]
+    #[serde(rename = "antonic-agent-orchestrator")]
     Orchestrator,
 }
 
@@ -320,13 +320,13 @@ pub struct WorkspaceInfo {
     #[serde(default)]
     pub display_name: Option<String>,
     #[serde(default)]
-    pub openwork_host_url: Option<String>,
+    pub antonic-agent_host_url: Option<String>,
     #[serde(default)]
-    pub openwork_token: Option<String>,
+    pub antonic-agent_token: Option<String>,
     #[serde(default)]
-    pub openwork_workspace_id: Option<String>,
+    pub antonic-agent_workspace_id: Option<String>,
     #[serde(default)]
-    pub openwork_workspace_name: Option<String>,
+    pub antonic-agent_workspace_name: Option<String>,
 
     // Sandbox lifecycle metadata (desktop-managed)
     #[serde(default)]

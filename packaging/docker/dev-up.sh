@@ -3,12 +3,12 @@ set -euo pipefail
 
 # Bring up a dev stack with random host ports.
 #
-# Usage (from _repos/openwork repo root):
+# Usage (from _repos/antonic-agent repo root):
 #   packaging/docker/dev-up.sh
 #
 # Outputs:
 # - Web UI URL
-# - OpenWork server URL
+# - Antonic Agent server URL
 # - Token file path
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -33,7 +33,7 @@ pick_port() {
 }
 
 DEV_ID="$(node -e "console.log(require('crypto').randomUUID().slice(0, 8))")"
-PROJECT="openwork-dev-$DEV_ID"
+PROJECT="antonic-agent-dev-$DEV_ID"
 
 mkdir -p "$WORKSPACE_DIR"
 
@@ -51,8 +51,8 @@ OPENWORK_DEV_ID="$DEV_ID" OPENWORK_PORT="$OPENWORK_PORT" WEB_PORT="$WEB_PORT" \
   docker compose -p "$PROJECT" -f "$COMPOSE_FILE" up -d
 
 echo "" >&2
-echo "OpenWork web UI:     http://localhost:$WEB_PORT" >&2
-echo "OpenWork server:     http://localhost:$OPENWORK_PORT" >&2
+echo "Antonic Agent web UI:     http://localhost:$WEB_PORT" >&2
+echo "Antonic Agent server:     http://localhost:$OPENWORK_PORT" >&2
 echo "Token file:          $ROOT_DIR/tmp/.dev-env-$DEV_ID" >&2
 echo "" >&2
 echo "To stop this stack:" >&2

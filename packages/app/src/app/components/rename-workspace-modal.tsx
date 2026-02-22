@@ -32,8 +32,8 @@ export default function RenameWorkspaceModal(props: RenameWorkspaceModalProps) {
 
   return (
     <Show when={props.open}>
-      <div class="fixed inset-0 z-50 bg-gray-1/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-gray-2 border border-gray-6/70 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
+      <div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-dls-surface-elevated border border-dls-border w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
           <div class="p-6">
             <div class="flex items-start justify-between gap-4">
               <div>

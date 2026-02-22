@@ -1,4 +1,4 @@
-# OpenWork Host (Docker)
+# Antonic Agent Host (Docker)
 
 ## Dev testability stack (recommended for testing)
 
@@ -13,7 +13,7 @@ From the repo root:
 Then open the printed Web UI URL (ports are randomized so you can run multiple stacks).
 
 What it does:
-- Starts **headless** (OpenCode + OpenWork server) on port 8787
+- Starts **headless** (OpenCode + Antonic Agent server) on port 8787
 - Starts **web UI** (Vite dev server) on port 5173
 - Auto-generates and shares auth tokens between services
 - Web waits for headless health check before starting
@@ -22,7 +22,7 @@ What it does:
 Useful commands:
 - Logs: `docker compose -p <project> -f packaging/docker/docker-compose.dev.yml logs`
 - Tear down: `docker compose -p <project> -f packaging/docker/docker-compose.dev.yml down`
-- Health check: `curl http://localhost:<openwork_port>/health`
+- Health check: `curl http://localhost:<antonic-agent_port>/health`
 
 Optional env vars (via `.env` or `export`):
 - `OPENWORK_TOKEN` — fixed client token
@@ -35,12 +35,12 @@ Optional env vars (via `.env` or `export`):
 
 ## Production container
 
-This is a minimal packaging template to run the OpenWork Host contract in a single container.
+This is a minimal packaging template to run the Antonic Agent Host contract in a single container.
 
 It runs:
 
 - `opencode serve` (engine) bound to `127.0.0.1:4096` inside the container
-- `openwork-server` bound to `0.0.0.0:8787` (the only published surface)
+- `antonic-agent-server` bound to `0.0.0.0:8787` (the only published surface)
 
 ### Local run (compose)
 
@@ -69,9 +69,9 @@ Optional:
 Persistence:
 
 - Workspace is mounted at `/workspace`
-- Host data dir is mounted at `/data` (OpenCode caches + OpenWork server config/tokens)
+- Host data dir is mounted at `/data` (OpenCode caches + Antonic Agent server config/tokens)
 
 ### Notes
 
-- OpenCode is not exposed directly; access it via the OpenWork proxy (`/opencode/*`).
+- OpenCode is not exposed directly; access it via the Antonic Agent proxy (`/opencode/*`).
 - For PaaS, replace `./workspace:/workspace` with a volume or a checkout strategy (git clone on boot).

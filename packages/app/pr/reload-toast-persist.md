@@ -33,7 +33,7 @@ const reloadToastVisible = createMemo(() => {
 - Reload state + reasons live in `packages/app/src/app/system-state.ts:40-45` (`reloadRequired`, `reloadReasons`, `reloadLastTriggeredAt`)
 - `markReloadRequired(reason)` only stores the reason string: `packages/app/src/app/system-state.ts:135-139`
 - `ReloadReason` is a fixed union: `packages/app/src/app/types.ts:202` (`"plugins" | "skills" | "mcp" | "config"`)
-- Tauri watcher emits `openwork://reload-required` with `{ reason, path }`: `packages/desktop/src-tauri/src/workspace/watch.rs:99-124`
+- Tauri watcher emits `antonic-agent://reload-required` with `{ reason, path }`: `packages/desktop/src-tauri/src/workspace/watch.rs:99-124`
 - UI listener drops `path` and only maps `reason`: `packages/app/src/app/app.tsx:1870-1902`
 - Explicit triggers:
   - Skills/plugins: `packages/app/src/app/context/extensions.ts:526,549,588,669,750`
